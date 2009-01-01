@@ -1,0 +1,44 @@
+[Server@5d173]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@5d173]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@5d173]: Startup sequence initiated from main() method
+[Server@5d173]: Loaded properties from [/Users/amusial/Development/java/WikiShare/db/hsqldb/bin/server.properties]
+[Server@5d173]: Initiating startup sequence...
+[Server@5d173]: Server socket opened successfully in 4 ms.
+[Server@5d173]: Database [index=0, id=0, db=file:wikishare, alias=] opened sucessfully in 175 ms.
+[Server@5d173]: Startup sequence completed in 181 ms.
+[Server@5d173]: 2008-07-21 22:50:26.744 HSQLDB server 1.8.0 is online
+[Server@5d173]: To close normally, connect and execute SHUTDOWN SQL
+[Server@5d173]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@5d173]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@5d173]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@5d173]: Startup sequence initiated from main() method
+[Server@5d173]: Loaded properties from [/Users/amusial/Development/java/WikiShare/db/hsqldb/bin/server.properties]
+[Server@5d173]: Initiating startup sequence...
+[Server@5d173]: Server socket opened successfully in 3 ms.
+[Server@5d173]: Database [index=0, id=0, db=file:wikishare, alias=] opened sucessfully in 184 ms.
+[Server@5d173]: Startup sequence completed in 191 ms.
+[Server@5d173]: 2008-07-21 22:52:32.384 HSQLDB server 1.8.0 is online
+[Server@5d173]: To close normally, connect and execute SHUTDOWN SQL
+[Server@5d173]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@5d173]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@5d173]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@5d173]: Startup sequence initiated from main() method
+[Server@5d173]: Loaded properties from [/Users/amusial/Development/java/WikiShare/db/hsqldb/bin/server.properties]
+[Server@5d173]: Initiating startup sequence...
+[Server@5d173]: Initiating shutdown sequence...
+[Server@5d173]: Shutdown sequence completed in 5 ms.
+[Server@5d173]: 2008-07-21 22:57:06.138 SHUTDOWN : System.exit() is called next
+[Server@5d173]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@5d173]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@5d173]: Startup sequence initiated from main() method
+[Server@5d173]: Loaded properties from [/Users/amusial/Development/java/WikiShare/db/hsqldb/bin/server.properties]
+[Server@5d173]: Initiating startup sequence...
+[Server@5d173]: Server socket opened successfully in 4 ms.
+[Server@5d173]: Database [index=0, id=0, db=file:../data/wikishare, alias=wikishare] opened sucessfully in 180 ms.
+[Server@5d173]: Startup sequence completed in 187 ms.
+[Server@5d173]: 2008-07-21 22:58:52.692 HSQLDB server 1.8.0 is online
+[Server@5d173]: To close normally, connect and execute SHUTDOWN SQL
+[Server@5d173]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@5d173]: Initiating shutdown sequence...
+[Server@5d173]: Shutdown sequence completed in 1 ms.
+[Server@5d173]: 2008-07-21 22:59:24.012 SHUTDOWN : System.exit() is called next

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean name="/file_upload" class="com.amb.wikishare.controller.FileUploadController">
+		<property name="commandClass" value="com.amb.wikishare.domain.WikiFile" />
+		<property name="fileDao" ref="fileDAO" />
+		<property name="formView" value="files" />
+		<property name="successView" value="files" />
+	</bean>
+
+	<bean name="/files"
+		class="com.amb.wikishare.controller.FilesController">
+		<property name="fileDao" ref="fileDAO" />
+	</bean>
+
+	<bean name="/search"
+		class="com.amb.wikishare.controller.SearchController">
+		<property name="wikipageService" ref="wikipageService" />
+	</bean>
+
+	<bean name="/user_create"
+		class="com.amb.wikishare.controller.UserCreateController">
+		<property name="sessionForm" value="true" />
+		<property name="commandName" value="user" />
+		<property name="commandClass"
+			value="com.amb.wikishare.domain.User" />
+		<!-- 
+			<property name="validator">
+			<bean class="springapp.service.PriceIncreaseValidator" />
+			</property>
+		-->
+		<property name="formView" value="user_create" />
+		<property name="successView" value="users" />
+		<property name="wikipageService" ref="userService" />
+	</bean>
+	<bean name="/users"
+		class="com.amb.wikishare.controller.UsersController">
+		<property name="userService" ref="userService" />
+	</bean>
+
+	<bean name="/login"
+		class="com.amb.wikishare.controller.LoginController">
+	</bean>
+
+	<bean name="/wikipage_create"
+		class="com.amb.wikishare.controller.WikipageCreateController">
+		<property name="sessionForm" value="true" />
+		<property name="commandName" value="wikipage" />
+		<property name="commandClass"
+			value="com.amb.wikishare.domain.Wikipage" />
+		<!-- 
+			<property name="validator">
+			<bean class="springapp.service.PriceIncreaseValidator" />
+			</property>
+		-->
+		<property name="formView" value="wikipage_create" />
+		<property name="successView" value="wikipages" />
+		<property name="wikipageService" ref="wikipageService" />
+		<property name="fileDao" ref="fileDAO" />
+	</bean>
+	<bean name="/wikipage/*"
+		class="com.amb.wikishare.controller.WikipageController">
+		<property name="wikipageService" ref="wikipageService" />
+		<property name="navigationService" ref="navigationService"></property>
+	</bean>
+	<bean name="/wikipage_versions"
+		class="com.amb.wikishare.controller.WikipageVersionsController">
+		<property name="wikipageService" ref="wikipageService" />
+	</bean>
+	<bean name="/wikipages"
+		class="com.amb.wikishare.controller.WikipagesController">
+		<property name="wikipageService" ref="wikipageService" />
+	</bean>
+
+
+
+	<bean id="navigationService"
+		class="com.amb.wikishare.service.NavigationService">
+		<property name="wikipageService" ref="wikipageService" />
+		<property name="jdbcNavigationDAO" ref="jdbcNavigationDAO" />
+	</bean>
+	<bean id="userService"
+		class="com.amb.wikishare.service.UserService">
+		<property name="jdbcUserDAO" ref="jdbcUserDAO" />
+	</bean>
+	<bean id="wikipageService"
+		class="com.amb.wikishare.service.WikipageService">
+		<property name="jdbcWikipageDAO" ref="jdbcWikipageDAO" />
+		<property name="jdbcUserDAO" ref="jdbcUserDAO" />
+	</bean>
+
+
+
+	<bean id="jdbcNavigationDAO" class="com.amb.wikishare.dao.JdbcNavigationDAO">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="fileDAO" class="com.amb.wikishare.dao.FileDAO">
+		<property name="filePath"
+			value="/Users/amusial/tomcat/webapps/WikiShare/public/files" />
+		<property name="fileTypes" 
+			value="jpg,jpeg,gif,ico,png,txt,doc,pdf,xls,csv" />
+	</bean>
+	<bean id="jdbcUserDAO" class="com.amb.wikishare.dao.JdbcUserDAO">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="jdbcWikipageDAO"
+		class="com.amb.wikishare.dao.JdbcWikipageDAO">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url"
+			value="jdbc:hsqldb:hsql://localhost/wikishare" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- one of the properties available; the maximum file size in bytes -->
+		<property name="maxUploadSize" value="10000000" />
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+</beans>
