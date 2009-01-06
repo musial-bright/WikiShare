@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class WikiFile {
 
-	// This represents files name, size and byte[] data 
+	// MultipartFile represents files name, size and byte[] data 
 	private MultipartFile multipartFile;
 	private String fileName = "";
 	private String filePath = "";

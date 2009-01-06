@@ -58,6 +58,7 @@ public class WikipageController implements Controller {
 		
 		// Navigation
 		navigationService.setWebappPrefix(WikiShareHelper.getWabappContext(request));
+		model.put("navigationList", navigationService.getNavigationsList());
 		model.put("navigation", navigationService.getNavigationView(0));
 		
 		return new ModelAndView("wikipage", "model", this.model);

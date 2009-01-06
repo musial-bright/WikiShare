@@ -21,6 +21,6 @@ public class WikiShareHelper {
 
 	public static String getWabappContext(HttpServletRequest request) {
 		return request.getContextPath() + 
-		request.getSession().getServletContext().getInitParameter("webappPrefix");
+			request.getSession().getServletContext().getInitParameter("webappPrefix");
 	}
 }

@@ -1,5 +1,6 @@
 package com.amb.wikishare.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.amb.wikishare.dao.JdbcNavigationDAO;
@@ -51,11 +52,11 @@ public class NavigationService implements NavigationInterface {
 				} catch(Exception e) {}
 				
 				markup += 
-					"[<a href='" + 
+					"[<a href=\"" + 
 					webappPrefix +
 					"wikipage/" +
 					signatureId +
-					"'>" +
+					"\">" +
 					title +
 					"</a>] ";
 			}
@@ -75,21 +76,30 @@ public class NavigationService implements NavigationInterface {
 	}
 
 
+	/**
+	 * Get navigation list with <code>Navigation</code> elements.
+	 * The content in the <code>Navigation</code> is already rendered!
+	 * @return List<Navigation>
+	 */
 	public List<Navigation> getNavigationsList() throws Exception {
-		
-		return null;
+		List<Navigation> navigationList = new ArrayList<Navigation>();
+		for(Navigation navigation : this.jdbcNavigationDAO.getNavigationsList()) {
+			navigation.setContent(renderNavigationBySignatures(navigation.getContent()));
+			navigationList.add(navigation);
+		}
+		return navigationList;
 	}
 
 
 	public void saveNavigation(Navigation Navigation) throws Exception {
 		// TODO Auto-generated method stub
-		
+		// reqexp: allow only s<int> and , ; 
 	}
 
 
 	public void updateNavigation(Navigation Navigation) throws Exception {
 		// TODO Auto-generated method stub
-		
+		// reqexp: allow only s<int> and , ;
 	}
 
 
