@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.amb.wikishare.domain.Navigation;
 import com.amb.wikishare.domain.Wikipage;
 import com.amb.wikishare.helper.WikiShareHelper;
 import com.amb.wikishare.service.NavigationService;
@@ -32,13 +33,15 @@ public class WikipageController implements Controller {
 		String requestUri = request.getRequestURI();
 		logger.debug("URL : " + requestUri);
 		
-		// Get page id (by id or signature) form the URI
+		// MODEL : wikipage : Get page id (by id or signature) form the URI
 		Wikipage wikipage = null;
 		try {
 			String pageIdentify = requestUri.substring(
 					requestUri.lastIndexOf("/") + 1, 
 					requestUri.length());
 			
+			// Every URI starting with s linke ../s.. is identified as signature
+			// not as page id. Page id starts always with a number.
 			if( pageIdentify.startsWith("s") ) {
 				wikipage = wpService.getPageBySignature(pageIdentify);
 			} else {
@@ -57,9 +60,21 @@ public class WikipageController implements Controller {
 		
 		
 		// Navigation
+		// ACTION : Delete navigation 
+		if ( request.getParameter(WikiShareHelper.ACTION_PARAM) != null && 
+				request.getParameter(WikiShareHelper.ACTION_PARAM).equals("delete_navi") && 
+				request.getParameter(WikiShareHelper.OBJECT_ID_PARAM) != null) {
+			int naviId = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
+			logger.debug("Deleting navigation = " + naviId);
+			Navigation navi = new Navigation();
+			navi.setId(naviId);
+			navigationService.dropNavigation(navi);
+		}
+		
+		// MODEL : navigation
 		navigationService.setWebappPrefix(WikiShareHelper.getWabappContext(request));
 		model.put("navigationList", navigationService.getNavigationsList());
-		model.put("navigation", navigationService.getNavigationView(0));
+		
 		
 		return new ModelAndView("wikipage", "model", this.model);
 	}

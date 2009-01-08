@@ -59,7 +59,7 @@ public class JdbcNavigationDAO extends SimpleJdbcDaoSupport {
 	}
 	
 	public void dropNavigation(Navigation Navigation) throws Exception {
-		logger.info("Saving Navigation: " + Navigation.getName());
+		logger.info("Deleting navigation with id: " + Navigation.getId());
 		int count = getSimpleJdbcTemplate().update( 
 			"DELETE FROM Navigations WHERE ID = ?;",
 			new Object[] { Navigation.getId() } ); 

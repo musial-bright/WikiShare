@@ -18,17 +18,6 @@ public class NavigationService implements NavigationInterface {
 	}
 	
 	
-	public String getNavigationView(int navigationId) {
-		String html = "";
-		// todo: load navigation from db
-		// todo: parse navigation
-
-		String test = "s0;s1,s2;s4";
-		html = renderNavigationBySignatures(test);
-		return html;
-	}
-	
-	
 	/**
 	 * Get html code from signature markup;
 	 * @param signatureMarkup exp.: s123;s46,s235;s89
@@ -70,9 +59,8 @@ public class NavigationService implements NavigationInterface {
 
 
 
-	public void dropNavigation(Navigation Navigation) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void dropNavigation(Navigation navigation) throws Exception {
+		this.jdbcNavigationDAO.dropNavigation(navigation);
 	}
 
 
@@ -91,21 +79,20 @@ public class NavigationService implements NavigationInterface {
 	}
 
 
-	public void saveNavigation(Navigation Navigation) throws Exception {
-		// TODO Auto-generated method stub
-		// reqexp: allow only s<int> and , ; 
+	public void saveNavigation(Navigation navigation) throws Exception {
+		// TODO reqexp: allow only s<int> and , ; 
+		this.jdbcNavigationDAO.saveNavigation(navigation);
 	}
 
 
-	public void updateNavigation(Navigation Navigation) throws Exception {
+	public void updateNavigation(Navigation navigation) throws Exception {
 		// TODO Auto-generated method stub
 		// reqexp: allow only s<int> and , ;
 	}
 
 
 	public Navigation getNavigation(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return this.jdbcNavigationDAO.getNavigation(id);
 	}
 
 

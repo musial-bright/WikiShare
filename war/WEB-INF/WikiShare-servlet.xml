@@ -4,6 +4,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean name="/navigation_create"
+		class="com.amb.wikishare.controller.NavigationCreateController">
+		<property name="sessionForm" value="true" />
+		<property name="commandName" value="navigation" />
+		<property name="commandClass"
+			value="com.amb.wikishare.domain.Navigation" />
+		<!-- 
+			<property name="validator">
+			<bean class="springapp.service.PriceIncreaseValidator" />
+			</property>
+		-->
+		<property name="formView" value="navigation_create" />
+		<property name="successView" value="wikipages" />
+		<property name="navigationService" ref="navigationService" />
+	</bean>
 
 	<bean name="/file_upload" class="com.amb.wikishare.controller.FileUploadController">
 		<property name="commandClass" value="com.amb.wikishare.domain.WikiFile" />

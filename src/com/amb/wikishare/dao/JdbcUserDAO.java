@@ -87,7 +87,7 @@ public class JdbcUserDAO extends SimpleJdbcDaoSupport implements UserInterface {
 
 
 	public void dropUser(User user) throws Exception {
-		logger.info("Saving user: " + user.getUsername());
+		logger.info("Deleting user: " + user.getUsername());
 		int count = getSimpleJdbcTemplate().update( 
 			"DELETE FROM users WHERE ID = ?;",
 			new Object[] { user.getId() } ); 
