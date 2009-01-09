@@ -45,36 +45,36 @@ public class JdbcNavigationDAO extends SimpleJdbcDaoSupport {
 				id);
 	}
 	
-	public void saveNavigation(Navigation Navigation) throws Exception {
-		logger.info("Saving Navigation: " + Navigation.getName());
+	public void saveNavigation(Navigation navigation) throws Exception {
+		logger.info("Saving Navigation id: " + navigation.getId());
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		int count = getSimpleJdbcTemplate().update( 
 			"INSERT INTO Navigations (name, content) values (?,?);",
 			new Object[] { 
-					Navigation.getName(), 
-					Navigation.getContent()
+					navigation.getName(), 
+					navigation.getContent()
 			} ); 
 		logger.info("Rows affected: " + count); 
 	}
 	
-	public void dropNavigation(Navigation Navigation) throws Exception {
-		logger.info("Deleting navigation with id: " + Navigation.getId());
+	public void dropNavigation(Navigation navigation) throws Exception {
+		logger.info("Deleting navigation with id: " + navigation.getId());
 		int count = getSimpleJdbcTemplate().update( 
 			"DELETE FROM Navigations WHERE ID = ?;",
-			new Object[] { Navigation.getId() } ); 
+			new Object[] { navigation.getId() } ); 
 		logger.info("Rows affected: " + count); 
 	}
 	
-	public void updateNavigation(Navigation  Navigation) throws Exception {
-		logger.info("Updating Navigation: " + Navigation.getName());
+	public void updateNavigation(Navigation  navigation) throws Exception {
+		logger.info("Updating Navigation id: " + navigation.getId());
 		
 		int count = getSimpleJdbcTemplate().update( 
 			"UPDATE Navigations SET name = ?, content = ? WHERE id = ?;",
 			new Object[] { 
-					Navigation.getName(), 
-					Navigation.getContent(), 
-					Navigation.getId()
+					navigation.getName(), 
+					navigation.getContent(), 
+					navigation.getId()
 			} ); 
 		logger.info("Rows affected: " + count); 
 		

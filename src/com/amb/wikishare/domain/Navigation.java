@@ -5,6 +5,8 @@ public class Navigation {
 	private int id = -1;
 	private String name;
 	private String content;
+
+	private boolean updateFlag = false;
 	
 	public Navigation() {}
 	
@@ -30,6 +32,14 @@ public class Navigation {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public boolean getUpdateFlag() {
+		return updateFlag;
+	}
+
+	public void setUpdateFlag(boolean updateFlag) {
+		this.updateFlag = updateFlag;
 	}
 	
 }

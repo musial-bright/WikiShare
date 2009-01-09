@@ -24,7 +24,11 @@ public class NavigationCreateController extends SimpleFormController {
 		
 		try {
 			Navigation navigation = (Navigation)command;
-			navigationService.saveNavigation(navigation);
+			if(navigation.getUpdateFlag() == false) {
+				navigationService.saveNavigation(navigation);
+			} else {
+				navigationService.updateNavigation(navigation);
+			}
 		} catch(Exception e) {
 			logger.error("Error while saving navigation: " + e);
 		}
@@ -41,7 +45,7 @@ public class NavigationCreateController extends SimpleFormController {
 			try{
 				int id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
 				navigation = navigationService.getNavigation(id);
-				
+				navigation.setUpdateFlag(true);
 			} catch(Exception e) {
 				logger.error("Navigation load Error: " + e);
 			}

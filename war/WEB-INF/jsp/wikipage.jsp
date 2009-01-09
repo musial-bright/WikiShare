@@ -6,12 +6,25 @@
 <script type="text/javascript">
 	var navigationArray = new Array();
 	<c:forEach items="${model.navigationList}" var="singleNavigation">
-		navigationArray['${singleNavigation.id}#${singleNavigation.name}'] = '${singleNavigation.content}';
+		navigationArray['${singleNavigation.id}#${singleNavigation.name}'] = '<c:out value="${singleNavigation.content}" escapeXml="false" />';
 	</c:forEach>
+	
+	/* Get real navigation id from selected navigation. */
+	function getNaviId() {
+		var selectedNaviId = 0;
+		try {
+			selectedNaviId = document.getElementById("navigationSelectId").options[document.getElementById("navigationSelectId").selectedIndex].value
+			if ( selectedNaviId < 0 ) {
+				selectedNaviId = 0;
+			}
+		} catch(error) { selectedNaviId = 0; }
+		/* trim and return id */
+		return selectedNaviId.replace(/^\s+|\s+$/g, '');
+	}
 	
 	function renderNavigationSelection() {
 		document.write('<form>');
-		document.write('<select id="navigationSelectId" onchange="javascript:renderNavigationContentById(this.selectedIndex); setNavigationDeleteLink();">');
+		document.write('<select id="navigationSelectId" onchange="javascript:renderNavigationContentById(); setNavigationEditLink(); setNavigationDeleteLink();">');
 		for (var i in navigationArray) {
 			var navigationAsString = i;
 			var idNameArray = navigationAsString.split('#');
@@ -29,30 +42,35 @@
 	}
 
 	
-	function renderNavigationContentById(id) {
+	function renderNavigationContentById() {
+		id = getNaviId();
 		for (var i in navigationArray) {
 			var navigationKey = i;
 			var idNameArray = navigationKey.split('#');
 			if( idNameArray[0] == id) {
 				document.getElementById('navigationContent').innerHTML = navigationArray[i];
+				break;
 			}
 		}
 		setCookie("wikishare_navi_id",id);
 	}
 	
+	
 	var w_prefix = "<%= W_PREFIX %>";
 	
 	/* Create delete link with object id parameter. */
 	function setNavigationDeleteLink() {
-		try {
-			var selectedNavigationId = document.getElementById('navigationSelectId').options[document.getElementById('navigationSelectId').selectedIndex].value;
-		} catch(error) {
-			var selectedNavigationId = -1;
-		}
+		selectedNavigationId = getNaviId();
 		var link = w_prefix + 'wikipage/' + '<c:out value="${model.page.id}" />';
 		link = link + '?action=delete_navi&object_id=' + selectedNavigationId;
-		
 		document.getElementById('navigation_delete_link').href = link;
+	}
+	
+	/* Create delete link with object id parameter. */
+	function setNavigationEditLink() {
+		selectedNavigationId = getNaviId();
+		link = w_prefix + 'navigation_create?action=update&object_id=' + selectedNavigationId;
+		document.getElementById('navigation_edit_link').href = link;
 	}
 </script>
 
@@ -61,12 +79,13 @@
 		renderNavigationSelection();		
 	</script>
 	<div id="navigationContent">Navigation content</div>
-	<a href="<%= W_PREFIX %>navigation_create">Create</a> | <a href="<%= W_PREFIX %>navigation_create?action=update&object_id=">Edit</a> | <a id="navigation_delete_link" href="">Delete</a>
+	<a href="<%= W_PREFIX %>navigation_create">Create</a> | <a id="navigation_edit_link" href="">Edit</a> | <a id="navigation_delete_link" href="">Delete</a>
 	<script type="text/javascript">
-		setNavigationDeleteLink(document.getElementById('navigationSelectId').selectedIndex);
+		setNavigationDeleteLink();
+		setNavigationEditLink();
 		
 		/* Show initial navigation content selection. */
-		renderNavigationContentById(document.getElementById('navigationSelectId').selectedIndex);
+		renderNavigationContentById();
 	</script>
 </div>
 

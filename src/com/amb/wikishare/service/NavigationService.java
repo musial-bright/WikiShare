@@ -80,16 +80,21 @@ public class NavigationService implements NavigationInterface {
 
 
 	public void saveNavigation(Navigation navigation) throws Exception {
-		// TODO reqexp: allow only s<int> and , ; 
+		// TODO reqexp: allow only s<int> and , ;
+		navigation.setContent(replaceCharacters(navigation.getContent()));
 		this.jdbcNavigationDAO.saveNavigation(navigation);
 	}
 
 
 	public void updateNavigation(Navigation navigation) throws Exception {
-		// TODO Auto-generated method stub
-		// reqexp: allow only s<int> and , ;
+		// TODO reqexp: allow only s<int> and , ;
+		navigation.setContent(replaceCharacters(navigation.getContent()));
+		jdbcNavigationDAO.updateNavigation(navigation);
 	}
 
+	private String replaceCharacters(String content) {
+		return content.replaceAll("\t|\n|\r", "");
+	}
 
 	public Navigation getNavigation(int id) throws Exception {
 		return this.jdbcNavigationDAO.getNavigation(id);
