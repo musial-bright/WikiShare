@@ -29,10 +29,6 @@ public class JdbcNavigationDAOTests extends TestCase {
 		Navigation navi0 = naviDao.getNavigation(0);
 		assertNotNull(navi0);
 	}
-	
-	public void testCreateNavigationCase() throws Exception {
-		naviDao.saveNavigation(new Navigation("Adam2","s0,s1,s2,s3,s4,s5"));
-		assertEquals((naviDao.getNavigationsList()).size(), 2);
-	}
+
 	
 }

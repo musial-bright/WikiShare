@@ -9,6 +9,7 @@
 		<th>Signature</th>
 		<th>User (ID)</th>
 		<th>Active</th>
+		<th>Front page</th>
 		<th>Title</th>
 		<th>Date</th>
 		<th><a href="<%= W_PREFIX %>wikipage_create">Create</a></th>
@@ -19,6 +20,7 @@
 			<td><c:out value="${page.signature}"/></td>
 			<td><c:out value="${page.user.username}"/> (<c:out value="${page.user.id}"/>)</td>
 			<td><c:out value="${page.activePage}"/></td>
+			<td><c:out value="${page.frontPage}"/></td>
 			<td><a href="<%= W_PREFIX %>wikipage/<c:out value="${page.id}"/>"><c:out value="${page.title}"/></a></td>
 			<td><c:out value="${page.date}"/></td>
 			<td>

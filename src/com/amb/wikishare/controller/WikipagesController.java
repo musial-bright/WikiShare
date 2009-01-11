@@ -53,9 +53,9 @@ public class WikipagesController implements Controller {
 		try {
 			if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
 			   request.getParameter(WikiShareHelper.ACTION_PARAM).equals("showAllPageVersions")) {
-				this.model.put("pages", this.wpService.getWikipagesList(false));
+				this.model.put("pages", this.wpService.getWikipagesList(false,false));
 			} else {
-				this.model.put("pages", this.wpService.getWikipagesList(true));
+				this.model.put("pages", this.wpService.getWikipagesList(true,false));
 			}
 		} catch (Exception e) {
 			logger.error("WikipageService.getPagesList() " + e);

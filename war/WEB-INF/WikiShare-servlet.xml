@@ -4,6 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean name="/frontpage"
+		class="com.amb.wikishare.controller.FrontpageController">
+		<property name="wikipageService" ref="wikipageService" />
+	</bean>
+
 	<bean name="/navigation_create"
 		class="com.amb.wikishare.controller.NavigationCreateController">
 		<property name="sessionForm" value="true" />

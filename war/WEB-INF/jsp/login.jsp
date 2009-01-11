@@ -8,7 +8,7 @@ String paramUsername = request.getParameter(WikiShareHelper.USERNAME);
 if(paramUsername == null) { paramUsername = ""; }
 %>
 
-<form name="loginForm" method="POST" action="<%= W_PREFIX %>wikipages">
+<form name="loginForm" method="POST" action="<%= W_PREFIX %>frontpage">
 	<input type="hidden" name="action" value="login"/>
 	Username: <input name="username" type="text" value="<%= paramUsername %>" tabindex="1"/>
 	<input name="password" type="password" tabindex="2"/>

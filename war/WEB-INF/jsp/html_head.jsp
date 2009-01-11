@@ -31,10 +31,11 @@
 	<% } else { %>
 		<a href="<%= W_PREFIX %>login" title="Login">Login</a>
 	<% } %>
-	<form action="<%= W_PREFIX %>search" method="get" style="position:absolute; left:20em; top:1px;">
+	<form action="<%= W_PREFIX %>search" method="get" style="position:absolute; left:25em; top:1px;">
 		<input type="text" name="search_text" value="<%= searchText %>"/>
 		<input type="submit" value="ok" />
 	</form> |
+	<a href="<%= W_PREFIX %>frontpage">Frontpage</a> |
 	<a href="<%= W_PREFIX %>wikipages">Wikipages</a> |
 	<a href="<%= W_PREFIX %>files">Files</a> |
 	<a href="<%= W_PREFIX %>users">Users</a>

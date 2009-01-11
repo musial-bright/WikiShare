@@ -35,6 +35,10 @@
 			<td><form:textarea path="content" id="content" cols="80" rows="20" /></td>
 			<!--  <td><form:errors path="title" /></td>-->
 		</tr>
+		<tr>
+			<td>Front page</td>
+			<td><form:checkbox path="frontPage"/></td>
+		</tr>
 	</table>
 	<%
 		if( request.getParameter("action") != null && request.getParameter("action").equals("update") ) {

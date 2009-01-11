@@ -6,7 +6,7 @@ import com.amb.wikishare.domain.Wikipage;
 
 public interface WikipageInterface {
 
-	public List<Wikipage> getWikipagesList(boolean activePagesOnly) throws Exception;
+	public List<Wikipage> getWikipagesList(boolean activePagesOnly, boolean frontPagesOnly) throws Exception;
 	
 	/**
 	 * Get wiki page versions.

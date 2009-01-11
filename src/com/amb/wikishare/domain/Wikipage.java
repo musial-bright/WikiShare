@@ -12,6 +12,7 @@ public class Wikipage {
 	// have the same signature!
 	private String signature = null;
 	private boolean activePage = true;
+	private boolean frontPage = false;
 	private String title = null;
 	private String content = null;
 	private Date date = null;
@@ -82,6 +83,22 @@ public class Wikipage {
 		}
 	}
 	
+	public boolean getFrontPage() {
+		return frontPage;
+	}
+
+	public void setFrontPage(boolean frontPage) {
+		this.frontPage = frontPage;
+	}
+	
+	public void setFrontPage(int frontPage) {
+		if(frontPage == 1) {
+			this.frontPage = true;
+		} else {
+			this.frontPage = false;
+		}
+	}
+
 	public String getTitle() {
 		return this.title;
 	}

@@ -3,6 +3,7 @@ create table pages (
   signature VARCHAR_IGNORECASE(20) NOT NULL,
   user_id INTEGER, 
   active_page integer NOT NULL,
+  front_page integer NOT NULL,
   title VARCHAR_IGNORECASE(1000),
   content VARCHAR_IGNORECASE,
   timestamp timestamp,

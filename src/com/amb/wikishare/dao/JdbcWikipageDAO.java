@@ -27,15 +27,20 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 
 	/**
 	 * Get all wiki pages or active only pages.
+	 * @param activePagesOnly
+	 * @param frontPagesOnly
 	 * @return List of active wiki pages 
 	 */
-	public List<Wikipage> getWikipagesList(boolean activePagesOnly) throws SQLException { 
+	public List<Wikipage> getWikipagesList(boolean activePagesOnly, boolean frontPagesOnly) throws SQLException { 
 
 		String query = 
-			"select id, signature, user_id, active_page, title, content, timestamp "+
+			"select id, signature, user_id, active_page, front_page, title, content, timestamp "+
 			"from pages ";
-		if ( activePagesOnly ) {
+		if(activePagesOnly) {
 			query += "where active_page = 1 ";
+		}
+		if(frontPagesOnly) {
+			query += "and front_page = 1 ";
 		}
 		query += "order by title asc";
 		List<Wikipage> wikipages = getSimpleJdbcTemplate().query( query,new WikipageMapper()); 
@@ -50,7 +55,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	 */
 	public List<Wikipage> getWikipageVersionsList(String pageFamilySignature) throws SQLException { 
 		List<Wikipage> wikipages = getSimpleJdbcTemplate().query( 
-				"select id, signature, user_id, active_page, title, content, timestamp "+
+				"select id, signature, user_id, active_page, front_page, title, content, timestamp "+
 				"from pages "+
 				"where signature = ? "+
 				"order by timestamp desc",
@@ -75,6 +80,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 			wikipage.setSignature(rs.getString("signature"));
 			wikipage.setUser(new User(rs.getInt("user_id")));
 			wikipage.setActivePage(rs.getInt("active_page"));
+			wikipage.setFrontPage(rs.getInt("front_page"));
 			wikipage.setTitle(rs.getString("title")); 
 			wikipage.setContent(rs.getString("content"));
 			wikipage.setDate(rs.getTimestamp("timestamp"));
@@ -85,7 +91,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	
 	
 	public Wikipage getPage(int id) {
-		String SELECT = " SELECT id, active_page, signature, user_id, title, content, timestamp "
+		String SELECT = " SELECT id, active_page, front_page, signature, user_id, title, content, timestamp "
             + " FROM pages"
             + " WHERE id = ?";
 
@@ -111,7 +117,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 			return null;
 		}
 		
-		String SELECT = "SELECT id, active_page, signature, user_id, title, content, timestamp "
+		String SELECT = "SELECT id, active_page, front_page, signature, user_id, title, content, timestamp "
             + " FROM pages"
             + " WHERE active_page = 1 and signature = ?";
 
@@ -131,12 +137,13 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		int userId = getUserIdFromWikpage(wikipage);
 		int count = getSimpleJdbcTemplate().update( 
-			"INSERT INTO pages (user_id, signature, active_page, title, content, timestamp) " +
+			"INSERT INTO pages (user_id, signature, active_page, front_page, title, content, timestamp) " +
 			"values (?,?,?,?,?,?);",
 			new Object[] { 
 					userId,
 					wikipage.getSignature(),
 					1,
+					wikipage.getFrontPage(),
 					wikipage.getTitle(), 
 					wikipage.getContent(), 
 					dateFormat.format(new Date())
@@ -160,9 +167,10 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		int userId = getUserIdFromWikpage(wikipage);
 		int count = getSimpleJdbcTemplate().update( 
-			"UPDATE pages SET active_page = 1, user_id = ?, title = ?, content = ?, timestamp = ? " +
+			"UPDATE pages SET active_page = 1, front_page = ?, user_id = ?, title = ?, content = ?, timestamp = ? " +
 			"WHERE id = ?;",
 			new Object[] { 
+					wikipage.getFrontPage(),
 					userId,
 					wikipage.getTitle(), 
 					wikipage.getContent(), 
@@ -175,7 +183,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	
 	public List<Wikipage> search(String searchText) {
 		
-		String SELECT = " SELECT id, signature, user_id, active_page, title, content, timestamp  "
+		String SELECT = " SELECT id, signature, user_id, active_page, front_page, title, content, timestamp  "
             + " FROM pages"
             + " WHERE title like ? or content like ?";
 

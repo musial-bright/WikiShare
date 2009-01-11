@@ -26,7 +26,7 @@ public class JdbcWikipageDAOTests extends TestCase {
 	}
 	
 	public void testGetAnyWikipageCases() throws SQLException {
-		List<Wikipage> pages = pageDao.getWikipagesList(false);
+		List<Wikipage> pages = pageDao.getWikipagesList(false,false);
 		assertNotNull(pages);
 	}
 	
@@ -59,6 +59,6 @@ public class JdbcWikipageDAOTests extends TestCase {
 	}
 	
 	public void testGetPageBySignature()  {
-		assertNotNull(pageDao.getPageBySignature("s0"));
+		assertNotNull(pageDao.getPageBySignature("s1"));
 	}
 }
