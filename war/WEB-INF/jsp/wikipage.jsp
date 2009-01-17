@@ -19,7 +19,7 @@
 			}
 		} catch(error) { selectedNaviId = 0; }
 		/* trim and return id */
-		return selectedNaviId.replace(/^\s+|\s+$/g, '');
+		return selectedNaviId.replamiace(/^\s+|\s+$/g, '');
 	}
 	
 	function renderNavigationSelection() {
@@ -66,7 +66,7 @@
 		document.getElementById('navigation_delete_link').href = link;
 	}
 	
-	/* Create delete link with object id parameter. */
+	/* Create edit link with object id parameter. */
 	function setNavigationEditLink() {
 		selectedNavigationId = getNaviId();
 		link = w_prefix + 'navigation_create?action=update&object_id=' + selectedNavigationId;
@@ -78,7 +78,7 @@
 	<script type="text/javascript">
 		renderNavigationSelection();		
 	</script>
-	<div id="navigationContent">Navigation content</div>
+	<div id="navigationContent"></div>
 	<a href="<%= W_PREFIX %>navigation_create">Create</a> | <a id="navigation_edit_link" href="">Edit</a> | <a id="navigation_delete_link" href="">Delete</a>
 	<script type="text/javascript">
 		setNavigationDeleteLink();
@@ -94,4 +94,7 @@
 <p style="border: 1px dotted lightgray;">
 	<c:out value="${model.page.content}" escapeXml="false"/>
 </p>
+<a href="<%= W_PREFIX %>wikipage_create?action=update&object_id=${model.page.id}">Edit</a> |
+<a href="<%= W_PREFIX %>wikipage_versions?signature=${model.page.signature}&action=delete&object_id=${model.page.id}">Delete</a>
+
 <%@ include file="html_footer.jsp" %>

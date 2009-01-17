@@ -138,7 +138,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 		int userId = getUserIdFromWikpage(wikipage);
 		int count = getSimpleJdbcTemplate().update( 
 			"INSERT INTO pages (user_id, signature, active_page, front_page, title, content, timestamp) " +
-			"values (?,?,?,?,?,?);",
+			"values (?,?,?,?,?,?,?);",
 			new Object[] { 
 					userId,
 					wikipage.getSignature(),

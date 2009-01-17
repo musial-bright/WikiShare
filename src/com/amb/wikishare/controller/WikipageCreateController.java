@@ -45,7 +45,7 @@ public class WikipageCreateController extends SimpleFormController {
 		User user = UserService.getSessionUser(request);
 		wikipage.setUser(user);
 
-		// Extra case: PAGE Update
+		// Extra case: PAGE Update/Edit
 		if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
 				request.getParameter(WikiShareHelper.ACTION_PARAM).equals(WikiShareHelper.UPDATE_PARAM)) {
 			try{
