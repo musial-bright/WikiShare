@@ -52,8 +52,8 @@ public class Wikipage {
 	 */
 	public String getSignature() {
 		if(signature == null) {
-			Double sig = new Double((new Random()).nextDouble());
-			this.signature = sig.toString();
+			int sig = new Random().nextInt();
+			this.signature = ""+ sig;
 		}
 		return signature;
 	}

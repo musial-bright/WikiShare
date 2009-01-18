@@ -19,7 +19,7 @@
 			}
 		} catch(error) { selectedNaviId = 0; }
 		/* trim and return id */
-		return selectedNaviId.replamiace(/^\s+|\s+$/g, '');
+		return selectedNaviId.replace(/^\s+|\s+$/g, '');
 	}
 	
 	function renderNavigationSelection() {
@@ -90,11 +90,12 @@
 </div>
 
 
-<h1><c:out value="${model.page.title}"/> [<c:out value="${model.page.id}"/>]</h1> 
-<p style="border: 1px dotted lightgray;">
+<h1><c:out value="${model.page.title}"/></h1>
+<div style="border: 1px dotted lightgray; margin: 0.5em;">
 	<c:out value="${model.page.content}" escapeXml="false"/>
-</p>
+</div>
 <a href="<%= W_PREFIX %>wikipage_create?action=update&object_id=${model.page.id}">Edit</a> |
 <a href="<%= W_PREFIX %>wikipage_versions?signature=${model.page.signature}&action=delete&object_id=${model.page.id}">Delete</a>
+<i>Copy signature [s<c:out value="${model.page.signature}"/>]</i> 
 
 <%@ include file="html_footer.jsp" %>
