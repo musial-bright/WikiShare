@@ -8,7 +8,8 @@
 	tinyMCE.init({
 		mode : "textareas",
 		theme : "advanced",
-		elements : "content"
+		elements : "content",
+		relative_urls : false
 	});
 </script>
 <!-- /TinyMCE -->
@@ -18,6 +19,7 @@
 
 
 <form:form method="post" commandName="wikipage">
+<c:set var="wikipageId" value="${wikipage.id}"></c:set>
 <% 
 	if( request.getParameter("action") != null && request.getParameter("action").equals("update") ) { 
 		formSubmitText = "Update";	
@@ -49,6 +51,6 @@
 	<br/>
 	<input type="submit" align="center" value="<%= formSubmitText %>">
 </form:form>
-<a href="<%= W_PREFIX %>wikipages" title="Cancel">Cancel</a>
+<a href="<%= W_PREFIX %>wikipage/${wikipageId}" title="Cancel">Cancel</a>
  
 <%@ include file="html_footer.jsp" %>

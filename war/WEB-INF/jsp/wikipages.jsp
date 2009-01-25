@@ -30,6 +30,12 @@
 		</tr>
 	</c:forEach>
 </table>
-<p><a href="<%= W_PREFIX %>wikipages?action=showAllPageVersions">Show all page versions</a></p>
+<p>
+<% if(request.getParameter("action") != null && request.getParameter("action").equals("showAllPageVersions")) { %>
+	<a href="<%= W_PREFIX %>wikipages">Hide older page versions</a>
+<% } else { %>	
+	<a href="<%= W_PREFIX %>wikipages?action=showAllPageVersions">Show all page versions</a>
+<% } %>
+</p>
 
 <%@ include file="html_footer.jsp" %>
