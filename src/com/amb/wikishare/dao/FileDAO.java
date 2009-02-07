@@ -59,6 +59,14 @@ public class FileDAO {
 		
 	}
 	
+	public void removeFile(String fileName) {
+		File file = new File(filePath + File.separator + fileName);
+		boolean exists = file.exists();
+	    if (exists) {
+	        file.delete();
+	    }
+	}
+	
 	public void setFilePath(String path) {
 		this.filePath = path;
 	}
@@ -76,20 +84,17 @@ public class FileDAO {
 	}
 	
 	public class WikiFileTypes implements FilenameFilter {
-
-		String[] types;
+		String[] allowedFileTypes;
 		public WikiFileTypes(String types) {
-			this.types = types.split(",");
+			this.allowedFileTypes = types.split(",");
 		}
-		
 		public boolean accept(File dir, String name) {
-			for(String type : types) {
+			for(String type : allowedFileTypes) {
 				if( name.toLowerCase().endsWith(type) ) {
 					return true;
 				}
 			}
 			return false;
 		}
-		
 	}
 }

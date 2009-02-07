@@ -12,8 +12,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import com.amb.wikishare.service.WikipageService;
 import com.amb.wikishare.helper.WikiShareHelper;
+import com.amb.wikishare.service.WikipageService;
 
 public class SearchController implements Controller {
 

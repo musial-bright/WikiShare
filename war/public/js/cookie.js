@@ -3,7 +3,8 @@
 Cookie manipulation,
 */
 
-/** Set cookie value. Expiration date will be set automaticaly for few years.
+/** Set cookie and its value. 
+ * Expiration date will be set automatically for few years.
  * @param name : cookie name
  * @param value : cookie value
 */

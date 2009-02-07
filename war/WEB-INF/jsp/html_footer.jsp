@@ -1,5 +1,9 @@
-<div style="border-top: 1px dotted gray; color: gray; font-size: 0.75em;">
-	<center>WikiShare by Adam Musial-Bright 2009</center>
+</div>
+<% // End on content-div %>
+
+<div id="footer">
+	WikiShare by <a href="mailto:webmaster@int-design.de">Adam Musial-Bright</a> 2009 - 
+	<a href="http://www.int-design.de">int-design.de</a>
 </div>
 </body> 
 </html>

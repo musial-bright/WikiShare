@@ -18,6 +18,14 @@ public class WikiFile {
 		this.fileName = fileName;
 	}
 
+	public boolean getIsGraphics() {
+		String type = fileName.substring(fileName.indexOf(".") +1, fileName.length());
+		if ( type.toLowerCase().matches("jpg|png|gif|jpeg") ) {
+			return true;
+		}
+		return false;
+	}
+	
 	public String getFilePath() {
 		return filePath;
 	}

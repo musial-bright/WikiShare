@@ -27,6 +27,11 @@ public class FilesController implements Controller {
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
+		if(request.getParameter("delete") != null) {
+			logger.debug("Deleting file: " + request.getParameter("delete"));
+			fileDao.removeFile(request.getParameter("delete"));
+		}
+		
 		ArrayList<WikiFile> files = fileDao.getFiles();
 		model.put("files", files);
 		model.put("fileStoragePath", fileDao.getFileStoragePath());
