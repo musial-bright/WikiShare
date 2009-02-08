@@ -1,5 +1,6 @@
 package com.amb.wikishare.controller;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.amb.wikishare.service.WikipageService;
 import com.amb.wikishare.domain.Wikipage;
@@ -31,10 +33,13 @@ public class WikipageVersionsController implements Controller {
 		}
 		
 		if ( request.getParameter(WikiShareHelper.SIGNATURE_PARAM) != null ) {
-			model.put(
-				"pages", 
-				wpService.getWikipageVersionsList(request.getParameter(WikiShareHelper.SIGNATURE_PARAM))
-			);
+			List<Wikipage> wikipages = wpService.getWikipageVersionsList(
+					request.getParameter(WikiShareHelper.SIGNATURE_PARAM));
+			model.put("pages", wikipages);
+			if(wikipages != null && wikipages.size() <= 0) {
+				// No page versions  tho show, so go to wiki page overview
+				return new ModelAndView(new RedirectView("wikipages"));
+			}
 		}
 		
 		return new ModelAndView("wikipage_versions", "model", this.model);

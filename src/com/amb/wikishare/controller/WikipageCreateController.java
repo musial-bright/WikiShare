@@ -36,7 +36,12 @@ public class WikipageCreateController extends SimpleFormController {
 			logger.error("onSubmit Exception: " +e);
 		}
 		//return new ModelAndView(new RedirectView(getSuccessView()));
-		return new ModelAndView(new RedirectView("wikipage/" + ((Wikipage)command).getId() ));
+		String view = "wikipages";
+		int pageId = ((Wikipage)command).getId();
+		if(pageId != -1) {
+			view = "wikipage/" + pageId;
+		} 
+		return new ModelAndView(new RedirectView(view));
 	}
 	
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException { 

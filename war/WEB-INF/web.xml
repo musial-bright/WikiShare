@@ -43,6 +43,10 @@
 			<param-name>db_password</param-name>
 			<param-value></param-value>
         </init-param>
+        <init-param>
+        	<param-name>pass_url</param-name>
+        	<param-value>(/WikiShare/public/css/[a-zA-Z1-9]*.css|/WikiShare/wiki/frontpage|/WikiShare/wiki/login)</param-value>
+        </init-param>
     </filter>
     
     <filter-mapping>
@@ -72,14 +76,16 @@
 
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/public/global/error500.jsp</location>
+        <location>/WikiShare/public/global/error500.jsp</location>
     </error-page>
     <error-page>
         <error-code>401</error-code>
+        <!--location>/public/global/error401.jsp</location-->
         <location>/public/global/error401.jsp</location>
     </error-page>
     <error-page>
         <error-code>403</error-code>
+        <!-- location>/public/global/error403.jsp</location-->
         <location>/public/global/error403.jsp</location>
     </error-page>
     <error-page>

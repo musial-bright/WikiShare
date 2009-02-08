@@ -28,6 +28,7 @@ public class AuthenticationFilter implements Filter {
 	private FilterConfig config;
 	private String rootName = null;
 	private String rootPassword = null;
+	private String passUrl = "";
 	
 	DriverManagerDataSource dataSource = new DriverManagerDataSource();
 	JdbcUserDAO dao = new JdbcUserDAO();
@@ -36,6 +37,7 @@ public class AuthenticationFilter implements Filter {
 		this.config = config;
 		this.rootName = config.getInitParameter("rootname");
 		this.rootPassword = config.getInitParameter("password");
+		this.passUrl = config.getInitParameter("pass_url");
 		logger.debug("Root user name: " + rootName);
 
 		dataSource.setDriverClassName(config.getInitParameter("db_driver"));
@@ -64,11 +66,11 @@ public class AuthenticationFilter implements Filter {
 			if (user == null) {
 				if(!authenticate(request,session)) {
 					logger.warn("You are not logged in -> redirecting to the login page!");
-					
-					RequestDispatcher rd = config.getServletContext().
-						getRequestDispatcher(config.getInitParameter("loginPage"));
-					rd.forward(request, response);
-					
+					if(!passRequestedUrl(httpRequest)) {
+						RequestDispatcher rd = config.getServletContext().
+							getRequestDispatcher(config.getInitParameter("loginPage"));
+						rd.forward(request, response);
+					}
 				} else {
 
 					// TODO: Goto requested URI before login
@@ -81,13 +83,11 @@ public class AuthenticationFilter implements Filter {
 				}
 			} else {
 				// User already authenticated
-				if( !logout(request,session) ) {
-					logger.info("You are logged in as '" + user.getUsername() + "'");
-				} else {
+				if( logout(request,session) ) {
 					// Redirect after logout
 					RequestDispatcher rd = config.getServletContext().
 						getRequestDispatcher(config.getInitParameter("loginPage"));
-				rd.forward(request, response);
+					rd.forward(request, response);
 				}
 			}
 
@@ -128,12 +128,12 @@ public class AuthenticationFilter implements Filter {
 				return true;
 			} 
 			
-			// Login regular user from DB
+			// Login regular user against User-DAO
 			user.setUsername(username);
 			user.setPassword(password);
-			User fetchedUser = dao.getUserWithId(user);
-			if(fetchedUser != null) {
-				session.setAttribute(WikiShareHelper.USER, fetchedUser);
+			User loginUser = dao.getUserWithId(user);
+			if(loginUser != null) {
+				session.setAttribute(WikiShareHelper.USER, loginUser);
 				logger.info("Authenticating as : '" + user.getUsername() + "'");
 				return true;
 			}
@@ -145,6 +145,9 @@ public class AuthenticationFilter implements Filter {
 		try{
 			if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
 				request.getParameter(WikiShareHelper.ACTION_PARAM).equals(WikiShareHelper.LOGOUT) ) {
+				
+				User user = (User)session.getAttribute(WikiShareHelper.USER);
+				logger.debug("Loging out " + user.getUsername());				
 				session.removeAttribute(WikiShareHelper.USER);
 				return true;
 			}
@@ -152,8 +155,15 @@ public class AuthenticationFilter implements Filter {
 		return false;
 	}
 
+	private boolean passRequestedUrl(HttpServletRequest request) {
+		if(request.getRequestURI().matches(passUrl)) {
+			logger.debug("Passing url " + request.getRequestURI());
+			return true;
+		}
+		return false;
+	}
+	
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
 	}
 }

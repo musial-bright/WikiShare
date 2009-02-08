@@ -25,6 +25,15 @@ import com.amb.wikishare.domain.User;
 public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInterface {
 
 
+	private String PAGES_COLS = 
+		"id, signature, " +
+		"user_id, " +
+		"active_page, " +
+		"front_page, " +
+		"title, " +
+		"content, " +
+		"timestamp";
+	
 	/**
 	 * Get all wiki pages or active only pages.
 	 * @param activePagesOnly
@@ -34,8 +43,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	public List<Wikipage> getWikipagesList(boolean activePagesOnly, boolean frontPagesOnly) throws SQLException { 
 
 		String query = 
-			"select id, signature, user_id, active_page, front_page, title, content, timestamp "+
-			"from pages ";
+			"select " + PAGES_COLS + " from pages ";
 		if(activePagesOnly) {
 			query += "where active_page = 1 ";
 		}
@@ -55,8 +63,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	 */
 	public List<Wikipage> getWikipageVersionsList(String pageFamilySignature) throws SQLException { 
 		List<Wikipage> wikipages = getSimpleJdbcTemplate().query( 
-				"select id, signature, user_id, active_page, front_page, title, content, timestamp "+
-				"from pages "+
+				"select  "+ PAGES_COLS + " from pages "+
 				"where signature = ? "+
 				"order by timestamp desc",
 			new WikipageMapper(),
@@ -91,8 +98,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	
 	
 	public Wikipage getPage(int id) {
-		String SELECT = " SELECT id, active_page, front_page, signature, user_id, title, content, timestamp "
-            + " FROM pages"
+		String SELECT = " SELECT " + PAGES_COLS + " FROM pages"
             + " WHERE id = ?";
 
 		Wikipage wikipage = (Wikipage)getSimpleJdbcTemplate().queryForObject(
@@ -117,9 +123,8 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 			return null;
 		}
 		
-		String SELECT = "SELECT id, active_page, front_page, signature, user_id, title, content, timestamp "
-            + " FROM pages"
-            + " WHERE active_page = 1 and signature = ?";
+		String SELECT = "SELECT " + PAGES_COLS + " FROM pages " +
+            "WHERE active_page = 1 and signature = ?";
 
 		Wikipage wikipage = (Wikipage)getSimpleJdbcTemplate().queryForObject(
 				SELECT, 
@@ -183,9 +188,8 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	
 	public List<Wikipage> search(String searchText) {
 		
-		String SELECT = " SELECT id, signature, user_id, active_page, front_page, title, content, timestamp  "
-            + " FROM pages"
-            + " WHERE title like ? or content like ?";
+		String SELECT = " SELECT " + PAGES_COLS + " FROM pages "+ 
+			"WHERE (title like ? or content like ?) and active_page = 1";
 
 		return getSimpleJdbcTemplate().query(
 				SELECT, 

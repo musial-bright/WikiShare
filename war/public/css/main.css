@@ -1,6 +1,8 @@
 body {
 	font-family: "arial";
 	background: #a48500;
+	margin: 0;
+	padding: 0;
 }
 
 a,
@@ -29,7 +31,7 @@ a:hover {
 }
 #main_navigation #login_box {
 	position: absolute; 
-	left: 370px;
+	left: 750px;
 	top: 0.15em; 
 	font-size: 12px; 
 	padding: 0; 
@@ -37,7 +39,7 @@ a:hover {
 }
 #main_navigation form {
 	position: absolute;
-	left: 460px; 
+	left: 500px; 
 	padding: 0; 
 	top: 0.15em;
 }
@@ -47,6 +49,10 @@ a:hover {
 	background: #fff;
 	padding: 1em;
 	/*border-left: 8px solid #eee;*/
+}
+
+#login_form {
+	width: 300px;	
 }
 
 #footer {
@@ -60,4 +66,8 @@ a:hover {
 #footer a:hover {
 	color: #ccc;
 	text-decoration: none;	
+}
+
+.edit_button {
+	font-size: 11px;
 }

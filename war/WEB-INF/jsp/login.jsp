@@ -6,21 +6,20 @@
 String paramUsername = request.getParameter(WikiShareHelper.USERNAME);
 if(paramUsername == null) { paramUsername = ""; }
 %>
-
-<form class="content_form" name="loginForm" method="POST" action="<%= W_PREFIX %>frontpage">
-<fieldset>
-	<legend>Login</legend>
-	<input type="hidden" name="action" value="login"/>
-	Username <input name="username" type="text" value="<%= paramUsername %>" tabindex="1"/><br/>
-	Password <input name="password" type="password" tabindex="2"/><br/>
-	<input type="submit" value="Login"/>
-</fieldset>
+<form id="login_form" name="login_form" method="post" action="<%= W_PREFIX %>frontpage">
+	<fieldset>
+		<legend>Login</legend>
+		<input type="hidden" name="action" value="login"/>
+		<p>Username <input name="username" type="text" value="<%= paramUsername %>" tabindex="1"/></p>
+		<p>Password <input name="password" type="password" tabindex="2"/></p>
+		<input type="submit" value="Login"/>
+	</fieldset>
 </form>
 
-<script language="javascript">
+<script language="javascript" type="text/javascript">
 <!--
-	document.loginForm.username.focus();
+	document.login_form.username.focus();
 //-->
 </script>
- 
+
 <%@ include file="html_footer.jsp" %>

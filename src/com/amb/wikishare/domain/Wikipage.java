@@ -1,5 +1,6 @@
 package com.amb.wikishare.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -119,7 +120,11 @@ public class Wikipage {
 	public Date getDate() {
 		return this.date;
 	}
-
+	public String getDateForHuman() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return dateFormat.format(this.date);
+	}
+	
 	public boolean getSkipNewVersionFlag() {
 		return skipNewVersionFlag;
 	}

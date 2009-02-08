@@ -78,12 +78,13 @@
 	<script type="text/javascript">
 		renderNavigationSelection();		
 	</script>
-	<div id="navigationContent"></div>
-	<a href="<%= W_PREFIX %>navigation_create">Create</a> | <a id="navigation_edit_link" href="">Edit</a> | <a id="navigation_delete_link" href="">Delete</a>
+	<span class="edit_button"><a href="<%= W_PREFIX %>navigation_create">Create</a> | <a id="navigation_edit_link" href="">Edit</a> | <a id="navigation_delete_link" href="">Delete</a></span>
 	<script type="text/javascript">
 		setNavigationDeleteLink();
 		setNavigationEditLink();
-		
+	</script>
+	<div id="navigationContent"></div>
+	<script type="text/javascript">	
 		/* Show initial navigation content selection. */
 		renderNavigationContentById();
 	</script>
@@ -91,11 +92,11 @@
 
 
 <h1><c:out value="${model.page.title}"/></h1>
-<div style="border: 1px dotted lightgray; margin: 0.5em;">
-	<c:out value="${model.page.content}" escapeXml="false"/>
-</div>
-<a href="<%= W_PREFIX %>wikipage_create?action=update&object_id=${model.page.id}">Edit</a> |
-<a href="<%= W_PREFIX %>wikipage_versions?signature=${model.page.signature}&action=delete&object_id=${model.page.id}">Delete</a>
-<i>Copy signature [s<c:out value="${model.page.signature}"/>]</i> 
+<p><c:out value="${model.page.content}" escapeXml="false"/></p>
+<p class="edit_button">
+	<a href="<%= W_PREFIX %>wikipage_create?action=update&object_id=${model.page.id}">Edit</a> |
+	<a href="<%= W_PREFIX %>wikipage_versions?signature=${model.page.signature}&action=delete&object_id=${model.page.id}">Delete</a>
+	<i>Copy signature [s<c:out value="${model.page.signature}"/>]</i>
+</p> 
 
 <%@ include file="html_footer.jsp" %>
