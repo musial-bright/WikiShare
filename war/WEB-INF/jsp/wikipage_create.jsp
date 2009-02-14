@@ -3,7 +3,7 @@
 <%@ include file="html_head.jsp" %>
 
 <!-- TinyMCE -->
-<script type="text/javascript" src="/WikiShare/public/js/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="/WikiShare/public/wiki/js/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
 	tinyMCE.init({
 		mode : "textareas",
@@ -14,43 +14,41 @@
 </script>
 <!-- /TinyMCE -->
 
-<h2><fmt:message key="create-new-page"/></h2>
 <% String formSubmitText = "Create"; %>
 
 
 <form:form method="post" commandName="wikipage">
 <c:set var="wikipageId" value="${wikipage.id}"></c:set>
 <% 
-	if( request.getParameter("action") != null && request.getParameter("action").equals("update") ) { 
+	if( request.getParameter("action") != null && 
+			request.getParameter("action").equals("update") ) { 
 		formSubmitText = "Update";	
 %>
 		<input type="hidden" name="action" value="update"/>
 <% } %>
 	
-	<table>
-		<tr>
-			<td>Title:</td>
-			<td><form:input path="title" size="80" /></td>
-		</tr>
-		<tr>
-			<td>Content:</td>
-			<td><form:textarea path="content" id="content" cols="80" rows="20" /></td>
-			<!--  <td><form:errors path="title" /></td>-->
-		</tr>
-		<tr>
-			<td>Front page</td>
-			<td><form:checkbox path="frontPage"/></td>
-		</tr>
-	</table>
-	<%
-		if( request.getParameter("action") != null && request.getParameter("action").equals("update") ) {
-	%>
+	<div class="left_col">
+	   <form:input path="title" size="80" cssClass="page_title" /></div>
+	   <br/>
+	   <form:textarea path="content" id="content" cols="80" rows="20" />
+		<!--  <form:errors path="title" />-->
+	</div>
+		
+	<div class="right_col">
+	   <form:checkbox path="frontPage"/> Show on Frontpage
+	   <%
+	    if( request.getParameter("action") != null && 
+				request.getParameter("action").equals("update") ) {
+	   %>
 		<br/>
-		<form:checkbox path="skipNewVersionFlag"/>Skip version
-	<% } %>
-	<br/>
-	<input type="submit" align="center" value="<%= formSubmitText %>">
+		<form:checkbox path="skipNewVersionFlag"/> Override current version
+	   <% } %>
+	   <br/>
+	   <a href="#" onclick="document.getElementById( 'wikipage' ).submit(); return;"><%= formSubmitText %></a>
+	   <br/>
+	   <a href="<%= W_PREFIX %>wikipage/${wikipageId}" title="Cancel">Cancel</a>
+    </div>
 </form:form>
-<a href="<%= W_PREFIX %>wikipage/${wikipageId}" title="Cancel">Cancel</a>
- 
+<div style="clear:both;">&nbsp;</div>
+
 <%@ include file="html_footer.jsp" %>

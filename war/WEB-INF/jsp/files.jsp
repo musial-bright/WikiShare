@@ -10,7 +10,7 @@
 
 
 <c:forEach items="${model.files}" var="file">
-	<div style="float: left; border: 1px dotted #888; height:130px; padding: 0.5em; margin: 1em;">
+	<div class="file_box">
 		<c:out value="${file.fileName}"/> | <a href="<%= W_PREFIX %>files?delete=${file.fileName}">Delete</a><br/>
 		<c:if test="${file.isGraphics}">
 			<a href="<%= request.getContextPath() %>/public/files/<c:out value="${file.fileName}"/>" target="_blank">

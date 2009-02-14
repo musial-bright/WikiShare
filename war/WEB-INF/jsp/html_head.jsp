@@ -10,7 +10,8 @@
 	User USER = UserService.getSessionUser(request);
 	
 	// Application context parameter, something like /WikiShare/wiki/
-	String W_PREFIX = request.getContextPath() + getServletContext().getInitParameter("webappPrefix");
+	String W_PREFIX = request.getContextPath() + 
+	   getServletContext().getInitParameter("webappPrefix");
 	
 	// Search text parameter
 	String searchText = request.getParameter("search_text");
@@ -22,7 +23,7 @@
 <head>
 <title><fmt:message key="webapp" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="<%= request.getContextPath() %>/public/css/main.css" rel="stylesheet" type="text/css"/>
+<link href="<%= request.getContextPath() %>/public/wiki/css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -43,7 +44,7 @@
 	</form>
 	<div id="login_box">
 		<%= USER.getUsername() %><br/> 
-		<a style="padding:0;" href="<%= W_PREFIX %>wikipages?action=logout">Logout</a>
+		<a style="padding:0;" href="<%= W_PREFIX %>wikipages?action=logout">logout</a>
 	</div> 
 <% } %>
 </div>

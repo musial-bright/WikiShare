@@ -53,7 +53,7 @@ public class Wikipage {
 	 */
 	public String getSignature() {
 		if(signature == null) {
-			int sig = new Random().nextInt();
+			int sig = Math.abs(new Random().nextInt());
 			this.signature = ""+ sig;
 		}
 		return signature;
