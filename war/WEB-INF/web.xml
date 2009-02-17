@@ -45,7 +45,7 @@
         </init-param>
         <init-param>
         	<param-name>pass_url</param-name>
-        	<param-value>(/WikiShare/public/wiki/css/[a-zA-Z1-9]*.css|/WikiShare/wiki/frontpage|/WikiShare/wiki/login)</param-value>
+        	<param-value>(/WikiShare/public/wiki/css/[a-zA-Z1-9-_]*.css|/WikiShare/wiki/frontpage|/WikiShare/wiki/login)</param-value>
         </init-param>
     </filter>
     

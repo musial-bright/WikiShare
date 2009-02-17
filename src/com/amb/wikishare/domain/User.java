@@ -5,7 +5,9 @@ public class User {
 	private int id = -1;
 	private String username;
 	private String password;
-
+	
+	private boolean updateUserFlag = false;
+	
 	public User() {}
 	
 	public User(int id) {
@@ -37,4 +39,12 @@ public class User {
 		this.password = password;
 	}
 	
+	
+	public void setUpdateUserFlag(boolean update) {
+		this.updateUserFlag = update;
+	}
+	
+	public boolean getUpdateUserFlag() {
+		return this.updateUserFlag;
+	}
 }

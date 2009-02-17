@@ -20,10 +20,16 @@ public class FrontpageController implements Controller {
 	private Map<String, Object> model = new HashMap<String, Object>();
 	private WikipageService wpService = null;
 	
-	public ModelAndView handleRequest(HttpServletRequest arg0,
-			HttpServletResponse arg1) throws Exception {
+	public ModelAndView handleRequest(
+			HttpServletRequest request,
+			HttpServletResponse response) {
 
-		model.put("pages", wpService.getWikipagesList(true, true));
+		try {
+			model.put("pages", wpService.getWikipagesList(true, true));
+		} catch (Exception e) {
+			model.put("error", "Service not available.");
+			logger.error("No DB connection or no pages found ind DB.");
+		}
 		
 		return new ModelAndView("frontpage", "model", model);
 	}

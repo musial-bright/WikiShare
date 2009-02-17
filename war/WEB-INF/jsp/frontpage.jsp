@@ -10,5 +10,8 @@
 		<p><c:out value="${page.content}" escapeXml="false"/></p>
 	</div>
 </c:forEach>
+<c:if test="${model.error!=null}">
+    <center><c:out value="${model.error}" /></center>
+</c:if>
 
 <%@ include file="html_footer.jsp" %>

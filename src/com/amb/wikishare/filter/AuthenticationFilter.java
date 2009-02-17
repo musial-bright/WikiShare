@@ -67,8 +67,9 @@ public class AuthenticationFilter implements Filter {
 				if(!authenticate(request,session)) {
 					logger.warn("You are not logged in -> redirecting to the login page!");
 					if(!passRequestedUrl(httpRequest)) {
-						RequestDispatcher rd = config.getServletContext().
-							getRequestDispatcher(config.getInitParameter("loginPage"));
+						RequestDispatcher rd = 
+							config.getServletContext().getRequestDispatcher(
+									config.getInitParameter("loginPage"));
 						rd.forward(request, response);
 					}
 				} else {

@@ -17,12 +17,11 @@ public class UserCreateController extends SimpleFormController {
 
 	protected final Log logger = LogFactory.getLog(getClass()); 
 	private UserService userService;
-	private boolean update = false;
 	
 	public ModelAndView onSubmit(Object command) {
 		
 		try {
-			if(this.update) {
+			if(((User)command).getUpdateUserFlag()) {
 				userService.updateUser((User)command);
 			} else {
 				userService.saveUser((User) command);
@@ -36,8 +35,10 @@ public class UserCreateController extends SimpleFormController {
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException { 
 		User user = new User();
 		if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
-				request.getParameter(WikiShareHelper.ACTION_PARAM).equals(WikiShareHelper.UPDATE_PARAM) ) {
-			this.update = true;
+				request.getParameter(WikiShareHelper.ACTION_PARAM)
+				.equals(WikiShareHelper.UPDATE_PARAM) ) {
+			// Update existing user
+			user.setUpdateUserFlag(true);
 			try{
 				int id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
 				user = userService.getUser(id);

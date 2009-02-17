@@ -3,8 +3,6 @@
 <%@ include file="html_head.jsp" %>
 
 
-<h2><fmt:message key="create-new-user"/></h2>
-
 <% String formSubmitText = "Create"; %>
 <form:form method="post" commandName="user">
 <% 
@@ -13,19 +11,16 @@
 %>
 		<input type="hidden" name="action" value="update"/>
 <% } %>
-	<table>
-		<tr>
-			<td>Username:</td>
-			<td><form:input path="username" /></td>
-		</tr>
-		<tr>
-			<td>Passowrd:</td>
-			<td><form:input path="password" /></td>
-		</tr>
-	</table>
-	<br>
-	<input type="submit" align="center" value="<%= formSubmitText %>"/>
+	<div class="left_col">
+			<p>Username: <form:input path="username" /></p>
+			<p>Passowrd: <form:input path="password" /></p>
+    </div>
+	<div class="right_col">
+	   <a href="#" onclick="document.getElementById( 'user' ).submit(); return;"><%= formSubmitText %></a>
+        <br/>
+	   <a href="<%= W_PREFIX %>users" title="Cancel">Cancel</a>
+    </div>
 </form:form>
-<a href="<%= W_PREFIX %>users" title="Cancel">Cancel</a>
+<div style="clear:both;">&nbsp;</div>
  
 <%@ include file="html_footer.jsp" %>

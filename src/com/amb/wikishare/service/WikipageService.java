@@ -23,8 +23,14 @@ public class WikipageService implements WikipageInterface {
 		this.userDao = userDao;
 	}
 
-	public List<Wikipage> getWikipagesList(boolean showActivePagesOnly, boolean showFrontPagesOnly) throws Exception {
-		List<Wikipage> wikipages = wikipageDao.getWikipagesList(showActivePagesOnly, showFrontPagesOnly);
+	public List<Wikipage> getWikipagesList(
+			boolean showActivePagesOnly, 
+			boolean showFrontPagesOnly) throws Exception {
+		
+		List<Wikipage> wikipages =
+			wikipageDao.getWikipagesList(
+					showActivePagesOnly, 
+					showFrontPagesOnly);
 		
 		// Get version amount for wiki pages
 		List<Wikipage> wikipagesWithPageAmount = new ArrayList<Wikipage>();

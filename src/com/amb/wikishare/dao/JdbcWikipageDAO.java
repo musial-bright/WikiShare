@@ -40,7 +40,9 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	 * @param frontPagesOnly
 	 * @return List of active wiki pages 
 	 */
-	public List<Wikipage> getWikipagesList(boolean activePagesOnly, boolean frontPagesOnly) throws SQLException { 
+	public List<Wikipage> getWikipagesList(
+			boolean activePagesOnly, 
+			boolean frontPagesOnly) throws SQLException { 
 
 		String query = 
 			"select " + PAGES_COLS + " from pages ";
