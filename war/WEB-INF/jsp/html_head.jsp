@@ -23,6 +23,8 @@
 <head>
 <title><fmt:message key="webapp" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="WikiShare 0.1" />
+<meta name="author" content="Adam Musial-Bright" />
 <link href="<%= request.getContextPath() %>/public/wiki/css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 

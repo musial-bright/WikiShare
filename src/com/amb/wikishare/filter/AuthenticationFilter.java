@@ -65,7 +65,8 @@ public class AuthenticationFilter implements Filter {
 			// Authenticate or Forward to login page
 			if (user == null) {
 				if(!authenticate(request,session)) {
-					logger.warn("You are not logged in -> redirecting to the login page!");
+					logger.warn("You are not logged in -> " +
+							"redirecting to the login page!");
 					if(!passRequestedUrl(httpRequest)) {
 						RequestDispatcher rd = 
 							config.getServletContext().getRequestDispatcher(

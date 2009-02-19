@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/easymock.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-io.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mysql-connector-java-5.1.6-bin.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

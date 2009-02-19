@@ -25,8 +25,10 @@
         </init-param>
         <init-param>
 			<param-name>password</param-name>
-			<param-value>test</param-value>
+			<param-value>changeme</param-value>
         </init-param>
+        <!-- begin HSQL DB -->
+        <!-- 
         <init-param>
 			<param-name>db_driver</param-name>
 			<param-value>org.hsqldb.jdbcDriver</param-value>
@@ -35,9 +37,21 @@
 			<param-name>db_server</param-name>
 			<param-value>jdbc:hsqldb:hsql://localhost/wikishare</param-value>
         </init-param>
+         -->
+         <!-- end HSQL DB -->
+         <!-- start MySQL DB -->
+         <init-param>
+            <param-name>db_driver</param-name>
+            <param-value>com.mysql.jdbc.Driver</param-value>
+        </init-param>
+        <init-param>
+            <param-name>db_server</param-name>
+            <param-value>jdbc:mysql://localhost/wikishare</param-value>
+        </init-param>
+        <!-- end MySQL DB -->
         <init-param>
 			<param-name>db_user</param-name>
-			<param-value>sa</param-value>
+			<param-value>root</param-value>
         </init-param>
         <init-param>
 			<param-name>db_password</param-name>
@@ -85,7 +99,6 @@
     </error-page>
     <error-page>
         <error-code>403</error-code>
-        <!-- location>/public/global/error403.jsp</location-->
         <location>/public/global/error403.jsp</location>
     </error-page>
     <error-page>
