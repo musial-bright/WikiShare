@@ -1,0 +1,67 @@
+WikiShare 0.1 installation guide
+2009-02-21, Adam Musial-Bright adam@int-design.de 
+
+
+1. About and license
+2. Requirements
+3. Installation and configuration
+
+
+1. About and license ___________________________________________________________
+1.1 About
+WikiShare is a simple wiki including some extra features as front page 
+for public pages, simple file manager, simple user manager and navigation tool.
+
+The implementation is done in Java 1.5 based on the Spring framework. 
+Tested databases are HSQL and MySQL but other databases should work too.
+
+1.2 License
+WikiShare is open source. You can use it, modify and use 
+in non-commercial and commercial projects.
+
+
+2. Requirements ________________________________________________________________
+2.1 Requirements to run WikiShare:
+ - JRE 1.5 or higher
+ - Web application server as Apache Tomcat, Glasfish etc.
+ - Database (MySQL, HSQL are tested)
+
+
+3. Installation and configuration ______________________________________________
+3.1 Installation on Apache Tomcat:
+ - Start Apache Tomcat (/opt/tomcat/bin/startup.sh)
+ - Deploy the WikiShare.war file on your Apache Tomcat using the Tomcat manager,
+   or copy the war file to Tomcat wabapps folder (exp: /opt/tomcat/webapps)
+ - Stop Apache Tomcat (/opt/tomcat/bin/shutdown.sh)
+ - Delete war file, so it will not override your config changes on restart.
+ - Start Apache Tomcat (/opt/tomcat/bin/startup.sh)
+
+3.2 WikiShare configuration:
+3.2.1 Configure web.xml:
+ - AuthenticationFilter: Depending which DB you use uncomment 
+   the AuthenticationFilter DB section (MySQL is default).
+ - Set db user and password. 
+ - AuthenticationFilter: Change root password from 'changeme' to secure password.
+
+3.2.2 Configure WikiShare-servlet.xml:
+ - dataSource bean: uncomment the DB datasource (MySQL is default) depending on
+   database you will prefer.
+ - Set db user and password.
+ - fileDAO bean: set 'filePath' property to the WikiShare files folder. 
+   Example: /opt/tomcat/wabapps/WikiShare/public/files
+ - WIKI_LOG appender: Setup the log file for WikiShare in the File property.
+   Example: /opt/tomcat/log/wikishare.log
+   
+3.3 Database configuration
+3.3.1 MySQL:
+ - Unzip the wikishare-db.zip
+ - Goto /db/mysql
+ - Run mysql-install-db.sh on linux or mac. On windows run mysql-install-db.bat.
+
+3.3.2 HSQL:
+ - You do not need to install HSQL, it is included in the /db/hsqldb folder.
+ - Goto /db/hsqldb/bin
+ - Run wikishareStartDB.sh
+ - Run hsql-install.sh or hsql-install.bat
+ 
+Now goto http://localhost:8080/WikiShare

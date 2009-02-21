@@ -60,13 +60,16 @@
 		</copy> 
 		<!--antcall target="reload"/-->
 	</target>
-		
-	<target name="deploywar" depends="build" description="Deploy application as a WAR file"> 
-		<war destfile="${name}.war" webxml="${web.dir}/WEB-INF/web.xml"> 
-		<fileset dir="${web.dir}"> 
-			<include name="**/*.*"/> 
-		</fileset> 
+
+	<target name="buildwar" depends="build" description="Build application as a WAR file">
+		<war destfile="${name}.war" webxml="${web.dir}/WEB-INF/web.xml">
+			<fileset dir="${web.dir}">
+				<include name="**/*.*" />
+			</fileset>
 		</war> 
+    </target>
+
+	<target name="deploywar" depends="buildwar" description="Deploy application as a WAR file"> 
 		<copy todir="${deploy.path}" preservelastmodified="true"> 
 			<fileset dir="."> 
 				<include name="*.war"/> 
