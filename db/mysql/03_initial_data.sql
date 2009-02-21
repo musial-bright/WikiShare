@@ -1,3 +1,5 @@
+use wikishare;
+
 INSERT INTO pages (signature, active_page, front_page, title, content, timestamp) 
 	values ('0',1,1, 'Welcome', 'Welcome to the WikiShare application.', '2009-02-19 07:04:00');
 
