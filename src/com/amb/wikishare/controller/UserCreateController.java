@@ -38,13 +38,13 @@ public class UserCreateController extends SimpleFormController {
 				request.getParameter(WikiShareHelper.ACTION_PARAM)
 				.equals(WikiShareHelper.UPDATE_PARAM) ) {
 			// Update existing user
-			user.setUpdateUserFlag(true);
 			try{
 				int id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
 				user = userService.getUser(id);
 			} catch(Exception e) {
 				logger.error("User Error: " + e);
 			}
+			user.setUpdateUserFlag(true);
 		}
 		return user;
 	}  
