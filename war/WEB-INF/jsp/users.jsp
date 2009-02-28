@@ -7,7 +7,6 @@
 	<tr>
 		<th>ID</th>
 		<th>Title</th>
-		<th>Password</th>
 		<th><a href="<%= W_PREFIX %>user_create">Create</a></th>
 	</tr>
 	<c:forEach items="${model.users}" var="user">
@@ -16,7 +15,6 @@
 			<td>
 				<c:out value="${user.username}"/>
 			</td>
-			<td><c:out value="${user.password}"/></td>
 			<td>
 				<a href="<%= W_PREFIX %>user_create?action=update&object_id=${user.id}">Edit</a>
 				<a href="<%= W_PREFIX %>users?action=delete&object_id=${user.id}">Delete</a>

@@ -13,7 +13,7 @@
 <% } %>
 	<div class="left_col">
 			<p>Username: <form:input path="username" /></p>
-			<p>Passowrd: <form:input path="password" /></p>
+			<p>Passowrd: <form:password path="password" /></p>
     </div>
 	<div class="right_col">
 	   <a href="#" onclick="document.getElementById( 'user' ).submit(); return;"><%= formSubmitText %></a>

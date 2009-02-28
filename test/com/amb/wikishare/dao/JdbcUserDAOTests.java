@@ -11,23 +11,41 @@ import junit.framework.TestCase;
 public class JdbcUserDAOTests extends TestCase {
 	
 	DriverManagerDataSource dataSource;
+	JdbcUserDAO dao;
 	
-	public void testUserCases() throws Exception{
-		
+	public JdbcUserDAOTests() {
 		dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-		dataSource.setUrl("jdbc:hsqldb:hsql://localhost/wikishare");
-		dataSource.setUsername("sa");
-		dataSource.setPassword("");
+		//dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+		//dataSource.setUrl("jdbc:hsqldb:hsql://localhost/wikishare");
+		//dataSource.setUsername("sa");
 		
-		JdbcUserDAO dao = new JdbcUserDAO();
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost/wikishare_test");
+		dataSource.setUsername("root");
+		dataSource.setPassword("");
+	}
+	
+	public void testCreateUserCases() throws Exception{
+		
+		dao = new JdbcUserDAO();
+		User user1 = new User();
+		user1.setUsername("testuser");
+		user1.setPassword("test");
+		
+		dao.saveUser(user1);
 		dao.setDataSource(dataSource);
 		List<User> users = dao.getUsersList();
 		assertNotNull(users);
-
+	}
+	
+	public void testUsernameCases() throws Exception{
 		User user0 = dao.getUser(0);
-		assertEquals("admin", user0.getUsername());
+		assertEquals("testuser", user0.getUsername());
+	}
+	
+	public void testUserCases() throws Exception{
 		
+		List<User> users = dao.getUsersList();
 		String newUserName = "testuser";
 		User newUser = new User();
 		newUser.setUsername(newUserName);
@@ -45,13 +63,6 @@ public class JdbcUserDAOTests extends TestCase {
 		assertEquals(loadUser.getUsername(), newUserName);
 		dao.dropUser(loadUser);
 		
-		user0.setPassword("");
-		dao.updateUser(user0);
-		User updatedUser0 = dao.getUser(user0.getId());
-		assertEquals("", updatedUser0.getPassword());
-		
-		User userWithIdenticalId = dao.getUserWithId(user0);
-		assertEquals(user0.getId(), userWithIdenticalId.getId());
 	}
 	
 }

@@ -39,8 +39,9 @@ public class UserCreateController extends SimpleFormController {
 				.equals(WikiShareHelper.UPDATE_PARAM) ) {
 			// Update existing user
 			try{
-				int id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
-				user = userService.getUser(id);
+				int id = Integer.parseInt(
+						request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
+				user = userService.getUserWithEmptyPassword(id);
 			} catch(Exception e) {
 				logger.error("User Error: " + e);
 			}

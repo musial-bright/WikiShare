@@ -14,11 +14,14 @@ import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport; 
 
 import com.amb.wikishare.domain.User;
+import com.amb.wikishare.helper.Security;
 import com.amb.wikishare.service.UserInterface;
 
 
 public class JdbcUserDAO extends SimpleJdbcDaoSupport implements UserInterface {
 
+	private Security security = new Security();
+	
 	public List<User> getUsersList() throws SQLException { 
 
 		List<User> users = getSimpleJdbcTemplate().query( 
@@ -62,13 +65,14 @@ public class JdbcUserDAO extends SimpleJdbcDaoSupport implements UserInterface {
             + " FROM users"
             + " WHERE name = ? and password = ?";
 
-		logger.debug("Looking for user " + user.getUsername() + "/" + user.getPassword());
+		logger.debug("Looking for user " + user.getUsername() + "/" + 
+				security.encript(user.getPassword()));
 		
 		return (User)getSimpleJdbcTemplate().queryForObject(
 				SELECT, 
 				new UserMapper(), 
 				user.getUsername(),
-				user.getPassword());
+				security.encript(user.getPassword()) );
 	}
 
 	public void saveUser(User user) throws Exception {
@@ -79,12 +83,11 @@ public class JdbcUserDAO extends SimpleJdbcDaoSupport implements UserInterface {
 			"INSERT INTO users (name, password, timestamp) values (?,?,?);",
 			new Object[] { 
 					user.getUsername(), 
-					user.getPassword(), 
+					security.encript(user.getPassword()), 
 					dateFormat.format(new Date())
 			} ); 
 		logger.info("Rows affected: " + count); 
 	}
-
 
 	public void dropUser(User user) throws Exception {
 		logger.info("Deleting user: " + user.getUsername());
@@ -94,7 +97,6 @@ public class JdbcUserDAO extends SimpleJdbcDaoSupport implements UserInterface {
 		logger.info("Rows affected: " + count); 
 	}
 
-
 	public void updateUser(User  user) throws Exception {
 		logger.info("Updating user: " + user.getUsername());
 		
@@ -103,13 +105,11 @@ public class JdbcUserDAO extends SimpleJdbcDaoSupport implements UserInterface {
 			"UPDATE users SET name = ?, password = ?, timestamp = ? WHERE id = ?;",
 			new Object[] { 
 					user.getUsername(), 
-					user.getPassword(), 
+					security.encript(user.getPassword()), 
 					dateFormat.format(new Date()),
 					user.getId()
 			} ); 
 		logger.info("Rows affected: " + count); 
 		
-	}  
-
-	
+	}  	
 }

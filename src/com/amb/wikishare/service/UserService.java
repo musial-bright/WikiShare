@@ -31,6 +31,13 @@ public class UserService implements UserInterface {
 	public User getUser(int id) throws Exception {
 		return userDao.getUser(id);
 	}
+	
+	public User getUserWithEmptyPassword(int id) throws Exception {
+		User user = userDao.getUser(id);
+		// Removing users password because it is encripted
+		user.setPassword("");
+		return user;
+	}
 
 	public List<User> getUsersList() throws Exception {
 		return userDao.getUsersList();

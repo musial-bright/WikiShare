@@ -97,7 +97,7 @@
 	
 	<target name="buildtests" description="Compile test tree java files"> 
 		<mkdir dir="${build.dir}"/> 
-		<javac destdir="${build.dir}" source="1.6" target="1.6" debug="true" 
+		<javac destdir="${build.dir}" source="1.5" target="1.5" debug="true" 
 			deprecation="false" optimize="false" failonerror="true"> 
 			<src path="${test.dir}"/> 
 			<classpath refid="master-classpath"/> 

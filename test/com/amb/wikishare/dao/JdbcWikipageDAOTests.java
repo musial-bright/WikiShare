@@ -16,9 +16,13 @@ public class JdbcWikipageDAOTests extends TestCase {
 	
 	public JdbcWikipageDAOTests() {
 		dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-		dataSource.setUrl("jdbc:hsqldb:hsql://localhost/wikishare");
-		dataSource.setUsername("sa");
+		//dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+		//dataSource.setUrl("jdbc:hsqldb:hsql://localhost/wikishare");
+		//dataSource.setUsername("sa");
+		
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost/wikishare_test");
+		dataSource.setUsername("root");
 		dataSource.setPassword("");
 		
 		pageDao = new JdbcWikipageDAO();

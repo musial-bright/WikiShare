@@ -16,9 +16,13 @@ public class JdbcNavigationDAOTests extends TestCase {
 	
 	public JdbcNavigationDAOTests() {
 		dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-		dataSource.setUrl("jdbc:hsqldb:hsql://localhost/wikishare");
-		dataSource.setUsername("sa");
+		//dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+		//dataSource.setUrl("jdbc:hsqldb:hsql://localhost/wikishare");
+		//dataSource.setUsername("sa");
+		
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost/wikishare_test");
+		dataSource.setUsername("root");
 		dataSource.setPassword("");
 		
 		naviDao = new JdbcNavigationDAO();
@@ -26,8 +30,11 @@ public class JdbcNavigationDAOTests extends TestCase {
 	}
 	
 	public void testGetNavigationCase() throws Exception{
-		Navigation navi0 = naviDao.getNavigation(0);
-		assertNotNull(navi0);
+		try {	
+			naviDao.saveNavigation(new Navigation("test","s0")); 
+		} catch(Exception e) {} 
+		List navigations = naviDao.getNavigationsList();
+		assertNotNull(navigations);
 	}
 
 	

@@ -63,25 +63,14 @@ public class AuthenticationFilter implements Filter {
 			User user = (User) session.getAttribute("user");
 			
 			// Authenticate or Forward to login page
-			if (user == null) {
-				if(!authenticate(request,session)) {
-					logger.warn("You are not logged in -> " +
-							"redirecting to the login page!");
-					if(!passRequestedUrl(httpRequest)) {
-						RequestDispatcher rd = 
-							config.getServletContext().getRequestDispatcher(
-									config.getInitParameter("loginPage"));
-						rd.forward(request, response);
-					}
-				} else {
-
-					// TODO: Goto requested URI before login
-					/*
-					logger.debug("Redirecting to : " + uri);
-					RequestDispatcher rd = config.getServletContext().
-					getRequestDispatcher(uri);
+			if (user == null && !authenticate(request,session)) {
+				logger.warn("You are not logged in -> " +
+						"redirecting to the login page!");
+				if(!passRequestedUrl(httpRequest)) {
+					RequestDispatcher rd = 
+						config.getServletContext().getRequestDispatcher(
+								config.getInitParameter("loginPage"));
 					rd.forward(request, response);
-					*/
 				}
 			} else {
 				// User already authenticated
