@@ -76,7 +76,7 @@ a:hover {
 .file_box {
     float: left; 
     border: 1px dotted #888; 
-    height:130px; 
+    height:150px; 
     padding: 0.5em; 
     margin: 1em;
 }
@@ -93,4 +93,18 @@ a:hover {
 .page_title {
     font-size: 18px;
     width: 640px;
+}
+
+ul.clipboard {
+    margin-top:0;
+    margin-right:0;
+    margin-bottom:0;
+    margin-left: 10px;
+    padding-left:10px;	
+    padding-bottom: 0.5em;
+}
+ul.clipboard li {
+	list-style-type: square;
+    font-size: 10px;
+    pdding:0;
 }

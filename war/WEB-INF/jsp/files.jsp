@@ -17,7 +17,11 @@
 				<img height="100" src="<%= request.getContextPath() %>/public/files/<c:out value="${file.fileName}"/>"/>
 			</a>
 		</c:if>
-		<p style="font-size: 10px; margin:0; madding:0;">Path: <%= request.getContextPath() %>/public/files/${file.fileName}</p>
+        <p style="font-size: 10px; margin:0; madding:0;">
+            <%= request.getContextPath() %>/public/files/${file.fileName}
+            <br/>
+            <a href="<%= W_PREFIX %>files?clipboard=<%= request.getContextPath() %>/public/files/${file.fileName}">Copy image path</a>
+		</p>
 	</div>
 </c:forEach>
 <div style="clear:both;">&nbsp;</div>

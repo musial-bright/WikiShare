@@ -18,9 +18,11 @@ public class WikiShareHelper {
 	public static final String LOGOUT = "logout";
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
+	public static final String CLIPBOARD = "clipboard";
 
 	public static String getWabappContext(HttpServletRequest request) {
 		return request.getContextPath() + 
-			request.getSession().getServletContext().getInitParameter("webappPrefix");
+			request.getSession().getServletContext()
+				.getInitParameter("webappPrefix");
 	}
 }

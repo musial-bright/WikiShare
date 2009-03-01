@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.amb.wikishare.dao.FileDAO;
 import com.amb.wikishare.domain.WikiFile;
+import com.amb.wikishare.helper.WikiShareHelper;
+import com.amb.wikishare.service.ClipboardService;
 
 public class FilesController implements Controller {
 
@@ -30,6 +32,15 @@ public class FilesController implements Controller {
 			logger.debug("Deleting file: " + request.getParameter("delete"));
 			fileDao.removeFile(request.getParameter("delete"));
 		}
+		
+		// Clipboard 
+		ClipboardService clipboard = new ClipboardService(request);
+		if(request.getParameter(WikiShareHelper.CLIPBOARD) != null &&
+			request.getParameter(WikiShareHelper.CLIPBOARD) != "") {
+				clipboard.addClipboard(
+						request.getParameter(WikiShareHelper.CLIPBOARD));
+		}
+		
 		
 		ArrayList<WikiFile> files = fileDao.getFiles();
 		model.put("files", files);

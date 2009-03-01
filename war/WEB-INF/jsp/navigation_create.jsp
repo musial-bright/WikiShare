@@ -13,19 +13,22 @@
 %>
 		<input type="hidden" name="action" value="update"/>
 <% } %>
-	<table>
-		<tr>
-			<td>Navi name:</td>
-			<td><form:input path="name" /></td>
-		</tr>
-		<tr>
-			<td>Content:</td>
-			<td><form:textarea path="content" cols="30" rows="5" /></td>
-		</tr>
-	</table>
-	<br>
-	<input type="submit" align="center" value="<%= formSubmitText %>"/>
+	<div class="left_col">
+		<p>Navi name: <form:input path="name" /></p>
+		<p>Content: <form:textarea path="content" cols="30" rows="5" /></p>
+		<p>
+		  Clipboard:
+		  <c:forEach items="${navigation.clipboardItems}" var="clipboard">
+		      <c:out value="${clipboard}"/>
+		  </c:forEach>
+		</p>
+	</div>
+    <div class="right_col">
+	   <a href="#" onclick="document.getElementById( 'navigation' ).submit(); return;"><%= formSubmitText %></a>
+       <br/>
+       <a href="<%= W_PREFIX %>wikipages" title="Cancel">Cancel</a>	   
+    </div>
 </form:form>
-<a href="<%= W_PREFIX %>wikipages" title="Cancel">Cancel</a>
+
  
 <%@ include file="html_footer.jsp" %>

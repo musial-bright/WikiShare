@@ -13,6 +13,7 @@ import com.amb.wikishare.dao.FileDAO;
 import com.amb.wikishare.domain.User;
 import com.amb.wikishare.domain.Wikipage;
 import com.amb.wikishare.helper.WikiShareHelper;
+import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.WikipageService;
 import com.amb.wikishare.service.UserService;
 
@@ -37,9 +38,9 @@ public class WikipageCreateController extends SimpleFormController {
 		}
 		//return new ModelAndView(new RedirectView(getSuccessView()));
 		String view = "wikipages";
-		int pageId = ((Wikipage)command).getId();
-		if(pageId != -1) {
-			view = "wikipage/" + pageId;
+		String signature = ((Wikipage)command).getSignature();
+		if(signature != null) {
+			view = "wikipage/s" + signature;
 		} 
 		return new ModelAndView(new RedirectView(view));
 	}
@@ -63,6 +64,9 @@ public class WikipageCreateController extends SimpleFormController {
 				logger.error("Wiki page load Error: " + e);
 			}
 		}
+		
+		ClipboardService clipboard = new ClipboardService(request);
+		wikipage.setClipboard(clipboard);
 		
 		return wikipage;
 	}  

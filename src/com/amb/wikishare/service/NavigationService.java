@@ -7,6 +7,10 @@ import com.amb.wikishare.dao.JdbcNavigationDAO;
 import com.amb.wikishare.domain.Navigation;
 import com.amb.wikishare.domain.Wikipage;
 
+/**
+ * Navigation service manages the wiki page navigations. 
+ * @author amusial
+ */
 public class NavigationService implements NavigationInterface {
 	
 	private String webappPrefix;

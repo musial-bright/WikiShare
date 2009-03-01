@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.amb.wikishare.domain.Navigation;
 import com.amb.wikishare.domain.Wikipage;
 import com.amb.wikishare.helper.WikiShareHelper;
+import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.NavigationService;
 import com.amb.wikishare.service.WikipageService;
 
@@ -33,7 +34,7 @@ public class WikipageController implements Controller {
 		String requestUri = request.getRequestURI();
 		logger.debug("URL : " + requestUri);
 		
-		// MODEL : wikipage : Get page id (by id or signature) form the URI
+		// Wikipage action : get wikipage from URI
 		Wikipage wikipage = null;
 		try {
 			String pageIdentify = requestUri.substring(
@@ -57,10 +58,7 @@ public class WikipageController implements Controller {
 		}
 		model.put(WikiShareHelper.PAGE, wikipage);
 		
-		
-		
-		// Navigation
-		// ACTION : Delete navigation 
+		// Navigation action : Delete navigation 
 		if ( request.getParameter(WikiShareHelper.ACTION_PARAM) != null && 
 				request.getParameter(WikiShareHelper.ACTION_PARAM).equals("delete_navi") && 
 				request.getParameter(WikiShareHelper.OBJECT_ID_PARAM) != null) {
@@ -70,19 +68,28 @@ public class WikipageController implements Controller {
 			navi.setId(naviId);
 			navigationService.dropNavigation(navi);
 		}
-		
-		// MODEL : navigation
 		navigationService.setWebappPrefix(WikiShareHelper.getWabappContext(request));
 		model.put("navigationList", navigationService.getNavigationsList());
+		
+		// Clipboard 
+		ClipboardService clipboard = new ClipboardService(request);
+		if(request.getParameter(WikiShareHelper.CLIPBOARD) != null &&
+			request.getParameter(WikiShareHelper.CLIPBOARD) != "") {
+				clipboard.addClipboard(
+						request.getParameter(WikiShareHelper.CLIPBOARD));
+		}
+		model.put(WikiShareHelper.CLIPBOARD, clipboard);
 		
 		
 		return new ModelAndView("wikipage", "model", this.model);
 	}
 
+	
 	public void setWikipageService (WikipageService wpService) {
 		this.wpService = wpService;
 	}
 
+	
 	public void setNavigationService(NavigationService navigationService) {
 		this.navigationService = navigationService;
 	}

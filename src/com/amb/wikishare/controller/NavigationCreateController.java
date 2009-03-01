@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.amb.wikishare.domain.Navigation;
 import com.amb.wikishare.helper.WikiShareHelper;
+import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.NavigationService;
 
 
@@ -38,7 +39,7 @@ public class NavigationCreateController extends SimpleFormController {
 
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
 		Navigation navigation = new Navigation();
-		
+
 		// Extra case: PAGE Update
 		if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
 				request.getParameter(WikiShareHelper.ACTION_PARAM).equals(WikiShareHelper.UPDATE_PARAM)) {
@@ -50,6 +51,9 @@ public class NavigationCreateController extends SimpleFormController {
 				logger.error("Navigation load Error: " + e);
 			}
 		}
+
+		ClipboardService clipboard = new ClipboardService(request);
+		navigation.setClipboard(clipboard);
 		
 		return navigation;
 	}
@@ -57,6 +61,5 @@ public class NavigationCreateController extends SimpleFormController {
 	public void setNavigationService(NavigationService navigationService) {
 		this.navigationService = navigationService;
 	}
-	
-	
+		
 }

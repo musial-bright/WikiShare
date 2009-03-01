@@ -10,6 +10,11 @@ import com.amb.wikishare.dao.*;
 import com.amb.wikishare.domain.*;
 import com.amb.wikishare.service.*;
 
+/**
+ * Wiki page CRUD service and page management.
+ * @author amusial
+ *
+ */
 public class WikipageService implements WikipageInterface {
 	
 	protected final Log logger = LogFactory.getLog(getClass()); 

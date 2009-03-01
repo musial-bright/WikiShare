@@ -11,6 +11,12 @@ import com.amb.wikishare.dao.JdbcUserDAO;
 import com.amb.wikishare.domain.User;
 import com.amb.wikishare.helper.WikiShareHelper;
 
+/**
+ * User service provides user management (CRUD) and 
+ * user session access.
+ * @author amusial
+ *
+ */
 public class UserService implements UserInterface {
 
 	protected final Log logger = LogFactory.getLog(getClass()); 

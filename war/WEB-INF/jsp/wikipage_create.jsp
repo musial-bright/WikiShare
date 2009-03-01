@@ -19,6 +19,7 @@
 
 <form:form method="post" commandName="wikipage">
 <c:set var="wikipageId" value="${wikipage.id}"></c:set>
+<c:set var="signature" value="${wikipage.signature}"></c:set>
 <% 
 	if( request.getParameter("action") != null && 
 			request.getParameter("action").equals("update") ) { 
@@ -35,6 +36,12 @@
 	</div>
 		
 	<div class="right_col">
+	   Clipboard:
+	   <ul class="clipboard">
+          <c:forEach items="${wikipage.clipboardItems}" var="clipboard">
+              <li><c:out value="${clipboard}"/></li>
+          </c:forEach>
+       </ul>
 	   <form:checkbox path="frontPage"/> Show on Frontpage
 	   <%
 	    if( request.getParameter("action") != null && 
@@ -46,7 +53,7 @@
 	   <br/>
 	   <a href="#" onclick="document.getElementById( 'wikipage' ).submit(); return;"><%= formSubmitText %></a>
 	   <br/>
-	   <a href="<%= W_PREFIX %>wikipage/${wikipageId}" title="Cancel">Cancel</a>
+	   <a href="<%= W_PREFIX %>wikipage/s${signature}" title="Cancel">Cancel</a>
     </div>
 </form:form>
 <div style="clear:both;">&nbsp;</div>

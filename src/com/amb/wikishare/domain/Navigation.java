@@ -1,10 +1,15 @@
 package com.amb.wikishare.domain;
 
+import java.util.List;
+
+import com.amb.wikishare.service.ClipboardService;
+
 public class Navigation {
 
 	private int id = -1;
 	private String name;
 	private String content;
+	private ClipboardService clipboard = null;
 
 	private boolean updateFlag = false;
 	
@@ -42,4 +47,22 @@ public class Navigation {
 		this.updateFlag = updateFlag;
 	}
 	
+	public ClipboardService getClipboard() {
+		return clipboard;
+	}
+
+	public void setClipboard(ClipboardService clipboard) {
+		this.clipboard = clipboard;
+	}	
+	
+	public void setClipboardItems(List<String> clipboardItems) {
+		this.clipboard.clearClipboard();
+		for(String item : clipboardItems) {
+			clipboard.addClipboard(item);
+		}
+	}
+	
+	public List<String> getClipboardItems() {
+		return clipboard.getClipboardList();
+	}
 }

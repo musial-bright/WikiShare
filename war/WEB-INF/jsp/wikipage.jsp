@@ -2,7 +2,7 @@
 <%@ include file="html_head.jsp" %>
 
 
-<script src="/WikiShare/public/js/cookie.js"></script>
+<script src="/WikiShare/public/wiki/js/cookie.js"></script>
 <script type="text/javascript">
 	var navigationArray = new Array();
 	<c:forEach items="${model.navigationList}" var="singleNavigation">
@@ -80,8 +80,8 @@
     <strong><c:out value="${model.page.title}"/></strong>
     <span class="edit_button">
         <a href="<%= W_PREFIX %>wikipage_create?action=update&object_id=${model.page.id}">Edit</a> |
-        <a href="<%= W_PREFIX %>wikipage_versions?signature=${model.page.signature}&action=delete&object_id=${model.page.id}">Delete</a>
-        <i>Copy signature [s<c:out value="${model.page.signature}"/>]</i>
+        <a href="<%= W_PREFIX %>wikipage_versions?signature=${model.page.signature}&action=delete&object_id=${model.page.id}">Delete</a> | 
+        <a href="<%= W_PREFIX %>wikipage/${model.page.id}?clipboard=s${model.page.signature}">Copy signature [s<c:out value="${model.page.signature}"/>]</a>
     </span>
     <p><c:out value="${model.page.content}" escapeXml="false"/></p>
 </div>

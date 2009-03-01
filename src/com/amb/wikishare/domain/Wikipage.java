@@ -3,7 +3,10 @@ package com.amb.wikishare.domain;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+
+import com.amb.wikishare.service.ClipboardService;
 
 public class Wikipage {
 
@@ -20,6 +23,7 @@ public class Wikipage {
 	private int versionAmount = -1;
 	private User user = null;
 	private ArrayList<WikiFile> files = new ArrayList<WikiFile>(); 
+	private ClipboardService clipboard = null;
 	
 	// Request flags
 	private boolean skipNewVersionFlag = false;
@@ -158,5 +162,23 @@ public class Wikipage {
 	public void appendFile(WikiFile file) {
 		this.files.add(file);
 	}
+
+	public ClipboardService getClipboard() {
+		return clipboard;
+	}
+
+	public void setClipboard(ClipboardService clipboard) {
+		this.clipboard = clipboard;
+	}	
 	
+	public void setClipboardItems(List<String> clipboardItems) {
+		this.clipboard.clearClipboard();
+		for(String item : clipboardItems) {
+			clipboard.addClipboard(item);
+		}
+	}
+	
+	public List<String> getClipboardItems() {
+		return clipboard.getClipboardList();
+	}
 }
