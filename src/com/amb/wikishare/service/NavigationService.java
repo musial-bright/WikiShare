@@ -42,16 +42,15 @@ public class NavigationService implements NavigationInterface {
 					// todo: Performance! Get title using SQL directly!
 					Wikipage wikipage = ws.getPageBySignature(signatureId);
 					title = wikipage.getTitle();
+					markup += 
+						"[<a href=\"" + 
+						webappPrefix +
+						"wikipage/" +
+						signatureId +
+						"\">" +
+						title +
+						"</a>] ";
 				} catch(Exception e) {}
-				
-				markup += 
-					"[<a href=\"" + 
-					webappPrefix +
-					"wikipage/" +
-					signatureId +
-					"\">" +
-					title +
-					"</a>] ";
 			}
 			if(pages.length != 1) {
 				markup += "<br/>";

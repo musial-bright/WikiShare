@@ -14,7 +14,13 @@ public class Security {
 		try {
 			MessageDigest md = MessageDigest.getInstance(ENCRIPTION);
 			md.update(text.getBytes());
-			return new String(md.digest());
+			//return new String(md.digest());
+			byte[] messageDiggest = md.digest();
+			StringBuffer hexString = new StringBuffer();
+			for(int i=0; i < messageDiggest.length; i++) {
+				hexString.append(Integer.toHexString(0xFF & messageDiggest[i]));
+			}
+			return hexString.toString();
 		} catch (NoSuchAlgorithmException e) {
 			logger.error("encript(): " + e);
 		}
@@ -25,10 +31,5 @@ public class Security {
 		String test = "Adam";
 		Security s = new Security();
 		System.out.println(test + " -> " + s.encript(test));
-		
-		byte[] bytesValue = test.getBytes();
-		System.out.println("bytesValue =" + bytesValue);
-		System.out.println("bytesString=" + new String(test));
-		
 	}
 }

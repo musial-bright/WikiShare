@@ -22,7 +22,7 @@ create table users (
   id INT NOT NULL auto_increment,
   group_id INT,
   name VARCHAR(50) not null,
-  password varchar(30),
+  password varchar(50),
   timestamp timestamp,
   UNIQUE(name), 
   PRIMARY KEY(id), 
