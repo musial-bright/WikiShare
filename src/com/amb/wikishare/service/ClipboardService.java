@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.amb.wikishare.domain.User;
 import com.amb.wikishare.helper.WikiShareHelper;
 
 /**
  * Clipboard provides copy & paste capabilities for
- * any wiki service. Clipboard is stored in session.
+ * any wiki service. 
+ * Clipboard is stored in session as a ArrayList of Strings.
  * todo: Capability of storing clipboard in DB after logout.
  * @author amusial
  */

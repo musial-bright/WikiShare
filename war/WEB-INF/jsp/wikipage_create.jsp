@@ -13,11 +13,21 @@
 		elements : "content",
 		relative_urls : false
 	});
+
+	function convertAndInsertAtCaret(content) {
+	    var html = '';
+		if(content.match(/(.jpg|.jpeg|.gif|.png)$/)) {
+			html = '<img src="' + content + '"/>';
+		}
+		if(content.match(/s[0-9]*$/)) {
+            html = '<a href="wikipage/'+ content +'">'+ content +'</a>';
+        }
+	    tinyMCE.execCommand('mceInsertContent',false,html);
+	}
 </script>
 <!-- /TinyMCE -->
 
 <% String formSubmitText = "Create"; %>
-
 
 <form:form method="post" commandName="wikipage">
 <c:set var="wikipageId" value="${wikipage.id}"></c:set>
@@ -33,7 +43,7 @@
 	<div class="left_col">
 	   <form:input path="title" size="80" cssClass="page_title" /></div>
 	   <br/>
-	   <form:textarea path="content" id="content" cols="80" rows="20" />
+	   <form:textarea path="content" id="content" cols="80" rows="30" />
 		<!--  <form:errors path="title" />-->
 	</div>
 		
@@ -41,7 +51,7 @@
 	   Clipboard:
 	   <ul class="clipboard">
           <c:forEach items="${wikipage.clipboardItems}" var="clipboard">
-              <li><c:out value="${clipboard}"/></li>
+              <li><a href="#" onclick="convertAndInsertAtCaret('${clipboard}');return false;"><c:out value="${clipboard}"/></a></li>
           </c:forEach>
        </ul>
 	   <form:checkbox path="frontPage"/> Show on Frontpage
