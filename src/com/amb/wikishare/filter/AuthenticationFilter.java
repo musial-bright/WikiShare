@@ -150,7 +150,8 @@ public class AuthenticationFilter implements Filter {
 		if(request.getRequestURI().matches(passUrl)) {
 			logger.debug("Passing url " + request.getRequestURI());
 			return true;
-		}
+		} 
+		logger.debug("URL forbidden: " + request.getRequestURI());
 		return false;
 	}
 	

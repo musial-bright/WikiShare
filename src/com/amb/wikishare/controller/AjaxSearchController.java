@@ -8,14 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import com.amb.wikishare.helper.WikiShareHelper;
 import com.amb.wikishare.service.WikipageService;
 
-public class SearchController implements Controller {
+public class AjaxSearchController implements Controller {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 	
@@ -29,7 +28,7 @@ public class SearchController implements Controller {
 		if(searchText != null && !searchText.equals("")) {
 			this.model.put("pages", this.wpService.search(searchText));
 		}
-		return new ModelAndView("search", "model", model);
+		return new ModelAndView("ajax_search_results", "model", model);
 	}
 
 	public void setWikipageService(WikipageService wpService) {

@@ -37,6 +37,12 @@
 		<property name="fileDao" ref="fileDAO" />
 	</bean>
 
+    <bean name="/ajax_search"
+        class="com.amb.wikishare.controller.AjaxSearchController">
+        <property name="wikipageService" ref="wikipageService" />
+    </bean>
+
+
 	<bean name="/search"
 		class="com.amb.wikishare.controller.SearchController">
 		<property name="wikipageService" ref="wikipageService" />

@@ -26,6 +26,8 @@
 <meta name="description" content="WikiShare 0.1" />
 <meta name="author" content="Adam Musial-Bright" />
 <link href="<%= request.getContextPath() %>/public/wiki/css/main.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="/WikiShare/public/wiki/js/prototype.js"></script>
+<script type="text/javascript" src="/WikiShare/public/wiki/js/scriptaculous/scriptaculous.js"></script>
 </head>
 
 <body>
@@ -41,7 +43,7 @@
 	<a href="<%= W_PREFIX %>files">Files</a> 
 	<a href="<%= W_PREFIX %>users">Users</a>
 	<form action="<%= W_PREFIX %>search" method="get">
-		<input type="text" name="search_text" value="<%= searchText %>"/>
+		<input type="text" id="search_text" name="search_text" value="<%= searchText %>" autocomplete="on"/>
 		<input type="submit" value="Search" />
 	</form>
 	<div id="login_box">
@@ -50,5 +52,15 @@
 	</div> 
 <% } %>
 </div>
+
+<div id="ajax_search_indicator" style="display:none;position:absolute;left:500px;">NOW FETCHING RESULTS</div>
+<div id="ajax_search_result_box" style="display:none;border:1px solid black;background-color:white;position:absolute;left:500px;"></div>
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  new Ajax.Autocompleter('search_text','ajax_search_result_box','<%= W_PREFIX %>ajax_search', { 
+    tokens: ',', indicator: 'ajax_search_indicator'
+  } );
+// ]]>
+</script>
 
 <div id="wikipage_content">

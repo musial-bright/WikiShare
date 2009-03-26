@@ -59,7 +59,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	} 
 
 	/**
-	 * Get all wiki page versions.
+	 * Get all wiki page versions of a certain page.
 	 * @param pageFamilySignature: Signature of a page family
 	 * @return List of active wiki pages 
 	 */

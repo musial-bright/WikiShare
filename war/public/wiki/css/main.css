@@ -108,3 +108,15 @@ ul.clipboard li {
     font-size: 11px;
     padding:0;
 }
+
+.selected { background-color: #888; }
+
+ul.search_result_list {
+    padding:0;
+    margin:0;
+}
+ul.search_result_list li {
+    list-style-type: none;
+    font-size: 12px;
+    padding:0;
+}
