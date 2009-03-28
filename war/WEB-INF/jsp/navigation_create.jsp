@@ -3,8 +3,6 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ include file="html_head.jsp" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<script type="text/javascript" src="/WikiShare/public/wiki/js/text.js"></script>
-
 
 <h2>Navigation</h2>
 

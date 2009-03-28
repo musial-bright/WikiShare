@@ -6,16 +6,19 @@
 
 <script src="/WikiShare/public/wiki/js/cookie.js"></script>
 <script type="text/javascript">
-	var navigationArray = new Array();
+    // Navigation by Adam Musial-Bright
+    // Require/Tested: Prototype JavaScript framework, version 1.6.0.3 
+    
+	var navigationArray = new Hash();
 	<c:forEach items="${model.navigationList}" var="singleNavigation">
-		navigationArray['${singleNavigation.id}#${singleNavigation.name}'] = '<c:out value="${singleNavigation.content}" escapeXml="false" />';
+		navigationArray.set('${singleNavigation.id}#${singleNavigation.name}','<c:out value="${singleNavigation.content}" escapeXml="false" />');
 	</c:forEach>
 	
 	/* Get real navigation id from selected navigation. */
 	function getNaviId() {
 		var selectedNaviId = 0;
 		try {
-			selectedNaviId = document.getElementById("navigationSelectId").options[document.getElementById("navigationSelectId").selectedIndex].value
+			selectedNaviId = $('navigationSelectId').options[$('navigationSelectId').selectedIndex].value
 			if ( selectedNaviId < 0 ) {
 				selectedNaviId = 0;
 			}
@@ -27,8 +30,9 @@
 	function renderNavigationSelection() {
 		document.write('<form>');
 		document.write('<select id="navigationSelectId" onchange="javascript:renderNavigationContentById(); setNavigationEditLink(); setNavigationDeleteLink();">');
-		for (var i in navigationArray) {
-			var navigationAsString = i;
+		//for (var i in navigationArray) {
+		navigationArray.each( function(pair) {
+			var navigationAsString = pair.key;
 			var idNameArray = navigationAsString.split('#');
 			var alreadySelectedId = getCookieValue("wikishare_navi_id");
 			var selectedAttribute = "";
@@ -38,7 +42,7 @@
 			} else {
 				document.write('<option value="'+ idNameArray[0] +' '+ selectedAttribute +'">('+ idNameArray[0] +') '+ idNameArray[1] +'</option>');
 			}
-		}
+		});
 		document.write('</select>');
 		document.write('</form>');
 	}
@@ -46,14 +50,17 @@
 	
 	function renderNavigationContentById() {
 		id = getNaviId();
-		for (var i in navigationArray) {
-			var navigationKey = i;
+		//for (var i in navigationArray) {
+		navigationArray.each( function(pair) {
+			//var navigationKey = i;
+			var navigationKey = pair.key;
 			var idNameArray = navigationKey.split('#');
 			if( idNameArray[0] == id) {
-				document.getElementById('navigationContent').innerHTML = navigationArray[i];
-				break;
+				//document.getElementById('navigationContent').innerHTML = navigationArray[i];
+				document.getElementById('navigationContent').innerHTML = pair.value;
+				//break;
 			}
-		}
+		});
 		setCookie("wikishare_navi_id",id);
 	}
 	
@@ -65,14 +72,14 @@
 		selectedNavigationId = getNaviId();
 		var link = w_prefix + 'wikipage/' + '<c:out value="${model.page.id}" />';
 		link = link + '?action=delete_navi&object_id=' + selectedNavigationId;
-		document.getElementById('navigation_delete_link').href = link;
+		$('navigation_delete_link').href = link;
 	}
 	
 	/* Create edit link with object id parameter. */
 	function setNavigationEditLink() {
 		selectedNavigationId = getNaviId();
 		link = w_prefix + 'navigation_create?action=update&object_id=' + selectedNavigationId;
-		document.getElementById('navigation_edit_link').href = link;
+		$('navigation_edit_link').href = link;
 	}
 </script>
 

@@ -28,6 +28,7 @@
 <link href="<%= request.getContextPath() %>/public/wiki/css/main.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="/WikiShare/public/wiki/js/prototype.js"></script>
 <script type="text/javascript" src="/WikiShare/public/wiki/js/scriptaculous/scriptaculous.js"></script>
+<script type="text/javascript" src="/WikiShare/public/wiki/js/text.js"></script>
 </head>
 
 <body>
