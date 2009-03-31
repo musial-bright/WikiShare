@@ -21,7 +21,7 @@ echo "Creating initial data..."
 sh hsqldbExecute.sh ../sql/02_*
 echo "Done."
 
-echo "Inserting test data..." 
-echo "### Uncomment this, if you want to skip the test data. ###"
-sh hsqldbExecute.sh ../sql/03_*
-echo "Done."
+#echo "Inserting test data..." 
+#echo "### Uncomment this, if you want to skip the test data. ###"
+#sh hsqldbExecute.sh ../sql/03_*
+#echo "Done."
