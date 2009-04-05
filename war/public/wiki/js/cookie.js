@@ -1,6 +1,8 @@
 /*
 2009.01.06 Adam Musial-Bright
-Cookie manipulation,
+Cookie manipulation in Javascript
+
+@requires: Javascript Prototype: www.prototypejs.org
 */
 
 /** Set cookie and its value. 
@@ -21,25 +23,32 @@ function setCookie(name,value) {
 function getCookieValue(name) {
 	var cookies = document.cookie;
 	var cookiesAsArray = cookies.split(";");
-	for (var i in cookiesAsArray) {
-		var cookieAndValue = cookiesAsArray[i];
+	//for (var i in cookiesAsArray) {
+	cookiesAsArray.each( function(i) {
+		//var cookieAndValue = cookiesAsArray[i];
+		var cookieAndValue = i;
+		
 		var cookieAndValueAsArray = cookieAndValue.split("=");
+		//if ( name == cookieAndValueAsArray[0]) {
 		if ( name == cookieAndValueAsArray[0]) {
 			return cookieAndValueAsArray[1];
 		}
-	}
+	});
 	return -1;
 }
 /*
 function getNavigationIdFromCookieValue() {
 	var cookies = document.cookie;
 	var cookiesAsArray = cookies.split(";");
-	for (var i in cookiesAsArray) {
-		var cookieAndValue = cookiesAsArray[i];
+	//for (var i in cookiesAsArray) {
+	cookiesAsArray.each( function(i) {
+		//var cookieAndValue = cookiesAsArray[i];
+		var cookieAndValue = i;
+		
 		var cookieAndValueAsArray = cookieAndValue.split("=");
 		if ("wikishare_navi_id" == cookieAndValueAsArray[0]) {
 			return cookieAndValueAsArray[1];
 		}
-	}
+	});
 	return -1;
 }*/
