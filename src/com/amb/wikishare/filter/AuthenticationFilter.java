@@ -60,7 +60,7 @@ public class AuthenticationFilter implements Filter {
 			
 			uri = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(WikiShareHelper.USER);
 			
 			// Authenticate or Forward to login page
 			if (user == null && !authenticate(request,session)) {

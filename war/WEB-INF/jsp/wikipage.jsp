@@ -7,7 +7,7 @@
 <script src="/WikiShare/public/wiki/js/cookie.js"></script>
 <script type="text/javascript">
     // Navigation by Adam Musial-Bright
-    // Require/Tested: Prototype JavaScript framework, version 1.6.0.3 
+    // Require/Tested: Prototype JavaScript framework, version 1.6.0.3 or higher
     
 	var navigationArray = new Hash();
 	<c:forEach items="${model.navigationList}" var="singleNavigation">
@@ -29,7 +29,7 @@
 	
 	function renderNavigationSelection() {
 		document.write('<form>');
-		document.write('<select id="navigationSelectId" onchange="javascript:renderNavigationContentById(); setNavigationEditLink(); setNavigationDeleteLink();">');
+		document.write('<select id="navigationSelectId" onchange="javascript:renderNavigationContentById(true); setNavigationEditLink(); setNavigationDeleteLink();">');
 		//for (var i in navigationArray) {
 		navigationArray.each( function(pair) {
 			var navigationAsString = pair.key;
@@ -48,20 +48,18 @@
 	}
 
 	
-	function renderNavigationContentById() {
+	function renderNavigationContentById(setCookieFlag) {
 		id = getNaviId();
-		//for (var i in navigationArray) {
 		navigationArray.each( function(pair) {
-			//var navigationKey = i;
 			var navigationKey = pair.key;
 			var idNameArray = navigationKey.split('#');
 			if( idNameArray[0] == id) {
-				//document.getElementById('navigationContent').innerHTML = navigationArray[i];
 				document.getElementById('navigationContent').innerHTML = pair.value;
-				//break;
 			}
 		});
-		setCookie("wikishare_navi_id",id);
+		if(setCookieFlag == true) {
+			  setCookie("wikishare_navi_id",id);
+		}
 	}
 	
 	
@@ -108,7 +106,7 @@
 	    <div id="navigationContent"></div>
 	    <script type="text/javascript"> 
 	        /* Show initial navigation content selection. */
-	        renderNavigationContentById();
+	        renderNavigationContentById(false);
 	    </script>
 	</div>
 </div>

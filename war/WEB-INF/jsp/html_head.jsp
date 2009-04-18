@@ -43,9 +43,8 @@
 	<a href="<%= W_PREFIX %>wikipages">Wikipages</a> 
 	<a href="<%= W_PREFIX %>files">Files</a> 
 	<a href="<%= W_PREFIX %>users">Users</a>
-	<form action="<%= W_PREFIX %>search" method="get">
+	<form class="search_form" action="<%= W_PREFIX %>search" method="get">
 		<input type="text" id="search_text" name="search_text" value="<%= searchText %>" autocomplete="on"/>
-		<input type="submit" value="Search" />
 	</form>
 	<div id="login_box">
 		<%= USER.getUsername() %><br/> 

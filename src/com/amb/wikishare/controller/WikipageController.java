@@ -31,11 +31,37 @@ public class WikipageController implements Controller {
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
+		// Wikipage action : get wikipage from URI
+		Wikipage wikipage = getWikipageByIdOrSingnature(request);
+		
+		if (wikipage == null) {
+			wikipage = wpService.getPage(WikiShareHelper.ERROR_PAGE_ID);
+		}
+		model.put(WikiShareHelper.PAGE, wikipage);
+		
+		// Navigation action : Delete navigation 
+		navigationAction(request);
+		
+		// Clipboard 
+		clipboardAction(request);
+		
+		return new ModelAndView("wikipage", "model", this.model);
+	}
+	
+
+	/**
+	 * Get wiki page for the model from the page id or signature. 
+	 * @param request
+	 */
+	public Wikipage getWikipageByIdOrSingnature(HttpServletRequest request) 
+		throws Exception {
+
+		Wikipage wikipage = null;
+		
 		String requestUri = request.getRequestURI();
 		logger.debug("URL : " + requestUri);
-		
-		// Wikipage action : get wikipage from URI
-		Wikipage wikipage = null;
+
+		// Get id or signature from requested uri
 		try {
 			String pageIdentify = requestUri.substring(
 					requestUri.lastIndexOf("/") + 1, 
@@ -53,37 +79,59 @@ public class WikipageController implements Controller {
 			wikipage = wpService.getPage(WikiShareHelper.ERROR_PAGE_ID);
 			logger.error("Error: " + e);
 		}
-		if (wikipage == null) {
-			wikipage = wpService.getPage(WikiShareHelper.ERROR_PAGE_ID);
-		}
-		model.put(WikiShareHelper.PAGE, wikipage);
 		
-		// Navigation action : Delete navigation 
+		return wikipage;
+	}
+
+	/**
+	 * Fetch and delete navigations for the wiki page model.
+	 * @param request
+	 * @throws Exception
+	 */
+	private void navigationAction(HttpServletRequest request) throws Exception {
+
+		// delete navigation
 		if ( request.getParameter(WikiShareHelper.ACTION_PARAM) != null && 
-				request.getParameter(WikiShareHelper.ACTION_PARAM).equals("delete_navi") && 
+				request.getParameter(WikiShareHelper.ACTION_PARAM).
+				equals("delete_navi") && 
 				request.getParameter(WikiShareHelper.OBJECT_ID_PARAM) != null) {
-			int naviId = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
+			
+			int naviId = Integer.parseInt(
+					request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
+			
 			logger.debug("Deleting navigation = " + naviId);
+
+			// fetch all available navigations
 			Navigation navi = new Navigation();
 			navi.setId(naviId);
 			navigationService.dropNavigation(navi);
 		}
-		navigationService.setWebappPrefix(WikiShareHelper.getWabappContext(request));
-		model.put("navigationList", navigationService.getNavigationsList());
 		
-		// Clipboard 
+		navigationService.setWebappPrefix(
+				WikiShareHelper.getWabappContext(request));
+		
+		model.put("navigationList", navigationService.getNavigationsList());
+	}
+	
+	
+	/**
+	 * Clipboard items for the wiki page model.
+	 * @param request
+	 */
+	public void clipboardAction(HttpServletRequest request) {
+		
 		ClipboardService clipboard = new ClipboardService(request);
+		
 		if(request.getParameter(WikiShareHelper.CLIPBOARD) != null &&
 			request.getParameter(WikiShareHelper.CLIPBOARD) != "") {
-				clipboard.addClipboard(
-						request.getParameter(WikiShareHelper.CLIPBOARD));
+			
+			clipboard.addClipboard(
+					request.getParameter(WikiShareHelper.CLIPBOARD));
 		}
+		
 		model.put(WikiShareHelper.CLIPBOARD, clipboard);
-		
-		
-		return new ModelAndView("wikipage", "model", this.model);
 	}
-
+	
 	
 	public void setWikipageService (WikipageService wpService) {
 		this.wpService = wpService;

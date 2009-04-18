@@ -23,32 +23,15 @@ function setCookie(name,value) {
 function getCookieValue(name) {
 	var cookies = document.cookie;
 	var cookiesAsArray = cookies.split(";");
-	//for (var i in cookiesAsArray) {
+	var cookieValue = -1;
 	cookiesAsArray.each( function(i) {
-		//var cookieAndValue = cookiesAsArray[i];
 		var cookieAndValue = i;
 		
 		var cookieAndValueAsArray = cookieAndValue.split("=");
-		//if ( name == cookieAndValueAsArray[0]) {
 		if ( name == cookieAndValueAsArray[0]) {
-			return cookieAndValueAsArray[1];
+			cookieValue = cookieAndValueAsArray[1];
+			return cookieValue;
 		}
 	});
-	return -1;
+	return cookieValue;
 }
-/*
-function getNavigationIdFromCookieValue() {
-	var cookies = document.cookie;
-	var cookiesAsArray = cookies.split(";");
-	//for (var i in cookiesAsArray) {
-	cookiesAsArray.each( function(i) {
-		//var cookieAndValue = cookiesAsArray[i];
-		var cookieAndValue = i;
-		
-		var cookieAndValueAsArray = cookieAndValue.split("=");
-		if ("wikishare_navi_id" == cookieAndValueAsArray[0]) {
-			return cookieAndValueAsArray[1];
-		}
-	});
-	return -1;
-}*/

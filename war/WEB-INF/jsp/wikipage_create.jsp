@@ -11,7 +11,8 @@
 		mode : "textareas",
 		theme : "advanced",
 		elements : "content",
-		relative_urls : false
+		relative_urls : false,
+		content_css : "/WikiShare/public/wiki/css/tinymce.css"
 	});
 
 	function convertAndInsertAtCaret(content) {
