@@ -23,18 +23,21 @@ public class JdbcUserDAOTests extends TestCase {
 		dataSource.setUrl("jdbc:mysql://localhost/wikishare_test");
 		dataSource.setUsername("root");
 		dataSource.setPassword("");
+		
+		
 	}
 	
 	public void testCreateUserCases() throws Exception{
-		
 		dao = new JdbcUserDAO();
+		dao.setDataSource(dataSource);
+		
 		User user1 = new User();
 		user1.setUsername("testuser");
 		user1.setPassword("test");
 		
 		dao.saveUser(user1);
-		dao.setDataSource(dataSource);
 		List<User> users = dao.getUsersList();
+
 		assertNotNull(users);
 	}
 	
