@@ -1,17 +1,19 @@
 package com.amb.wikishare.dao;
 
 import java.util.List;
-
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import com.amb.wikishare.domain.User;
+import com.amb.wikishare.dao.JdbcUserDAO;
 
 import junit.framework.TestCase;
 
 public class JdbcUserDAOTests extends TestCase {
 	
-	DriverManagerDataSource dataSource;
-	JdbcUserDAO dao;
+	private DriverManagerDataSource dataSource;
+	private JdbcUserDAO dao = null;
+	private User user = new User();
+	
 	
 	public JdbcUserDAOTests() {
 		dataSource = new DriverManagerDataSource();
@@ -24,48 +26,51 @@ public class JdbcUserDAOTests extends TestCase {
 		dataSource.setUsername("root");
 		dataSource.setPassword("");
 		
-		
-	}
-	
-	public void testCreateUserCases() throws Exception{
 		dao = new JdbcUserDAO();
 		dao.setDataSource(dataSource);
 		
-		User user1 = new User();
-		user1.setUsername("testuser");
-		user1.setPassword("test");
-		
-		dao.saveUser(user1);
-		List<User> users = dao.getUsersList();
-
-		assertNotNull(users);
+		user.setUsername("testuser");
+		user.setPassword("test");
 	}
 	
-	public void testUsernameCases() throws Exception{
-		User user0 = dao.getUser(0);
-		assertEquals("testuser", user0.getUsername());
-	}
-	
-	public void testUserCases() throws Exception{
-		
-		List<User> users = dao.getUsersList();
-		String newUserName = "testuser";
-		User newUser = new User();
-		newUser.setUsername(newUserName);
-		newUser.setPassword("testuserpassword");
-		dao.saveUser(newUser);
-		users = dao.getUsersList();
-		int testuserid = -1; 
-		for(User u : users) {
-			if(u.getUsername().equals(newUserName)) {
-				testuserid = u.getId();
+	public void testDeleteAllUsers() {
+		List<User> checkUsers = null;
+		try {
+			List<User> users = dao.getUsersList();
+			for(User user : users) {
+				dao.dropUser(user);
 			}
+			
+			checkUsers = dao.getUsersList();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		User loadUser = dao.getUser(testuserid);
-		assertNotNull(loadUser);
-		assertEquals(loadUser.getUsername(), newUserName);
-		dao.dropUser(loadUser);
-		
+		assertTrue(checkUsers.size() == 0);
 	}
+	
+	public void testCreateUser() {
+		List<User> users = null;
+		try {
+			dao.saveUser(user);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			users = dao.getUsersList();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		User sameUser = dao.getUserWithId(user);
+		
+		assertNotNull(users);
+		assertTrue(sameUser.getUsername().equals("testuser"));
+	}
+	
+	public void testCheckUsername() throws Exception{
+		User userCheck = dao.getUserWithId(user);
+		assertEquals("testuser", userCheck.getUsername());
+	}
+	
 	
 }

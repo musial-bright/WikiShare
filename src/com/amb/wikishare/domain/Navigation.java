@@ -36,8 +36,6 @@ public class Navigation {
 		return content;
 	}
 	public void setContent(String content) {
-		content = content.replaceAll("\"", "&quot;");
-		content = content.replaceAll("'", "&#39;");
 		this.content = content;
 	}
 

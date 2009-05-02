@@ -11,8 +11,9 @@ import junit.framework.TestCase;
 
 public class JdbcWikipageDAOTests extends TestCase {
 	
-	DriverManagerDataSource dataSource;
-	JdbcWikipageDAO pageDao;
+	private DriverManagerDataSource dataSource;
+	private JdbcWikipageDAO pageDao;
+	private Wikipage page = null;
 	
 	public JdbcWikipageDAOTests() {
 		dataSource = new DriverManagerDataSource();
@@ -27,25 +28,43 @@ public class JdbcWikipageDAOTests extends TestCase {
 		
 		pageDao = new JdbcWikipageDAO();
 		pageDao.setDataSource(dataSource);
+		
+		page = new Wikipage();
+		page.setTitle("testpage");
+		page.setContent("testcontent");
+		page.setActivePage(true);
+		page.setFrontPage(true);
 	}
 	
-	public void testGetAnyWikipageCases() throws SQLException {
+	public void testDeleteAllPages() throws Exception {
+		List<Wikipage> pages = pageDao.getWikipagesList(false, false);
+		for(Wikipage page : pages) {
+			pageDao.dropWikipage(page);
+		}
+		List<Wikipage> checkPages = pageDao.getWikipagesList(false, false);
+		assertEquals(checkPages.size(), 0);
+	}
+	
+	public void testSavePage() throws Exception {
+		pageDao.saveWikipage(page);
+		List<Wikipage> checkPages = pageDao.getWikipagesList(false, false);
+		assertTrue(checkPages.size() > 0);
+	}
+	
+	public void testGetAnyWikipage() throws SQLException {
 		List<Wikipage> pages = pageDao.getWikipagesList(false,false);
 		assertNotNull(pages);
 	}
 	
-	public void testGetFirstWikipageCases() throws SQLException{	
-		Wikipage wp0 = pageDao.getPage(1);
-		assertEquals("Page not found", wp0.getTitle());
-		assertEquals(1, wp0.getId());
-	}
-	
-	public void testUpdateWikipageWithOwnContentCases() throws Exception{
-		Wikipage wp0 = pageDao.getPage(1);
-		wp0.setContent(wp0.getContent());
-		pageDao.updateWikipage(wp0);
-		Wikipage updatedWp0 = pageDao.getPage(wp0.getId());
-		assertEquals(wp0.getContent(),updatedWp0.getContent());
+	public void testUpdateWikipage() throws Exception {
+		List<Wikipage> pages = pageDao.getWikipagesList(false, false);
+		Wikipage testpage = pages.get(0);
+		
+		testpage.setContent("new content");
+		pageDao.updateWikipage(testpage);
+		
+		Wikipage comparePage = pageDao.getPage(testpage.getId());
+		assertEquals(comparePage.getContent(), "new content");
 	}
 
 	public void testWikipageSearchCase() {
@@ -53,16 +72,25 @@ public class JdbcWikipageDAOTests extends TestCase {
 		assertNotNull(wikiPages);
 	}
 	
-	public void testPageVersionsCase() throws SQLException {	
-		List wikiPageVersions = pageDao.getWikipageVersionsList("0");
-		assertTrue(wikiPageVersions.size() > 0);
+	public void testPageVersions() throws SQLException {
+		List<Wikipage> pages = pageDao.getWikipagesList(false, false);
+		int pageVersionAmount = 0;
+		for(Wikipage page : pages) {
+			pageVersionAmount = 
+				pageDao.getWikipageVersionsAmount(page.getSignature());
+		}
+		assertTrue(pageVersionAmount == 1);
 	}
 	
-	public void testPageAmount() throws SQLException {
-		assertTrue(pageDao.getWikipageVersionsAmount("0") == 1);
-	}
-	
-	public void testGetPageBySignature()  {
-		assertNotNull(pageDao.getPageBySignature("s1"));
+	public void testGetPageBySignature() throws Exception {
+		List<Wikipage> pages = pageDao.getWikipagesList(false, false);
+		int pageVersionAmount = 0;
+		Wikipage testPage = null;
+		for(Wikipage page : pages) {
+			testPage = pageDao.getPageBySignature(page.getSignature());
+			break;
+		}
+		assertNotNull(testPage);
+		
 	}
 }

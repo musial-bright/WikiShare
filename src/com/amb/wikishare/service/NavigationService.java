@@ -96,7 +96,10 @@ public class NavigationService implements NavigationInterface {
 	}
 
 	private String replaceCharacters(String content) {
-		return content.replaceAll("\t|\n|\r", "");
+		content.replaceAll("\t|\n|\r", "");
+		content = content.replaceAll("\"", "&quot;");
+		content = content.replaceAll("'", "&#39;");
+		return content;
 	}
 
 	public Navigation getNavigation(int id) throws Exception {

@@ -117,6 +117,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 	 * @return Wikipage active wiki page
 	 */
 	public Wikipage getPageBySignature(String signature) {
+		/*
 		int id = -1;
 		try {
 			id = Integer.valueOf(signature.substring(1, signature.length())).intValue();
@@ -124,14 +125,14 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
 			logger.debug("Siganture was not valid -> " + signature);
 			return null;
 		}
-		
+		*/
 		String SELECT = "SELECT " + PAGES_COLS + " FROM pages " +
             "WHERE active_page = 1 and signature = ?";
 
 		Wikipage wikipage = (Wikipage)getSimpleJdbcTemplate().queryForObject(
 				SELECT, 
 				new WikipageMapper(), 
-				id);
+				signature);
 				
 		return wikipage;
 	}

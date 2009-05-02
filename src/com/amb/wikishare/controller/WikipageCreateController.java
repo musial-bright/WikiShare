@@ -40,7 +40,7 @@ public class WikipageCreateController extends SimpleFormController {
 		String view = "wikipages";
 		String signature = ((Wikipage)command).getSignature();
 		if(signature != null) {
-			view = "wikipage/s" + signature;
+			view = "wikipage/" + signature;
 		} 
 		return new ModelAndView(new RedirectView(view));
 	}

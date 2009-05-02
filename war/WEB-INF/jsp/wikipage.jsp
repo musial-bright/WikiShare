@@ -88,7 +88,7 @@
     <span class="edit_button">
         <a href="<%= W_PREFIX %>wikipage_create?action=update&object_id=${model.page.id}">Edit</a> |
         <a href="<%= W_PREFIX %>wikipage_versions?signature=${model.page.signature}&action=delete&object_id=${model.page.id}">Delete</a> | 
-        <a href="<%= W_PREFIX %>wikipage/${model.page.id}?clipboard=s${model.page.signature}">Copy signature [s<c:out value="${model.page.signature}"/>]</a>
+        <a href="<%= W_PREFIX %>wikipage/${model.page.id}?clipboard=${model.page.signature}">Copy signature [<c:out value="${model.page.signature}"/>]</a>
     </span>
     <p><c:out value="${model.page.content}" escapeXml="false"/></p>
 </div>
