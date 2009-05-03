@@ -42,6 +42,7 @@ public class NavigationService implements NavigationInterface {
 					// todo: Performance! Get title using SQL directly!
 					Wikipage wikipage = ws.getPageBySignature(signatureId);
 					title = wikipage.getTitle();
+					title = replaceSingleTick(title);
 					markup += 
 						"[<a href=\"" + 
 						webappPrefix +
@@ -69,13 +70,15 @@ public class NavigationService implements NavigationInterface {
 
 	/**
 	 * Get navigation list with <code>Navigation</code> elements.
-	 * The content in the <code>Navigation</code> is already rendered!
+	 * The content in the <code>Navigation</code> is already rendered and
+	 * single ticks are escaped.
 	 * @return List<Navigation>
 	 */
 	public List<Navigation> getNavigationsList() throws Exception {
 		List<Navigation> navigationList = new ArrayList<Navigation>();
-		for(Navigation navigation : this.jdbcNavigationDAO.getNavigationsList()) {
-			navigation.setContent(renderNavigationBySignatures(navigation.getContent()));
+		for(Navigation navigation : jdbcNavigationDAO.getNavigationsList()) {
+			navigation.setContent(
+					renderNavigationBySignatures(navigation.getContent()));
 			navigationList.add(navigation);
 		}
 		return navigationList;
@@ -98,8 +101,11 @@ public class NavigationService implements NavigationInterface {
 	private String replaceCharacters(String content) {
 		content.replaceAll("\t|\n|\r", "");
 		content = content.replaceAll("\"", "&quot;");
-		content = content.replaceAll("'", "&#39;");
-		return content;
+		return replaceSingleTick(content);
+	}
+	
+	private String replaceSingleTick(String content) {
+		return content.replaceAll("'", "&#39;");
 	}
 
 	public Navigation getNavigation(int id) throws Exception {
