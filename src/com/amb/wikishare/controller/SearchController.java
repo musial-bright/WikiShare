@@ -17,22 +17,22 @@ import com.amb.wikishare.service.WikipageService;
 
 public class SearchController implements Controller {
 
-	protected final Log logger = LogFactory.getLog(getClass());
-	
-	private WikipageService wpService = null;
-	private Map<String,Object> model = new HashMap<String,Object>();
-	
-	public ModelAndView handleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		
-		String searchText = request.getParameter(WikiShareHelper.SEARCH_PARAM);
-		if(searchText != null && !searchText.equals("")) {
-			this.model.put("pages", this.wpService.search(searchText));
-		}
-		return new ModelAndView("search", "model", model);
-	}
+    protected final Log logger = LogFactory.getLog(getClass());
 
-	public void setWikipageService(WikipageService wpService) {
-		this.wpService = wpService;
-	}
+    private WikipageService wpService = null;
+    private Map<String,Object> model = new HashMap<String,Object>();
+
+    public ModelAndView handleRequest(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        String searchText = request.getParameter(WikiShareHelper.SEARCH_PARAM);
+        if(searchText != null && !searchText.equals("")) {
+            this.model.put("pages", this.wpService.search(searchText, true));
+        }
+        return new ModelAndView("search", "model", model);
+    }
+
+    public void setWikipageService(WikipageService wpService) {
+        this.wpService = wpService;
+    }
 }
