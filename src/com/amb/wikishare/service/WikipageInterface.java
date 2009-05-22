@@ -18,7 +18,7 @@ public interface WikipageInterface {
 	
 	public Wikipage getPage(int id) throws Exception;
 	
-	public Wikipage getPageBySignature(String signature) throws Exception;
+	public Wikipage getActivePageBySignature(String signature) throws Exception;
 	
 	public void saveWikipage(Wikipage wikipage) throws Exception;
 	

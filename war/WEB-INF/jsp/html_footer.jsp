@@ -2,8 +2,8 @@
 <% // End on content-div %>
 
 <div id="footer">
-	WikiShare by <a href="mailto:webmaster@int-design.de">Adam Musial-Bright</a> 2009 - 
-	<a href="http://www.musial-bright.com">www.musial-bright.com</a>
+  WikiShare by Adam Musial-Bright 2009 -
+  <a href="http://www.musial-bright.com">www.musial-bright.com</a>
 </div>
-</body> 
+</body>
 </html>

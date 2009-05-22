@@ -3,11 +3,14 @@ package com.amb.wikishare.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.amb.wikishare.dao.*;
 import com.amb.wikishare.domain.*;
+import com.amb.wikishare.helper.WikiShareHelper;
 import com.amb.wikishare.service.*;
 
 /**
@@ -54,7 +57,17 @@ public class WikipageService implements WikipageInterface {
         return wikipagesWithPageAmount;
     }
 
-    public List<Wikipage> getWikipageVersionsList(String signature) throws Exception {
+    public List<Wikipage> getWikipageVersionsList(String pageIdOrSignature) throws Exception {
+
+        String signature = pageIdOrSignature;
+
+        if(!pageIdOrSignature.startsWith("s")) {
+            int pageId = Integer.parseInt(pageIdOrSignature);
+            Wikipage page = getPage(pageId);
+            signature = page.getSignature();
+        }
+        logger.debug("[getWikipageVersionsList] signature=" + signature);
+
         return wikipageDao.getWikipageVersionsList(signature);
     }
 
@@ -66,8 +79,8 @@ public class WikipageService implements WikipageInterface {
         return wikipageDao.getPage(id);
     }
 
-    public Wikipage getPageBySignature(String signature) {
-        return wikipageDao.getPageBySignature(signature);
+    public Wikipage getActivePageBySignature(String signature) {
+        return wikipageDao.getActivePageBySignature(signature);
     }
 
     public void saveWikipage(Wikipage wikipage) throws Exception {
@@ -95,6 +108,39 @@ public class WikipageService implements WikipageInterface {
         }
 
     }
+
+
+    /**
+     * Get wiki page for the model from the page id or signature.
+     * @param request
+     */
+    public Wikipage getWikipageByIdOrSingnature(HttpServletRequest request)
+        throws Exception {
+
+        Wikipage wikipage = null;
+
+        // Get id or signature from requested uri
+        try {
+            String pageIdOrSignature =
+                WikiShareHelper.getLastUriResource(request);
+
+            // Every URI starting with s linke ../s.. is identified as signature
+            // not as page id. Page id starts always with a number.
+            if( pageIdOrSignature.startsWith("s") ) {
+                wikipage = getActivePageBySignature(pageIdOrSignature);
+            } else {
+                int pageId = Integer.parseInt(pageIdOrSignature);
+                wikipage = getPage(pageId);
+            }
+        } catch (Exception e) {
+            //wikipage = getPage(WikiShareHelper.ERROR_PAGE_ID);
+            logger.debug("[getWikipageByIdOrSingnature] " + e);
+        }
+
+        return wikipage;
+    }
+
+
 
     /**
      * Find matching wiki pages by search text.

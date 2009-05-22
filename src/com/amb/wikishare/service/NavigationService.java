@@ -40,7 +40,7 @@ public class NavigationService implements NavigationInterface {
                 String title = signatureId;
                 try {
                     // todo: Performance! Get title using SQL directly!
-                    Wikipage wikipage = ws.getPageBySignature(signatureId);
+                    Wikipage wikipage = ws.getActivePageBySignature(signatureId);
                     title = wikipage.getTitle();
                     title = replaceSingleTick(title);
                     markup +=

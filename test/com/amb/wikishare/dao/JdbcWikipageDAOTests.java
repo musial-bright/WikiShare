@@ -87,7 +87,7 @@ public class JdbcWikipageDAOTests extends TestCase {
 		int pageVersionAmount = 0;
 		Wikipage testPage = null;
 		for(Wikipage page : pages) {
-			testPage = pageDao.getPageBySignature(page.getSignature());
+			testPage = pageDao.getActivePageBySignature(page.getSignature());
 			break;
 		}
 		assertNotNull(testPage);
