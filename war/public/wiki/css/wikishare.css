@@ -1,0 +1,280 @@
+body {
+  color: #444;
+  background-color: #edf6e3;
+   background-image: url(../images/1000_bg.jpg);
+  background-position: top center;
+  background-repeat: repeat-y;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
+  text-align: left;
+    margin: 0px;
+  padding: 0px;
+}
+
+p {
+  font-size: 13px;
+  line-height: 16px;
+  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+}
+h1, h2, h3 {
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: bold;
+  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+}
+
+a:link {
+  font-weight: bold;
+  text-decoration: none;
+  color: #6faf30;
+  }
+a:visited,
+a:visited:hover {
+  font-weight: bold;
+  text-decoration: none;
+  color: #7fc937;
+  }
+a:hover,
+a:active {
+  text-decoration: underline;
+  color: #4f711f;
+  }
+acronym {
+  font-weight: normal;
+  font-style: normal;
+  border: 0;
+  }
+
+
+#container {
+  width: 900px;
+  position: relative;
+  margin: 0px auto 0px auto;
+  padding: 0px 0px 0px 0px;
+}
+
+#header {
+   width: 900px;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+#controllerViewContent {
+  width: 600px;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 10px 0px 10px;
+}
+
+
+
+/* minor divs */
+#pageHeader {
+   width: 900px;
+   height: 20px; /* strange but ie6 needs this */
+   background-image: url(../images/900_header.jpg);
+  background-position: top center;
+  background-repeat: no-repeat;
+  border-top: 0px;
+  border-right: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+  margin: 0px 0px 0px 0px;
+  padding: 50px 0px 0px 0px;
+}
+
+#pageHeader h1 {
+   width: 600px;
+  color: #fff;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: -30px 0px 0px 10px;
+  padding: 0px 0px 0px 0px;
+  }
+
+#pageHeader h2 {
+   width: 600px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: normal;
+  padding: 0px 0px 0px 3px;
+  text-transform: uppercase;
+  margin: 0px 0px 0px 10px;
+  padding: 0px 0px 10px 4px;
+  }
+
+#infoBox {
+   width: 600px;
+   background-image: url(../images/stone_24.gif);
+  background-position: top center;
+  background-repeat: repeat;
+  background-color: #284C00;
+  border: 1px solid #aaa;
+  margin: 10px 0px 10px 0px;
+  padding: 10px 10px 10px 10px;
+}
+#infoBox .p1 {
+  color: #fff ! important;
+  font-size: 10px ! important;
+  line-height: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: left;
+  margin: 0px 50px 0px 0px;
+  padding: 0px 0px 10px 0px;
+}
+#infoBox .p2 {
+  color: #fff ! important;
+  font-size: 10px ! important;
+  line-height: 16px;
+  font-weight: normal;
+  text-transform: uppercase;
+  text-align: left;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+
+.contentBox {
+   width: 600px;
+  border: 1px solid #aaa;
+   background-image: url(../images/leaf_09d.gif);
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  margin: 10px -10px 0px -10px;
+  padding: 10px 10px 20px 10px;
+  }
+.contentBox h3 {
+  color: #284C00;
+  background-color: #ddd;
+   background-image: url(../images/stone_21.gif);
+  background-position: bottom center;
+  background-repeat: repeat;
+  font-size: 13px;
+  line-height: 16px;
+  text-transform: uppercase;
+  margin: -10px -10px 4px -10px;
+  padding: 4px 4px 4px 10px;
+}
+.contentBox p {
+  padding-bottom: 8px;
+  text-align: justify;
+}
+
+#footer {
+   width: 600px;
+  border: 1px solid #aaa;
+   background-image: url(stone_19.gif);
+  background-position: center center;
+  background-repeat: repeat;
+  background-color: #284C00;
+  margin: 10px -10px 20px -10px;
+  padding: 10px 10px 10px 10px;
+  text-align: center;
+}
+
+
+
+#contentRight {
+  position: absolute;
+  top: 82px;
+  left: 0px;
+   width: 272px;
+  margin: 0px 0px 0px 630px;
+  padding: 0px 0px 0px 0px;
+}
+
+#contentRight ul {
+  border-top: 1px dotted #ccc;
+  margin: 5px 5px 0px 5px;
+  padding: 0px 0px 0px 0px;
+}
+
+#contentRight li {
+  display: block;
+  list-style-type: none;
+  color: #6c9e2d;
+  background-color: #f8f8f8;
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: normal;
+  font-style: italic;
+  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
+  text-align: left;
+  border-bottom: 1px dotted #ccc;
+  margin: 0px 0px 0px 0px;
+  padding: 3px 5px 3px 5px;
+  }
+
+#contentRight li a:link,
+#contentRight li a:visited,
+#contentRight li a:visited:hover,
+#contentRight li a:hover,
+#contentRight li a:active {
+  font-style: normal;
+  padding-right: 5px;
+}
+
+.normal {
+    font-style: normal !important;
+}
+
+/* italic links*/
+.italic {
+  color: #6c9e2d ! important;
+  font-weight: normal ! important;
+  font-style: italic ! important;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 14px 0px 0px;
+  }
+
+#contentRight h3 {
+  color: #7fc937;
+  background-color: #ddd;
+   background-image: url(../images/stone_24.gif);
+  background-position: center right;
+  background-repeat: repeat-x;
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: bold;
+  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
+  text-transform: uppercase;
+  text-align: left;
+  border-bottom: 1px solid #aaa;
+  margin: 0px 0px 0px 0px;
+  padding: 3px 5px 3px 5px;
+}
+#contentRight li:hover {
+  background-color: #fefefe;
+}
+
+
+.boxRight {
+  background-image: url(../images/leaf_09a.gif);
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  margin: 0px 0px 10px 0px;
+  padding: 0px 0px 30px 0px;
+}
+
+
+/* File manager */
+.fileBox {
+    float: left;
+    border: 1px dotted #888;
+    height:150px;
+    padding: 0.5em;
+    margin: 1em;
+}

@@ -8,6 +8,7 @@
   <bean name="/frontpage"
     class="com.amb.wikishare.controller.FrontpageController">
     <property name="wikipageService" ref="wikipageService" />
+    <property name="navigationService" ref="navigationService"></property>
   </bean>
 
 

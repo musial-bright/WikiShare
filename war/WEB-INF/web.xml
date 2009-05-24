@@ -25,7 +25,7 @@
         <filter-class>com.amb.wikishare.filter.AuthenticationFilter</filter-class>
         <init-param>
       <param-name>loginPage</param-name>
-      <param-value>/wiki/login</param-value>
+      <param-value>/wiki/frontpage</param-value>
         </init-param>
         <init-param>
       <param-name>rootname</param-name>

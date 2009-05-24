@@ -11,31 +11,70 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.amb.wikishare.domain.Navigation;
+import com.amb.wikishare.helper.WikiShareHelper;
+import com.amb.wikishare.service.NavigationService;
 import com.amb.wikishare.service.WikipageService;
 
 public class FrontpageController implements Controller {
 
-	protected final Log logger = LogFactory.getLog(getClass()); 
+    protected final Log logger = LogFactory.getLog(getClass());
 
-	private Map<String, Object> model = new HashMap<String, Object>();
-	private WikipageService wpService = null;
-	
-	public ModelAndView handleRequest(
-			HttpServletRequest request,
-			HttpServletResponse response) {
+    private Map<String, Object> model = new HashMap<String, Object>();
+    private WikipageService wpService = null;
+    private NavigationService navigationService = null;
 
-		try {
-			model.put("pages", wpService.getWikipagesList(true, true));
-		} catch (Exception e) {
-			model.put("error", "Service not available.");
-			logger.error("No DB connection or no pages found ind DB.");
-		}
-		
-		return new ModelAndView("frontpage", "model", model);
-	}
+    public ModelAndView handleRequest(
+            HttpServletRequest request,
+            HttpServletResponse response) {
 
-	public void setWikipageService(WikipageService wpService) {
-		this.wpService = wpService;
-	}
+        try {
+            model.put("pages", wpService.getWikipagesList(true, true));
+            navigationAction(request);
+        } catch (Exception e) {
+            logger.error("[handleRequest] " + e);
+        }
 
+        return new ModelAndView("frontpage", "model", model);
+    }
+
+
+    /**
+     * Fetch and delete navigations for the wiki page model.
+     * @param request
+     * @throws Exception
+     */
+    private void navigationAction(HttpServletRequest request) throws Exception {
+
+        // delete navigation
+        if ( request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
+                request.getParameter(WikiShareHelper.ACTION_PARAM).
+                equals("delete_navi") &&
+                request.getParameter(WikiShareHelper.OBJECT_ID_PARAM) != null) {
+
+            int naviId = Integer.parseInt(
+                    request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
+
+            logger.debug("[navigationAction]ÊDeleting navigation = " + naviId);
+
+            // fetch all available navigations
+            Navigation navi = new Navigation();
+            navi.setId(naviId);
+            navigationService.dropNavigation(navi);
+        }
+
+        navigationService.setWebappPrefix(
+                WikiShareHelper.getWabappContext(request));
+
+        model.put("navigationList", navigationService.getNavigationsList());
+    }
+
+
+    public void setWikipageService(WikipageService wpService) {
+        this.wpService = wpService;
+    }
+
+    public void setNavigationService(NavigationService navigationService) {
+        this.navigationService = navigationService;
+    }
 }
