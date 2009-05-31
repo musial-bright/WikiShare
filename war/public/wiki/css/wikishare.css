@@ -30,22 +30,19 @@ h1, h2, h3 {
   padding: 0px;
 }
 
-a:link {
-  font-weight: bold;
-  text-decoration: none;
-  color: #6faf30;
-  }
-a:visited,
-a:visited:hover {
+a:link,
+a:active,
+a:visited {
   font-weight: bold;
   text-decoration: none;
   color: #7fc937;
   }
-a:hover,
-a:active {
+a:hover {
+  font-weight: bold;
   text-decoration: underline;
-  color: #4f711f;
-  }
+  color: #7fc937;
+}
+
 acronym {
   font-weight: normal;
   font-style: normal;
@@ -78,7 +75,7 @@ acronym {
 #pageHeader {
    width: 900px;
    height: 20px; /* strange but ie6 needs this */
-   background-image: url(../images/900_header.jpg);
+   background-image: url(../images/leaf_900.jpg);
   background-position: top center;
   background-repeat: no-repeat;
   border-top: 0px;
@@ -86,7 +83,7 @@ acronym {
   border-bottom: 1px solid #aaa;
   border-left: 1px solid #aaa;
   margin: 0px 0px 0px 0px;
-  padding: 50px 0px 0px 0px;
+  padding: 100px 0px 0px 0px;
 }
 
 #pageHeader h1 {
@@ -114,7 +111,7 @@ acronym {
 
 #infoBox {
    width: 600px;
-   background-image: url(../images/stone_24.gif);
+   background-image: url(../images/content_header.jpg);
   background-position: top center;
   background-repeat: repeat;
   background-color: #284C00;
@@ -147,7 +144,7 @@ acronym {
 .contentBox {
    width: 600px;
   border: 1px solid #aaa;
-   background-image: url(../images/leaf_09d.gif);
+  /*background-image: url(../images/green_button.png);*/
   background-position: bottom center;
   background-repeat: no-repeat;
   background-color: #fff;
@@ -170,6 +167,10 @@ acronym {
   padding-bottom: 8px;
   text-align: justify;
 }
+.contentBox h3 a {
+  font-size: 11px;
+  color: #67a12e;
+}
 
 #footer {
    width: 600px;
@@ -187,7 +188,7 @@ acronym {
 
 #contentRight {
   position: absolute;
-  top: 82px;
+  top: 132px;
   left: 0px;
    width: 272px;
   margin: 0px 0px 0px 630px;
@@ -216,15 +217,6 @@ acronym {
   padding: 3px 5px 3px 5px;
   }
 
-#contentRight li a:link,
-#contentRight li a:visited,
-#contentRight li a:visited:hover,
-#contentRight li a:hover,
-#contentRight li a:active {
-  font-style: normal;
-  padding-right: 5px;
-}
-
 .normal {
     font-style: normal !important;
 }
@@ -241,7 +233,7 @@ acronym {
 #contentRight h3 {
   color: #7fc937;
   background-color: #ddd;
-   background-image: url(../images/stone_24.gif);
+   background-image: url(../images/content_header.jpg);
   background-position: center right;
   background-repeat: repeat-x;
   font-size: 13px;
@@ -260,13 +252,13 @@ acronym {
 
 
 .boxRight {
-  background-image: url(../images/leaf_09a.gif);
+  /*background-image: url(../images/green_button.png);*/
   background-position: bottom center;
   background-repeat: no-repeat;
   background-color: #fff;
   border: 1px solid #aaa;
   margin: 0px 0px 10px 0px;
-  padding: 0px 0px 30px 0px;
+  padding: 0px 0px 35px 0px;
 }
 
 
@@ -274,7 +266,7 @@ acronym {
 .fileBox {
     float: left;
     border: 1px dotted #888;
-    height:150px;
+    height:180px;
     padding: 0.5em;
-    margin: 1em;
+    margin: 0.25em;
 }

@@ -29,6 +29,7 @@
   </bean>
 
   <bean name="/file_upload" class="com.amb.wikishare.controller.FileUploadController">
+    <property name="commandName" value="wikiFile" />
     <property name="commandClass" value="com.amb.wikishare.domain.WikiFile" />
     <property name="fileDao" ref="fileDAO" />
     <property name="formView" value="files" />
@@ -135,15 +136,18 @@
   <bean id="jdbcNavigationDAO" class="com.amb.wikishare.dao.JdbcNavigationDAO">
     <property name="dataSource" ref="dataSource" />
   </bean>
+
   <bean id="fileDAO" class="com.amb.wikishare.dao.FileDAO">
-    <property name="filePath"
-      value="/Users/amusial/tomcat/webapps/WikiShare/public/files" />
-    <property name="fileTypes"
-      value="jpg,jpeg,gif,ico,png,txt,doc,pdf,xls,csv" />
+    <property name="wikiShareRootPath"
+      value="/Users/amusial/tomcat/webapps/WikiShare" />
+    <!-- property name="fileTypes"
+      value="jpg,jpeg,gif,ico,png,txt,doc,pdf,xls,csv,zip,rar" /-->
   </bean>
+
   <bean id="jdbcUserDAO" class="com.amb.wikishare.dao.JdbcUserDAO">
     <property name="dataSource" ref="dataSource" />
   </bean>
+
   <bean id="jdbcWikipageDAO"
     class="com.amb.wikishare.dao.JdbcWikipageDAO">
     <property name="dataSource" ref="dataSource" />

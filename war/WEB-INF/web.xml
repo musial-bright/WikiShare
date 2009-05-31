@@ -67,7 +67,7 @@
         </init-param>
         <init-param>
           <param-name>pass_url</param-name>
-          <param-value>(/WikiShare/public/files/[a-zA-Z0-9-_]*.jpg)|(/WikiShare/public/wiki/[a-zA-Z0-9/-_.]*)|(/WikiShare/wiki/frontpage)|(/WikiShare/wiki/login)</param-value>
+          <param-value>(/WikiShare/public/[a-zA-Z0-9/-_.]*)|(/WikiShare/wiki/frontpage)</param-value>
         </init-param>
     </filter>
 

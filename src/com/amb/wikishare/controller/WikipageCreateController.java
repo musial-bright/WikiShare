@@ -66,7 +66,7 @@ public class WikipageCreateController extends SimpleFormController {
                 int id = Integer.parseInt(WikiShareHelper.getLastUriResource(request));
                 wikipage = wpService.getPage(id);
                 wikipage.setUser(user);
-                wikipage.setFiles(fileDao.getFiles());
+                //wikipage.setFiles(fileDao.getFiles());
 
             } catch(Exception e) {
                 logger.debug("[formBackingObject] " + e);

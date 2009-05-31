@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jstl.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-webmvc.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-webmvc.jar" sourcepath="/Users/amusial/Development/frameworks/spring-framework-2.5.1/lib"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/standard.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/junit-3.8.2.jar"/>
