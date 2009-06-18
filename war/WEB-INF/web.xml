@@ -21,67 +21,65 @@
   </listener>
 
   <filter>
-        <filter-name>AuthenticationFilter</filter-name>
-        <filter-class>com.amb.wikishare.filter.AuthenticationFilter</filter-class>
-        <init-param>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.amb.wikishare.filter.AuthenticationFilter</filter-class>
+    <init-param>
       <param-name>loginPage</param-name>
       <param-value>/wiki/frontpage</param-value>
-        </init-param>
-        <init-param>
+    </init-param>
+    <init-param>
+      <param-name>errorPage</param-name>
+      <param-value>/public/global/error404.jsp</param-value>
+    </init-param>
+    <init-param>
       <param-name>rootname</param-name>
       <param-value>root</param-value>
-        </init-param>
-        <init-param>
+    </init-param>
+    <init-param>
       <param-name>password</param-name>
       <param-value>changeme</param-value>
-        </init-param>
-        <!-- begin HSQL DB -->
-        <!--
-        <init-param>
-      <param-name>db_driver</param-name>
-      <param-value>org.hsqldb.jdbcDriver</param-value>
-        </init-param>
-        <init-param>
-      <param-name>db_server</param-name>
+    </init-param>
+    <!-- begin HSQL DB -->
+    <!--
+      <init-param> <param-name>db_driver</param-name>
+      <param-value>org.hsqldb.jdbcDriver</param-value> </init-param>
+      <init-param> <param-name>db_server</param-name>
       <param-value>jdbc:hsqldb:hsql://localhost/wikishare</param-value>
-        </init-param>
-         -->
-         <!-- end HSQL DB -->
-         <!-- start MySQL DB -->
-         <init-param>
-            <param-name>db_driver</param-name>
-            <param-value>com.mysql.jdbc.Driver</param-value>
-        </init-param>
-        <init-param>
-            <param-name>db_server</param-name>
-            <param-value>jdbc:mysql://localhost/wikishare</param-value>
-        </init-param>
-        <!-- end MySQL DB -->
-        <init-param>
+      </init-param>
+    -->
+    <!-- end HSQL DB -->
+    <!-- start MySQL DB -->
+    <init-param>
+      <param-name>db_driver</param-name>
+      <param-value>com.mysql.jdbc.Driver</param-value>
+    </init-param>
+    <init-param>
+      <param-name>db_server</param-name>
+      <param-value>jdbc:mysql://localhost/wikishare</param-value>
+    </init-param>
+    <!-- end MySQL DB -->
+    <init-param>
       <param-name>db_user</param-name>
       <param-value>root</param-value>
-        </init-param>
-        <init-param>
+    </init-param>
+    <init-param>
       <param-name>db_password</param-name>
       <param-value></param-value>
-        </init-param>
-        <init-param>
-          <param-name>pass_url</param-name>
-          <param-value>(/WikiShare/public/[a-zA-Z0-9/-_.]*)|(/WikiShare/wiki/frontpage)</param-value>
-        </init-param>
-    </filter>
+    </init-param>
+    <init-param>
+      <param-name>pass_url</param-name>
+      <param-value>(/WikiShare/public/(.+?))|(/WikiShare/wiki/frontpage)</param-value>
+    </init-param>
+  </filter>
 
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-
   <servlet>
     <servlet-name>WikiShare</servlet-name>
-    <servlet-class>
-      org.springframework.web.servlet.DispatcherServlet
-    </servlet-class>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
@@ -90,28 +88,16 @@
     <url-pattern>/wiki/*</url-pattern>
   </servlet-mapping>
 
-
   <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
-
 
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WikiShare/public/global/error500.jsp</location>
     </error-page>
-    <error-page>
-        <error-code>401</error-code>
-        <location>/public/global/error401.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>403</error-code>
-        <location>/public/global/error403.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/public/global/error404.jsp</location>
-    </error-page>
+
 
   <jsp-config>
     <taglib>

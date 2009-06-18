@@ -51,7 +51,7 @@
             <a href="<%= W_PREFIX %>wikipages">Wikipages</a> |
             <a href="<%= W_PREFIX %>files">Files</a> |
             <a href="<%= W_PREFIX %>users">Users</a>
-            &nbsp;&nbsp;&nbsp; <a style="padding:0;" href="<%= W_PREFIX %>wikipages?action=logout">logout</a>
+            &nbsp;&nbsp;&nbsp; <a style="padding:0;" href="<%= W_PREFIX %>frontpage?action=logout">logout</a>
             <%= USER.getUsername() %>
           <% } %>
         </p>

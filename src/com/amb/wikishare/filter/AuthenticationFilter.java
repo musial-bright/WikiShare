@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.*;
@@ -29,6 +31,8 @@ public class AuthenticationFilter implements Filter {
     private String rootName = null;
     private String rootPassword = null;
     private String passUrl = "";
+    private String loginPage = "";
+    private String errorPage = "";
 
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
     JdbcUserDAO dao = new JdbcUserDAO();
@@ -38,6 +42,8 @@ public class AuthenticationFilter implements Filter {
         this.rootName = config.getInitParameter("rootname");
         this.rootPassword = config.getInitParameter("password");
         this.passUrl = config.getInitParameter("pass_url");
+        this.loginPage = config.getInitParameter("loginPage");
+        this.errorPage = config.getInitParameter("errorPage");
         logger.debug("Root user name: " + rootName);
 
         dataSource.setDriverClassName(config.getInitParameter("db_driver"));
@@ -54,54 +60,36 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
 
-        handleLoginOrLogout(request, response);
-
-        chain.doFilter(request, response);
-    }
-
-    protected void handleLoginOrLogout(
-            ServletRequest request,
-            ServletResponse response) throws ServletException, IOException {
-
-        if( !(request instanceof HttpServletRequest) ) {
-            return;
-        }
-
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        //String uri = httpRequest.getRequestURI();
+        HttpServletRequest httpRequest = (HttpServletRequest)request;
+        HttpServletResponse httpResponse = (HttpServletResponse)response;
+        ResponseWrapper responseWrapper = new ResponseWrapper(httpResponse);
         HttpSession session = httpRequest.getSession();
 
         // Get user data
         User user = (User) session.getAttribute(WikiShareHelper.USER);
 
+        // Try to logout
+        if (user != null && logout(request,session)) {
+            RequestDispatcher rd = config.getServletContext().
+                getRequestDispatcher(config.getInitParameter("loginPage"));
+                rd.forward(request, responseWrapper);
+        }
 
-        boolean authenticated = authenticate(request,session);
-
-        // Authenticate or Forward to login page
-        if ( user == null && !authenticated ) {
-
-            logger.debug("You are not logged in -> " +
-                    "redirecting to the login page!");
-
+        // Try to authenticate
+        if ( user == null && !authenticate(request,session) ) {
             if( !passRequestedUrl(httpRequest) ) {
 
                 RequestDispatcher rd =
-                    config.getServletContext().getRequestDispatcher(
-                            config.getInitParameter("loginPage"));
+                    config.getServletContext().getRequestDispatcher(errorPage);
 
-                rd.forward(request, response);
-                return;
+                logger.debug("You are not logged in -> " +
+                    "redirecting to <"+ errorPage + ">");
+
+              rd.forward(request, responseWrapper);
             }
         }
 
-        boolean loggedOut = logout(request,session);
-
-        if( loggedOut ) {
-            // Redirect after logout
-            RequestDispatcher rd = config.getServletContext().
-                getRequestDispatcher(config.getInitParameter("loginPage"));
-                rd.forward(request, response);
-        }
+        chain.doFilter(request, responseWrapper);
     }
 
     private boolean authenticate(ServletRequest request, HttpSession session) {
@@ -173,7 +161,7 @@ public class AuthenticationFilter implements Filter {
         return false;
     }
 
-    private boolean passRequestedUrl(HttpServletRequest request) {
+    protected boolean passRequestedUrl(HttpServletRequest request) {
         if(request.getRequestURI().matches(passUrl)) {
             logger.debug("Passing url " + request.getRequestURI());
             return true;
@@ -182,7 +170,35 @@ public class AuthenticationFilter implements Filter {
         return false;
     }
 
+    public void setPassUrl(String passUrl) {
+        this.passUrl = passUrl;
+    }
+
+
     public void destroy() {
         // TODO Auto-generated method stub
+    }
+
+
+    class ResponseWrapper extends HttpServletResponseWrapper {
+
+        public ResponseWrapper(HttpServletResponse response) {
+            super(response);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public void sendError(int sc) throws IOException {
+            // TODO Auto-generated method stub
+            super.sendError(sc);
+        }
+
+        @Override
+        public void setStatus(int sc) {
+            // TODO Auto-generated method stub
+            super.setStatus(sc);
+        }
+
+
     }
 }
