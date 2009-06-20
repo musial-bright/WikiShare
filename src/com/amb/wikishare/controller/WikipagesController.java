@@ -17,9 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.User;
 import com.amb.wikishare.domain.Wikipage;
-import com.amb.wikishare.helper.WikiShareHelper;
 import com.amb.wikishare.service.WikipageService;
 
 

@@ -6,6 +6,7 @@ import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -15,12 +16,16 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.amb.wikishare.app.BeanFactory;
+import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.dao.JdbcUserDAO;
 import com.amb.wikishare.domain.User;
-import com.amb.wikishare.helper.WikiShareHelper;
-
 
 
 public class AuthenticationFilter implements Filter {
@@ -34,36 +39,42 @@ public class AuthenticationFilter implements Filter {
     private String loginPage = "";
     private String errorPage = "";
 
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    DriverManagerDataSource dataSource;
     JdbcUserDAO dao = new JdbcUserDAO();
 
-    public void init(FilterConfig config) throws ServletException {
+    public void init(FilterConfig config) throws IllegalStateException {
         this.config = config;
         this.rootName = config.getInitParameter("rootname");
         this.rootPassword = config.getInitParameter("password");
         this.passUrl = config.getInitParameter("pass_url");
         this.loginPage = config.getInitParameter("loginPage");
         this.errorPage = config.getInitParameter("errorPage");
-        logger.debug("Root user name: " + rootName);
-
+/*
+        // Acces the data source using init params
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(config.getInitParameter("db_driver"));
         dataSource.setUrl(config.getInitParameter("db_server"));
         dataSource.setUsername(config.getInitParameter("db_user"));
         dataSource.setPassword(config.getInitParameter("db_password"));
+*/
+
+        dataSource = (DriverManagerDataSource) BeanFactory.getBean(
+                config.getServletContext(),
+                "dataSource");
+
         dao.setDataSource(dataSource);
     }
 
     /**
-     * Usage: To authenticate send 'username' and 'password' in
-     * the request parameter.
+     * Authenticate user against the db user table or the root user in web.xml.
      */
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         HttpServletResponse httpResponse = (HttpServletResponse)response;
-        ResponseWrapper responseWrapper = new ResponseWrapper(httpResponse);
         HttpSession session = httpRequest.getSession();
+
 
         // Get user data
         User user = (User) session.getAttribute(WikiShareHelper.USER);
@@ -72,7 +83,7 @@ public class AuthenticationFilter implements Filter {
         if (user != null && logout(request,session)) {
             RequestDispatcher rd = config.getServletContext().
                 getRequestDispatcher(config.getInitParameter("loginPage"));
-                rd.forward(request, responseWrapper);
+                rd.forward(request, response);
         }
 
         // Try to authenticate
@@ -85,11 +96,11 @@ public class AuthenticationFilter implements Filter {
                 logger.debug("You are not logged in -> " +
                     "redirecting to <"+ errorPage + ">");
 
-              rd.forward(request, responseWrapper);
+              rd.forward(request, response);
             }
         }
 
-        chain.doFilter(request, responseWrapper);
+        chain.doFilter(request, response);
     }
 
     private boolean authenticate(ServletRequest request, HttpSession session) {
@@ -161,6 +172,11 @@ public class AuthenticationFilter implements Filter {
         return false;
     }
 
+    /**
+     * Check requested resource restrictions.
+     * @param request
+     * @return boolean
+     */
     protected boolean passRequestedUrl(HttpServletRequest request) {
         if(request.getRequestURI().matches(passUrl)) {
             logger.debug("Passing url " + request.getRequestURI());
@@ -177,28 +193,5 @@ public class AuthenticationFilter implements Filter {
 
     public void destroy() {
         // TODO Auto-generated method stub
-    }
-
-
-    class ResponseWrapper extends HttpServletResponseWrapper {
-
-        public ResponseWrapper(HttpServletResponse response) {
-            super(response);
-            // TODO Auto-generated constructor stub
-        }
-
-        @Override
-        public void sendError(int sc) throws IOException {
-            // TODO Auto-generated method stub
-            super.sendError(sc);
-        }
-
-        @Override
-        public void setStatus(int sc) {
-            // TODO Auto-generated method stub
-            super.setStatus(sc);
-        }
-
-
     }
 }

@@ -1,6 +1,6 @@
 package com.amb.wikishare;
 
-import com.amb.wikishare.helper.Security;
+import com.amb.wikishare.app.Security;
 
 import junit.framework.TestCase;
 

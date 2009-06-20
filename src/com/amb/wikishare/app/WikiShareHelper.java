@@ -1,6 +1,11 @@
-package com.amb.wikishare.helper;
+package com.amb.wikishare.app;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class WikiShareHelper {
 
@@ -21,7 +26,12 @@ public class WikiShareHelper {
     public static final String CLIPBOARD = "clipboard";
 
 
-    public static String getWabappContext(HttpServletRequest request) {
+    /**
+     * Get webapp path which is something like /WikiShare/wiki/
+     * @param request
+     * @return something like /WikiShare/wiki/
+     */
+    public static String getWabappPath(HttpServletRequest request) {
         return request.getContextPath() +
             request.getSession().getServletContext()
                 .getInitParameter("webappPrefix");
@@ -52,4 +62,5 @@ public class WikiShareHelper {
 
         return pageIdOrSignature;
     }
+
 }

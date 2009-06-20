@@ -12,12 +12,21 @@
   </context-param>
 
   <context-param>
-  <param-name>log4jConfigLocation</param-name>
-  <param-value>/WEB-INF/log4j.xml</param-value>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>/WEB-INF/log4j.xml</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <!-- use spaces between locations if more than one is used -->
+    <param-value>/WEB-INF/WikiShare-servlet.xml</param-value>
   </context-param>
 
   <listener>
     <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
   <filter>
@@ -38,33 +47,6 @@
     <init-param>
       <param-name>password</param-name>
       <param-value>changeme</param-value>
-    </init-param>
-    <!-- begin HSQL DB -->
-    <!--
-      <init-param> <param-name>db_driver</param-name>
-      <param-value>org.hsqldb.jdbcDriver</param-value> </init-param>
-      <init-param> <param-name>db_server</param-name>
-      <param-value>jdbc:hsqldb:hsql://localhost/wikishare</param-value>
-      </init-param>
-    -->
-    <!-- end HSQL DB -->
-    <!-- start MySQL DB -->
-    <init-param>
-      <param-name>db_driver</param-name>
-      <param-value>com.mysql.jdbc.Driver</param-value>
-    </init-param>
-    <init-param>
-      <param-name>db_server</param-name>
-      <param-value>jdbc:mysql://localhost/wikishare</param-value>
-    </init-param>
-    <!-- end MySQL DB -->
-    <init-param>
-      <param-name>db_user</param-name>
-      <param-value>root</param-value>
-    </init-param>
-    <init-param>
-      <param-name>db_password</param-name>
-      <param-value></param-value>
     </init-param>
     <init-param>
       <param-name>pass_url</param-name>

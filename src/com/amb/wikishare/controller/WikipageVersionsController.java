@@ -14,8 +14,8 @@ import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.amb.wikishare.service.WikipageService;
+import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Wikipage;
-import com.amb.wikishare.helper.WikiShareHelper;
 
 public class WikipageVersionsController implements Controller {
 

@@ -9,8 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Navigation;
-import com.amb.wikishare.helper.WikiShareHelper;
 import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.NavigationService;
 

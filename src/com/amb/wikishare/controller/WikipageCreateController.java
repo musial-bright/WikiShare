@@ -9,10 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.dao.FileDAO;
 import com.amb.wikishare.domain.User;
 import com.amb.wikishare.domain.Wikipage;
-import com.amb.wikishare.helper.WikiShareHelper;
 import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.WikipageService;
 import com.amb.wikishare.service.UserService;
@@ -50,7 +50,7 @@ public class WikipageCreateController extends SimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
 
         // set app context for later redirection such as /WikiShare/wiki/
-        appContext = WikiShareHelper.getWabappContext(request);
+        appContext = WikiShareHelper.getWabappPath(request);
 
         Wikipage wikipage = new Wikipage();
 

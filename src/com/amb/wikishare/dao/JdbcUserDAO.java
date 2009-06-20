@@ -13,8 +13,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper; 
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport; 
 
+import com.amb.wikishare.app.Security;
 import com.amb.wikishare.domain.User;
-import com.amb.wikishare.helper.Security;
 import com.amb.wikishare.service.UserInterface;
 
 

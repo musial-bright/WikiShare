@@ -12,9 +12,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Navigation;
 import com.amb.wikishare.domain.Wikipage;
-import com.amb.wikishare.helper.WikiShareHelper;
 import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.NavigationService;
 import com.amb.wikishare.service.WikipageService;
@@ -84,7 +84,7 @@ public class WikipageController implements Controller {
         }
 
         navigationService.setWebappPrefix(
-                WikiShareHelper.getWabappContext(request));
+                WikiShareHelper.getWabappPath(request));
 
         model.put("navigationList", navigationService.getNavigationsList());
     }

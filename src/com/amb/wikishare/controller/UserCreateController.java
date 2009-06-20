@@ -9,9 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.User;
 import com.amb.wikishare.service.UserService;
-import com.amb.wikishare.helper.WikiShareHelper;
 
 public class UserCreateController extends SimpleFormController {
 
@@ -36,7 +36,7 @@ public class UserCreateController extends SimpleFormController {
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
 
-        appContext = WikiShareHelper.getWabappContext(request);
+        appContext = WikiShareHelper.getWabappPath(request);
 
         User user = new User();
 

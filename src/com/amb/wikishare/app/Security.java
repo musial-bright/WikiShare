@@ -1,4 +1,4 @@
-package com.amb.wikishare.helper;
+package com.amb.wikishare.app;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

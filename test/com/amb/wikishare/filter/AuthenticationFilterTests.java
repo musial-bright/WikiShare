@@ -1,7 +1,7 @@
 package com.amb.wikishare.filter;
 
 import junit.framework.TestCase;
-import com.amb.wikishare.mock.*;
+import com.amb.wikishare.mock.HttpServletRequestMock;
 
 public class AuthenticationFilterTests extends TestCase {
 

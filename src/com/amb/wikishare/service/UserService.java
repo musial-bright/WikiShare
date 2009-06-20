@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.dao.JdbcUserDAO;
 import com.amb.wikishare.domain.User;
-import com.amb.wikishare.helper.WikiShareHelper;
 
 /**
  * User service provides user management (CRUD) and 

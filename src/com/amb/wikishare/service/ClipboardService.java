@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.amb.wikishare.helper.WikiShareHelper;
+import com.amb.wikishare.app.WikiShareHelper;
 
 /**
  * Clipboard provides copy & paste capabilities for
