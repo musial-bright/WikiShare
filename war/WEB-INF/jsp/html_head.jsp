@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@page import="com.amb.wikishare.domain.User"%>
-<%@page import="com.amb.wikishare.helper.WikiShareHelper"%>
+<%@page import="com.amb.wikishare.app.WikiShareHelper"%>
 <%@page import="com.amb.wikishare.service.UserService"%>
 <%
   // Remote user representaion

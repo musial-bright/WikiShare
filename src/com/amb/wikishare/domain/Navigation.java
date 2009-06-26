@@ -2,67 +2,65 @@ package com.amb.wikishare.domain;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.amb.wikishare.service.ClipboardService;
 
+/**
+ * DB navigation persistence object.
+ * @author amusial
+ */
+@Entity
+@Table(name = "navigations")
 public class Navigation {
 
-	private int id = -1;
-	private String name;
-	private String content;
-	private ClipboardService clipboard = null;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
+    protected Integer id = -1;
 
-	private boolean updateFlag = false;
-	
-	public Navigation() {}
-	
-	public Navigation(String name, String content) {
-		this.name = name;
-		this.content = content;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+    @Column(name = "name", unique = true)
+    protected String name;
 
-	public boolean getUpdateFlag() {
-		return updateFlag;
-	}
+    @Column(name = "content")
+    protected String content;
 
-	public void setUpdateFlag(boolean updateFlag) {
-		this.updateFlag = updateFlag;
-	}
-	
-	public ClipboardService getClipboard() {
-		return clipboard;
-	}
+    public Navigation() {}
 
-	public void setClipboard(ClipboardService clipboard) {
-		this.clipboard = clipboard;
-	}	
-	
-	public void setClipboardItems(List<String> clipboardItems) {
-		this.clipboard.clearClipboard();
-		for(String item : clipboardItems) {
-			clipboard.addClipboard(item);
-		}
-	}
-	
-	public List<String> getClipboardItems() {
-		return clipboard.getClipboardList();
-	}
+    public Navigation(String name, String content) {
+        this.name = name;
+        this.content = content;
+    }
+
+    public Navigation(NavigationFormBacking navigationForm) {
+        this.id = navigationForm.getId();
+        this.name = navigationForm.getName();
+        this.content = navigationForm.getContent();
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getContent() {
+        return content;
+    }
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+
 }

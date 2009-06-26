@@ -4,7 +4,7 @@
 <log4j:configuration>
 
     <appender name="WIKI_LOG" class="org.apache.log4j.RollingFileAppender">
-		   <param name="File" value="/Users/amusial/tomcat/logs/wikishare.log"/>
+       <param name="File" value="/Users/amusial/tomcat/logs/wikishare.log"/>
            <param name="Append" value="true"/>
            <param name="ImmediateFlush" value="true"/>
            <param name="MaxFileSize" value="100MB"/>
@@ -28,7 +28,12 @@
         <priority value="info"/>
         <appender-ref ref="WIKI_LOG"/>
     </category>
-    
+
+    <category name="org.hibernate" additivity="false">
+        <priority value="error"/>
+        <appender-ref ref="WIKI_LOG"/>
+    </category>
+
     <root>
         <priority value="info"/>
         <appender-ref ref="WIKI_LOG"/>

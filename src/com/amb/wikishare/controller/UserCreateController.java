@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.User;
+import com.amb.wikishare.domain.UserForm;
 import com.amb.wikishare.service.UserService;
 
 public class UserCreateController extends SimpleFormController {
@@ -23,10 +24,11 @@ public class UserCreateController extends SimpleFormController {
     public ModelAndView onSubmit(Object command) {
 
         try {
-            if(((User)command).getUpdateUserFlag()) {
-                userService.updateUser((User)command);
+            User user = new User((UserForm)command);
+            if(((UserForm)command).getUpdateUserFlag()) {
+                userService.updateUser(user);
             } else {
-                userService.saveUser((User) command);
+                userService.saveUser(user);
             }
         }catch(Exception e) {
             logger.error("onSubmit Exception: " +e);
@@ -38,7 +40,7 @@ public class UserCreateController extends SimpleFormController {
 
         appContext = WikiShareHelper.getWabappPath(request);
 
-        User user = new User();
+        UserForm userForm = new UserForm();
 
         if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
                 request.getParameter(WikiShareHelper.ACTION_PARAM)
@@ -49,13 +51,13 @@ public class UserCreateController extends SimpleFormController {
                 int id = Integer.parseInt(
                         WikiShareHelper.getLastUriResource(request));
 
-                user = userService.getUserWithEmptyPassword(id);
+                userForm = new UserForm(userService.getUserWithEmptyPassword(id));
             } catch(Exception e) {
                 logger.error("User Error: " + e);
             }
-            user.setUpdateUserFlag(true);
+            userForm.setUpdateUserFlag(true);
         }
-        return user;
+        return userForm;
     }
 
     public void setWikipageService (UserService userService) {

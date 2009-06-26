@@ -11,55 +11,56 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Navigation;
+import com.amb.wikishare.domain.NavigationFormBacking;
 import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.NavigationService;
 
 
 public class NavigationCreateController extends SimpleFormController {
 
-	protected final Log logger = LogFactory.getLog(getClass()); 
-	private NavigationService navigationService;
-	
-	@Override
-	protected ModelAndView onSubmit(Object command) throws Exception {
-		
-		try {
-			Navigation navigation = (Navigation)command;
-			if(navigation.getUpdateFlag() == false) {
-				navigationService.saveNavigation(navigation);
-			} else {
-				navigationService.updateNavigation(navigation);
-			}
-		} catch(Exception e) {
-			logger.error("Error while saving navigation: " + e);
-		}
-		
-		return new ModelAndView(new RedirectView(getSuccessView()));
-	}
+    protected final Log logger = LogFactory.getLog(getClass());
+    private NavigationService navigationService;
 
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		Navigation navigation = new Navigation();
+    @Override
+    protected ModelAndView onSubmit(Object command) throws Exception {
 
-		// Extra case: PAGE Update
-		if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
-				request.getParameter(WikiShareHelper.ACTION_PARAM).equals(WikiShareHelper.UPDATE_PARAM)) {
-			try{
-				int id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
-				navigation = navigationService.getNavigation(id);
-				navigation.setUpdateFlag(true);
-			} catch(Exception e) {
-				logger.error("Navigation load Error: " + e);
-			}
-		}
+        try {
+            Navigation navigation = new Navigation((NavigationFormBacking)command);
+            if(((NavigationFormBacking)command).getUpdateFlag() == false) {
+                navigationService.saveNavigation(navigation);
+            } else {
+                navigationService.updateNavigation(navigation);
+            }
+        } catch(Exception e) {
+            logger.error("Error while saving navigation: " + e);
+        }
 
-		ClipboardService clipboard = new ClipboardService(request);
-		navigation.setClipboard(clipboard);
-		
-		return navigation;
-	}
+        return new ModelAndView(new RedirectView(getSuccessView()));
+    }
 
-	public void setNavigationService(NavigationService navigationService) {
-		this.navigationService = navigationService;
-	}
-		
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+        NavigationFormBacking navigationFlag = new NavigationFormBacking();
+
+        // Extra case: PAGE Update
+        if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
+                request.getParameter(WikiShareHelper.ACTION_PARAM).equals(WikiShareHelper.UPDATE_PARAM)) {
+            try{
+                int id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
+                navigationFlag = new NavigationFormBacking(navigationService.getNavigation(id));
+                navigationFlag.setUpdateFlag(true);
+            } catch(Exception e) {
+                logger.error("Navigation load Error: " + e);
+            }
+        }
+
+        ClipboardService clipboard = new ClipboardService(request);
+        navigationFlag.setClipboard(clipboard);
+
+        return navigationFlag;
+    }
+
+    public void setNavigationService(NavigationService navigationService) {
+        this.navigationService = navigationService;
+    }
+
 }

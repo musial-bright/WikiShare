@@ -17,7 +17,7 @@
     <property name="sessionForm" value="true" />
     <property name="commandName" value="navigation" />
     <property name="commandClass"
-      value="com.amb.wikishare.domain.Navigation" />
+      value="com.amb.wikishare.domain.NavigationFormBacking" />
     <!--
       <property name="validator">
       <bean class="springapp.service.PriceIncreaseValidator" />
@@ -59,7 +59,7 @@
     <property name="sessionForm" value="true" />
     <property name="commandName" value="user" />
     <property name="commandClass"
-      value="com.amb.wikishare.domain.User" />
+      value="com.amb.wikishare.domain.UserForm" />
     <!--
       <property name="validator">
       <bean class="springapp.service.PriceIncreaseValidator" />
@@ -70,7 +70,7 @@
     <property name="wikipageService" ref="userService" />
   </bean>
 
-  <bean name="/users"
+  <bean name="/users**/**"
     class="com.amb.wikishare.controller.UsersController">
     <property name="userService" ref="userService" />
   </bean>
@@ -133,20 +133,14 @@
 
 
 
-  <bean id="jdbcNavigationDAO" class="com.amb.wikishare.dao.JdbcNavigationDAO">
-    <property name="dataSource" ref="dataSource" />
-  </bean>
+  <bean id="jdbcNavigationDAO" class="com.amb.wikishare.dao.JdbcNavigationDAO"/>
 
   <bean id="fileDAO" class="com.amb.wikishare.dao.FileDAO">
-    <property name="wikiShareRootPath"
-      value="/Users/amusial/tomcat/webapps/WikiShare" />
-    <!-- property name="fileTypes"
-      value="jpg,jpeg,gif,ico,png,txt,doc,pdf,xls,csv,zip,rar" /-->
+    <property name="wikiShareRootPath" value="/Users/amusial/tomcat/webapps/WikiShare" />
+    <!-- property name="fileTypes" value="jpg,jpeg,gif,ico,png,txt,doc,pdf,xls,csv,zip,rar" /-->
   </bean>
 
-  <bean id="jdbcUserDAO" class="com.amb.wikishare.dao.JdbcUserDAO">
-    <property name="dataSource" ref="dataSource" />
-  </bean>
+  <bean id="jdbcUserDAO" class="com.amb.wikishare.dao.JdbcUserDAO"/>
 
   <bean id="jdbcWikipageDAO"
     class="com.amb.wikishare.dao.JdbcWikipageDAO">

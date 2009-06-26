@@ -80,7 +80,8 @@
   <target name="clean" description="Clean output directories">
     <delete>
       <fileset dir="${build.dir}">
-        <include name="**/*.class"/>
+        <exclude name="*.xml"/>
+        <exclude name="*.properties"/>
       </fileset>
     </delete>
   </target>

@@ -23,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.amb.wikishare.app.BeanFactory;
+import com.amb.wikishare.app.Security;
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.dao.JdbcUserDAO;
 import com.amb.wikishare.domain.User;
@@ -32,6 +33,8 @@ public class AuthenticationFilter implements Filter {
 
     Log logger = LogFactory.getLog(this.getClass());
 
+    private Security security = new Security();
+
     private FilterConfig config;
     private String rootName = null;
     private String rootPassword = null;
@@ -39,7 +42,7 @@ public class AuthenticationFilter implements Filter {
     private String loginPage = "";
     private String errorPage = "";
 
-    DriverManagerDataSource dataSource;
+    //DriverManagerDataSource dataSource;
     JdbcUserDAO dao = new JdbcUserDAO();
 
     public void init(FilterConfig config) throws IllegalStateException {
@@ -56,13 +59,14 @@ public class AuthenticationFilter implements Filter {
         dataSource.setUrl(config.getInitParameter("db_server"));
         dataSource.setUsername(config.getInitParameter("db_user"));
         dataSource.setPassword(config.getInitParameter("db_password"));
-*/
+
 
         dataSource = (DriverManagerDataSource) BeanFactory.getBean(
                 config.getServletContext(),
                 "dataSource");
 
         dao.setDataSource(dataSource);
+*/
     }
 
     /**
@@ -123,14 +127,15 @@ public class AuthenticationFilter implements Filter {
         // authentication
         String username = request.getParameter(WikiShareHelper.USERNAME);
         String password = request.getParameter(WikiShareHelper.PASSWORD);
-        User user = new User();
+
         try{
-            logger.debug("Try to log in : " + username + "/" + password);
+            logger.debug("Try to log in : " + username);
 
             // Root user login
             if(	this.rootName.equals(username) &&
                 this.rootPassword.equals(password)) {
 
+                User user = new User();
                 user.setUsername(username);
 
                 session.setAttribute(WikiShareHelper.USER, user);
@@ -139,16 +144,14 @@ public class AuthenticationFilter implements Filter {
             }
 
             // Regular user login against User-DAO
-            user.setUsername(username);
-            user.setPassword(password);
-            User loginUser = dao.getUserWithId(user);
+            User loginUser = dao.getUser(username, security.encript(password));
             if(loginUser != null) {
                 session.setAttribute(WikiShareHelper.USER, loginUser);
-                logger.info("Authenticating as : '" + user.getUsername() + "'");
+                logger.info("Authenticating as : '" + username + "'");
                 return true;
             }
         } catch(Exception e) {
-            logger.error("Authentication failed: " + e);
+            logger.error("Authentication failed: ", e);
         }
 
         return false;
@@ -167,7 +170,7 @@ public class AuthenticationFilter implements Filter {
                 return true;
             }
         } catch(Exception e) {
-            logger.error("Logout faild: " + e);
+            logger.error("Logout faild: ", e);
         }
         return false;
     }
