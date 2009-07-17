@@ -38,15 +38,10 @@ in non-commercial and commercial projects.
 
 3.2 WikiShare configuration:
 3.2.1 Configure web.xml:
- - AuthenticationFilter: Depending which DB you use uncomment
-   the AuthenticationFilter DB section (MySQL is default).
  - Set db user and password.
  - AuthenticationFilter: Change root password from 'changeme' to secure password.
 
 3.2.2 Configure WikiShare-servlet.xml:
- - dataSource bean: uncomment the DB datasource (MySQL is default) depending on
-   database you will prefer.
- - Set db user and password.
  - fileDAO bean: set 'filePath' property to the WikiShare files folder.
    Example: /opt/tomcat/wabapps/WikiShare/public/files
  - WIKI_LOG appender: Setup the log file for WikiShare in the File property.
@@ -65,4 +60,7 @@ in non-commercial and commercial projects.
  - Run wikishareStartDB.sh
  - Run hsql-install.sh or hsql-install.bat
 
-Now goto http://localhost:8080/WikiShare
+3.3.3 Set WikiShare db connection
+ - Uncomment MySQL or HSQL section in WikiSahre/WEB-INF/classes/hibernate.cfg.xml
+
+Start tomcat and goto http://localhost:8080/WikiShare
