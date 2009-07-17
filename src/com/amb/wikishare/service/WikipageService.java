@@ -33,37 +33,33 @@ public class WikipageService implements WikipageInterface {
         this.userDao = userDao;
     }
 
-    public List<Wikipage> getWikipagesList(
+    public List<PageFormBackingObject> getWikipagesList(
             boolean showActivePagesOnly,
             boolean showFrontPagesOnly) throws Exception {
 
-        List<Wikipage> wikipages =
+        List<Page> wikipages =
             wikipageDao.getWikipagesList(
                     showActivePagesOnly,
                     showFrontPagesOnly);
 
         // Get version amount for wiki pages
-        List<Wikipage> wikipagesWithPageAmount = new ArrayList<Wikipage>();
-        for(Wikipage wikipage : wikipages) {
-            wikipage.setVersionAmount(
-                wikipageDao.getWikipageVersionsAmount(wikipage.getSignature())
-            );
-            try {
-                wikipage.setUser(userDao.getUser(wikipage.getUser().getId()));
-            } catch (Exception e) {}
-            wikipagesWithPageAmount.add(wikipage);
+        List<PageFormBackingObject> wikipagesWithPageAmount = new ArrayList<PageFormBackingObject>();
+        for(Page wikipage : wikipages) {
+            PageFormBackingObject wikipageForm = new PageFormBackingObject(wikipage);
+            wikipageForm.setVersionAmount(wikipageDao.getWikipageVersionsAmount(wikipage.getSignature()));
+            wikipagesWithPageAmount.add(wikipageForm);
         }
 
         return wikipagesWithPageAmount;
     }
 
-    public List<Wikipage> getWikipageVersionsList(String pageIdOrSignature) throws Exception {
+    public List<Page> getWikipageVersionsList(String pageIdOrSignature) throws Exception {
 
         String signature = pageIdOrSignature;
 
         if(!pageIdOrSignature.startsWith("s")) {
             int pageId = Integer.parseInt(pageIdOrSignature);
-            Wikipage page = getPage(pageId);
+            Page page = getPage(pageId);
             signature = page.getSignature();
         }
         logger.debug("[getWikipageVersionsList] signature=" + signature);
@@ -75,15 +71,15 @@ public class WikipageService implements WikipageInterface {
         return wikipageDao.getWikipageVersionsAmount(signature);
     }
 
-    public Wikipage getPage(int id) throws Exception {
+    public Page getPage(int id) throws Exception {
         return wikipageDao.getPage(id);
     }
 
-    public Wikipage getActivePageBySignature(String signature) {
+    public Page getActivePageBySignature(String signature) {
         return wikipageDao.getActivePageBySignature(signature);
     }
 
-    public void saveWikipage(Wikipage wikipage) throws Exception {
+    public void saveWikipage(Page wikipage) throws Exception {
         if(wikipage != null && wikipage.getTitle() != null && wikipage.getTitle() != "") {
             wikipageDao.saveWikipage(wikipage);
         } else {
@@ -91,7 +87,7 @@ public class WikipageService implements WikipageInterface {
         }
     }
 
-    public void dropWikipage(Wikipage wikipage) throws Exception {
+    public void dropWikipage(Page wikipage) throws Exception {
         if(wikipage != null && wikipage.getId() != -1) {
             wikipageDao.dropWikipage(wikipage);
         } else {
@@ -100,7 +96,7 @@ public class WikipageService implements WikipageInterface {
 
     }
 
-    public void updateWikipage(Wikipage wikipage) throws Exception {
+    public void updateWikipage(Page wikipage) throws Exception {
         if(wikipage != null && wikipage.getId() != -1) {
             wikipageDao.updateWikipage(wikipage);
         } else {
@@ -114,10 +110,10 @@ public class WikipageService implements WikipageInterface {
      * Get wiki page for the model from the page id or signature.
      * @param request
      */
-    public Wikipage getWikipageByIdOrSingnature(HttpServletRequest request)
+    public Page getWikipageByIdOrSingnature(HttpServletRequest request)
         throws Exception {
 
-        Wikipage wikipage = null;
+        Page wikipage = null;
 
         // Get id or signature from requested uri
         try {
@@ -148,12 +144,12 @@ public class WikipageService implements WikipageInterface {
      * @param matchingSectionOnly overite the content by the search section
      * @return List<Wikipage> list of pages
      */
-    public List<Wikipage> search(String searchText, boolean matchingSectionOnly) {
-        List<Wikipage> wikipages = wikipageDao.search(searchText);
+    public List<Page> search(String searchText, boolean matchingSectionOnly) {
+        List<Page> wikipages = wikipageDao.search(searchText);
 
         // Get search matching page section
         if(matchingSectionOnly) {
-            for(Wikipage page : wikipages) {
+            for(Page page : wikipages) {
                 String content = page.getContent().replaceAll("\\<.*?\\>", "");
                 int searchTextPosition =
                     content.toLowerCase().indexOf(searchText.toLowerCase());

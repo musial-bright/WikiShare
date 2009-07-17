@@ -37,7 +37,7 @@ public class Navigation {
         this.content = content;
     }
 
-    public Navigation(NavigationFormBacking navigationForm) {
+    public Navigation(NavigationFormBackingObject navigationForm) {
         this.id = navigationForm.getId();
         this.name = navigationForm.getName();
         this.content = navigationForm.getContent();

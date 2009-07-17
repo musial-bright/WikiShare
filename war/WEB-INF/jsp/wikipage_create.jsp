@@ -59,7 +59,7 @@
     <div class="boxRight">
       <h3 class="select">Page</h3>
       <ul>
-        <li class="normal"><form:checkbox path="frontPage"/> Show on Frontpage</li>
+        <li class="normal"><form:checkbox path="frontPageFlag"/> Show on Frontpage</li>
         <%
           if( request.getParameter("action") != null &&
             request.getParameter("action").equals("update") ) {

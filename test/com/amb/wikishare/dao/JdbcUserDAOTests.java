@@ -3,6 +3,7 @@ package com.amb.wikishare.dao;
 import java.util.List;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import com.amb.wikishare.app.HibernateFactory;
 import com.amb.wikishare.domain.User;
 import com.amb.wikishare.dao.JdbcUserDAO;
 
@@ -10,27 +11,17 @@ import junit.framework.TestCase;
 
 public class JdbcUserDAOTests extends TestCase {
 
-    private DriverManagerDataSource dataSource;
-    private JdbcUserDAO dao = null;
+    private JdbcUserDAO dao = new JdbcUserDAO();
     private User user = new User();
 
 
-    public JdbcUserDAOTests() {
-        dataSource = new DriverManagerDataSource();
-        //dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-        //dataSource.setUrl("jdbc:hsqldb:hsql://localhost/wikishare");
-        //dataSource.setUsername("sa");
 
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/wikishare_test");
-        dataSource.setUsername("root");
-        dataSource.setPassword("");
-
-        dao = new JdbcUserDAO();
-        dao.setDataSource(dataSource);
-
+    protected void setUp() throws Exception {
+        super.setUp();
+        HibernateFactory.configFileName = "hibernate-test.cfg.xml";
         user.setUsername("testuser");
         user.setPassword("test");
+
     }
 
     public void testDeleteAllUsers() {

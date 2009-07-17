@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.amb.wikishare.dao.JdbcNavigationDAO;
 import com.amb.wikishare.domain.Navigation;
-import com.amb.wikishare.domain.Wikipage;
+import com.amb.wikishare.domain.Page;
 
 /**
  * Navigation service manages the wiki page navigations.
@@ -40,7 +40,7 @@ public class NavigationService implements NavigationInterface {
                 String title = signatureId;
                 try {
                     // todo: Performance! Get title using SQL directly!
-                    Wikipage wikipage = ws.getActivePageBySignature(signatureId);
+                    Page wikipage = ws.getActivePageBySignature(signatureId);
                     title = wikipage.getTitle();
                     title = replaceSingleTick(title);
                     markup +=

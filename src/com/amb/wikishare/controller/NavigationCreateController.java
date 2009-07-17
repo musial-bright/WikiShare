@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Navigation;
-import com.amb.wikishare.domain.NavigationFormBacking;
+import com.amb.wikishare.domain.NavigationFormBackingObject;
 import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.NavigationService;
 
@@ -25,8 +25,8 @@ public class NavigationCreateController extends SimpleFormController {
     protected ModelAndView onSubmit(Object command) throws Exception {
 
         try {
-            Navigation navigation = new Navigation((NavigationFormBacking)command);
-            if(((NavigationFormBacking)command).getUpdateFlag() == false) {
+            Navigation navigation = new Navigation((NavigationFormBackingObject)command);
+            if(((NavigationFormBackingObject)command).getUpdateFlag() == false) {
                 navigationService.saveNavigation(navigation);
             } else {
                 navigationService.updateNavigation(navigation);
@@ -39,14 +39,14 @@ public class NavigationCreateController extends SimpleFormController {
     }
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-        NavigationFormBacking navigationFlag = new NavigationFormBacking();
+        NavigationFormBackingObject navigationFlag = new NavigationFormBackingObject();
 
         // Extra case: PAGE Update
         if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
                 request.getParameter(WikiShareHelper.ACTION_PARAM).equals(WikiShareHelper.UPDATE_PARAM)) {
             try{
                 int id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
-                navigationFlag = new NavigationFormBacking(navigationService.getNavigation(id));
+                navigationFlag = new NavigationFormBackingObject(navigationService.getNavigation(id));
                 navigationFlag.setUpdateFlag(true);
             } catch(Exception e) {
                 logger.error("Navigation load Error: " + e);

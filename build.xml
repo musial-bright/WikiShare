@@ -96,8 +96,9 @@
 
 
 
-  <target name="buildtests" description="Compile test tree java files">
+  <target name="buildtests" depends="build" description="Compile test tree java files">
     <mkdir dir="${build.dir}"/>
+    <delete file="${build.dir}/com/amb/wikishare/app/HibernateFactory.class"/>
     <javac destdir="${build.dir}" source="1.5" target="1.5" debug="true"
       deprecation="false" optimize="false" failonerror="true">
       <src path="${test.dir}"/>

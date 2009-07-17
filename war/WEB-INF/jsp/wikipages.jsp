@@ -24,7 +24,7 @@
         <tr>
           <td><c:out value="${page.id}"/></td>
           <td><c:out value="${page.signature}"/></td>
-          <td><c:out value="${page.user.username}"/> (<c:out value="${page.user.id}"/>)</td>
+          <td><c:out value="${page.userId}"/> (<c:out value="${page.userId}"/>)</td>
           <td><c:out value="${page.activePage}"/></td>
           <td><c:out value="${page.frontPage}"/></td>
           <td><a href="<%= W_PREFIX %>wikipage/<c:out value="${page.id}"/>"><c:out value="${page.title}"/></a></td>

@@ -6,7 +6,7 @@ import org.hibernate.classic.Session;
 
 public class HibernateFactory {
 
-    public static String configFileName = "hibernate.cfg.xml";
+    public static String configFileName = "hibernate-test.cfg.xml";
 
     public static SessionFactory sessionFactory =
         new AnnotationConfiguration().configure(configFileName).buildSessionFactory();

@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.User;
-import com.amb.wikishare.domain.Wikipage;
+import com.amb.wikishare.domain.Page;
 import com.amb.wikishare.service.WikipageService;
 
 
@@ -86,7 +86,7 @@ public class WikipagesController implements Controller {
     private void deleteAction(HttpServletRequest request) {
         try{
             int page_id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
-            this.wpService.dropWikipage(new Wikipage(page_id));
+            this.wpService.dropWikipage(new Page(page_id));
         } catch(Exception e) {
             logger.error("Wiki page ID Error: " + e);
         }

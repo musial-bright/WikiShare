@@ -4,17 +4,17 @@ package com.amb.wikishare.domain;
  * User form backing object for the <code>UserCreateController</code>
  * @author amusial
  */
-public class UserForm extends User {
+public class UserFormBackingObject extends User {
 
     protected boolean updateUserFlag = false;
 
-    public UserForm() {}
+    public UserFormBackingObject() {}
 
-    public UserForm(int id) {
+    public UserFormBackingObject(int id) {
         super.id = id;
     }
 
-    public UserForm(User user) {
+    public UserFormBackingObject(User user) {
         if (user != null) {
             super.id = user.getId();
             super.username = user.getUsername();

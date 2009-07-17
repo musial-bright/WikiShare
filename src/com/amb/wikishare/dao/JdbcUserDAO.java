@@ -1,6 +1,5 @@
 package com.amb.wikishare.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -45,7 +44,7 @@ public class JdbcUserDAO implements UserInterface {
      * @return User representation
      */
     public User getUser(String username, String password) {
-        logger.debug("[getUserWithId]" + username);
+        logger.debug("[getUser] username=" + username);
 
         Session session = HibernateFactory.sessionFactory.getCurrentSession();
         session.beginTransaction();
@@ -56,7 +55,6 @@ public class JdbcUserDAO implements UserInterface {
         query.setString("name", username);
         query.setString("password", password);
         List<User> users = query.list();
-
         session.getTransaction().commit();
 
         if(users.isEmpty()) {

@@ -39,7 +39,7 @@ public class User {
         this.id = id;
     }
 
-    public User(UserForm userForm) {
+    public User(UserFormBackingObject userForm) {
         if (userForm != null) {
             this.id = userForm.getId();
             this.username = userForm.getUsername();

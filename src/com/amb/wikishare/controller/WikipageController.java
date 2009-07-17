@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Navigation;
-import com.amb.wikishare.domain.Wikipage;
+import com.amb.wikishare.domain.Page;
 import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.NavigationService;
 import com.amb.wikishare.service.WikipageService;
@@ -37,7 +37,7 @@ public class WikipageController implements Controller {
             HttpServletResponse response) throws Exception {
 
         // Wikipage action : get wikipage from URI
-        Wikipage wikipage = wpService.getWikipageByIdOrSingnature(request);
+        Page wikipage = wpService.getWikipageByIdOrSingnature(request);
 
         String view = "wikipage";
 

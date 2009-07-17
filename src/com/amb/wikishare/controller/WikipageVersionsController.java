@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.amb.wikishare.service.WikipageService;
 import com.amb.wikishare.app.WikiShareHelper;
-import com.amb.wikishare.domain.Wikipage;
+import com.amb.wikishare.domain.Page;
 
 public class WikipageVersionsController implements Controller {
 
@@ -40,14 +40,13 @@ public class WikipageVersionsController implements Controller {
 
             try {
                 int pageId = Integer.parseInt(pageIdOrSignature);
-                Wikipage page = wpService.getPage(pageId);
+                Page page = wpService.getPage(pageId);
 
                 // Turn pageIdOrSignature to a signature before
                 // permanently deleting page
                 pageIdOrSignature = page.getSignature();
 
             } catch(Exception e) {
-                // TODO: no pages found
                 logger.debug("Delete action " + e);
             }
 
@@ -56,12 +55,11 @@ public class WikipageVersionsController implements Controller {
 
 
         try {
-            List<Wikipage> wikipages =
+            List<Page> wikipages =
                 wpService.getWikipageVersionsList(pageIdOrSignature);
 
             model.put("pages", wikipages);
         } catch(Exception e) {
-            // TODO: no pages found
             logger.debug("No page versions found" + e);
         }
 
@@ -81,7 +79,7 @@ public class WikipageVersionsController implements Controller {
             int page_id = Integer.parseInt(
                     WikiShareHelper.getLastUriResource(request));
 
-            this.wpService.dropWikipage(new Wikipage(page_id));
+            this.wpService.dropWikipage(new Page(page_id));
 
         } catch(Exception e) {
             logger.warn("[deleteAction] " + e);

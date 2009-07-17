@@ -11,28 +11,24 @@ import java.util.Random;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.classic.Session;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 
-import com.amb.wikishare.domain.Wikipage;
+import com.amb.wikishare.app.HibernateFactory;
+import com.amb.wikishare.domain.Page;
 import com.amb.wikishare.service.WikipageInterface;
 import com.amb.wikishare.service.UserService;
 import com.amb.wikishare.domain.User;
 
 
-public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInterface {
+public class JdbcWikipageDAO  {
 
-
-    private String PAGES_COLS =
-        "id, signature, " +
-        "user_id, " +
-        "active_page, " +
-        "front_page, " +
-        "title, " +
-        "content, " +
-        "timestamp";
+    protected final Log logger = LogFactory.getLog(getClass());
 
     /**
      * Get all wiki pages or active only pages.
@@ -40,20 +36,30 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
      * @param frontPagesOnly
      * @return List of active wiki pages
      */
-    public List<Wikipage> getWikipagesList(
+    public List<Page> getWikipagesList(
             boolean activePagesOnly,
-            boolean frontPagesOnly) throws SQLException {
+            boolean frontPagesOnly) {
 
-        String query =
-            "select " + PAGES_COLS + " from pages ";
+        String sql = "select * from pages as page order by title asc";
+        Integer activePages = 0;
         if(activePagesOnly) {
-            query += "where active_page = 1 ";
+            sql = "select * from pages as page where active_page = 1 order by title asc";
         }
+        Integer frontPages = 0;
         if(frontPagesOnly) {
-            query += "and front_page = 1 ";
+            sql = "select * from pages as page where and front_page = 1 order by title asc";
         }
-        query += "order by title asc";
-        List<Wikipage> wikipages = getSimpleJdbcTemplate().query( query,new WikipageMapper());
+        if(activePagesOnly && frontPagesOnly) {
+            sql = "select * from pages as page where active_page = 1 and front_page = 1 order by title asc";
+        }
+
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        SQLQuery sqlQuery = session.createSQLQuery(sql);
+        sqlQuery.addEntity("page", Page.class);
+        List<Page> wikipages = sqlQuery.list();
+        session.getTransaction().commit();
+        logger.debug("[getWikipagesList] pages amount = " + wikipages.size());
 
         return wikipages;
     }
@@ -63,31 +69,40 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
      * @param pageFamilySignature: Signature of a page family
      * @return List of active wiki pages
      */
-    public List<Wikipage> getWikipageVersionsList(String pageFamilySignature) throws SQLException {
-        List<Wikipage> wikipages = getSimpleJdbcTemplate().query(
-                "select  "+ PAGES_COLS + " from pages "+
-                "where signature = ? "+
-                "order by timestamp desc",
-            new WikipageMapper(),
-            pageFamilySignature);
+    public List<Page> getWikipageVersionsList(String pageFamilySignature) throws SQLException {
+
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Page where signature = :signature order by timestamp desc");
+        query.setString("signature", pageFamilySignature);
+        List<Page> wikipages = query.list();
+        session.getTransaction().commit();
+        logger.debug("[getWikipageVersionsList] pages amount = " + wikipages.size());
 
         return wikipages;
     }
 
     public int getWikipageVersionsAmount(String pageFamiliSignature) throws SQLException {
-        return getSimpleJdbcTemplate().queryForInt(
-                "select count(*) from pages where signature = ?",
-                pageFamiliSignature);
+
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery("select count(*) from Page where signature = :signature");
+        query.setString("signature", pageFamiliSignature);
+        Long amount = (Long)query.uniqueResult();
+        session.getTransaction().commit();
+        logger.debug("[getWikipageVersionsAmount] page versions amount for "+ pageFamiliSignature+ "=" + amount);
+
+        return amount.intValue();
     }
 
-    private static class WikipageMapper implements ParameterizedRowMapper<Wikipage> {
+    private static class WikipageMapper implements ParameterizedRowMapper<Page> {
 
-        public Wikipage mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public Page mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-            Wikipage wikipage = new Wikipage();
+            Page wikipage = new Page();
             wikipage.setId(rs.getInt("id"));
             wikipage.setSignature(rs.getString("signature"));
-            wikipage.setUser(new User(rs.getInt("user_id")));
+            wikipage.setUserId(rs.getInt("user_id"));
             wikipage.setActivePage(rs.getInt("active_page"));
             wikipage.setFrontPage(rs.getInt("front_page"));
             wikipage.setTitle(rs.getString("title"));
@@ -99,111 +114,107 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
     }
 
 
-    public Wikipage getPage(int id) {
-        String SELECT = " SELECT " + PAGES_COLS + " FROM pages"
-            + " WHERE id = ?";
+    public Page getPage(int id) {
 
-        Wikipage wikipage = (Wikipage)getSimpleJdbcTemplate().queryForObject(
-                SELECT,
-                new WikipageMapper(),
-                id);
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Page page = (Page) session.get(Page.class, id);
+        session.getTransaction().commit();
+        logger.debug("[getPage] page id="+ id);
 
-        return wikipage;
+        return page;
     }
 
     /**
      * Get wiki page by signature. Only the active page will be returned.
      * @param signature something like s<signature>
-     * @return Wikipage active wiki page
+     * @return Page active wiki page
      */
-    public Wikipage getActivePageBySignature(String signature) {
+    public Page getActivePageBySignature(String signature) {
 
-        String SELECT = "SELECT " + PAGES_COLS + " FROM pages " +
-            "WHERE active_page = 1 and signature = ?";
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Page where active_page = 1 and signature = :signature");
+        query.setString("signature", signature);
+        List<Page> pages = query.list();
 
-        Wikipage wikipage = (Wikipage)getSimpleJdbcTemplate().queryForObject(
-                SELECT,
-                new WikipageMapper(),
-                signature);
+        logger.debug("[getActivePageBySignature] page signature="+ signature);
 
-        return wikipage;
+        if(pages.isEmpty()) {
+            return null;
+        }
+        return pages.get(0);
     }
 
-    public void saveWikipage(Wikipage wikipage) throws Exception {
-        logger.info("Saving page: " + wikipage.getTitle());
+    public void saveWikipage(Page wikipage) throws Exception {
+        logger.debug("[saveWikipage] " + wikipage.getTitle());
 
-        deactiveteOtherVersions(wikipage.getSignature());
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        wikipage.setDate(new Date());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        int userId = getUserIdFromWikpage(wikipage);
-        int count = getSimpleJdbcTemplate().update(
-            "INSERT INTO pages (user_id, signature, active_page, front_page, title, content, timestamp) " +
-            "values (?,?,?,?,?,?,?);",
-            new Object[] {
-                    userId,
-                    wikipage.getSignature(),
-                    1,
-                    wikipage.getFrontPage(),
-                    wikipage.getTitle(),
-                    wikipage.getContent(),
-                    dateFormat.format(new Date())
-            } );
-        logger.info("Rows affected: " + count);
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        deactiveteOtherVersions(session, wikipage.getSignature());
+        session.save(wikipage);
+
+        session.getTransaction().commit();
+
     }
 
 
-    public void dropWikipage(Wikipage wikipage) throws Exception {
-        int count = getSimpleJdbcTemplate().update(
-            "DELETE FROM pages WHERE ID = ?;",
-            new Object[] { wikipage.getId() } );
+    public void dropWikipage(Page wikipage) throws Exception {
+        logger.debug("[dropWikipage] " + wikipage.getTitle());
+
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        session.delete(wikipage);
+        session.getTransaction().commit();
     }
 
 
-    public void updateWikipage(Wikipage wikipage) throws Exception {
-        logger.info("Updating page: " + wikipage.getTitle());
+    public void updateWikipage(Page wikipage) throws Exception {
+        logger.debug("[updateWikipage] " + wikipage.getTitle());
 
-        deactiveteOtherVersions(wikipage.getSignature());
+        wikipage.setDate(new Date());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        int userId = getUserIdFromWikpage(wikipage);
-        int count = getSimpleJdbcTemplate().update(
-            "UPDATE pages SET active_page = 1, front_page = ?, user_id = ?, title = ?, content = ?, timestamp = ? " +
-            "WHERE id = ?;",
-            new Object[] {
-                    wikipage.getFrontPage(),
-                    userId,
-                    wikipage.getTitle(),
-                    wikipage.getContent(),
-                    dateFormat.format(new Date()),
-                    wikipage.getId()
-            } );
-        logger.info("Rows affected: " + count);
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        deactiveteOtherVersions(session, wikipage.getSignature());
+        session.update(wikipage);
+
+        session.getTransaction().commit();
     }
 
 
-    public List<Wikipage> search(String searchText) {
+    public List<Page> search(String searchText) {
+        logger.debug("[search] " + searchText);
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Page where " +
+                "active_page = 1 and " +
+                "(title like :searchText or content like :searchText) " +
+                "order by timestamp desc");
+        query.setString("searchText", "%" + searchText + "%");
+        List<Page> pages = query.list();
+        session.getTransaction().commit();
 
-        String SELECT = " SELECT " + PAGES_COLS + " FROM pages "+
-            "WHERE (title like ? or content like ?) and active_page = 1";
-
-        return getSimpleJdbcTemplate().query(
-                SELECT,
-                new WikipageMapper(),
-                "%"+searchText+"%",
-                "%"+searchText+"%");
+        return pages;
     }
 
     /**
      * Deactivate all wiki pages.
      * Use is to deactivate viki pages of an certain verison, for example in case
      * or wiki page update or store.
+     * @param session : hibernate session
      * @param signature : wiki page family (versions) id
      */
-    private void deactiveteOtherVersions(String signature) {
-        int count = getSimpleJdbcTemplate().update(
-                "UPDATE pages SET active_page = 0 WHERE signature = ?;",
-                new Object[] { signature }
-            );
+    private void deactiveteOtherVersions(Session session, String signature) {
+        logger.debug("[deactiveteOtherVersions] signature=" + signature);
+        SQLQuery query = session.createSQLQuery("update pages set active_page = 0 where signature = :signature");
+        query.setString("signature", signature);
+        query.executeUpdate();
     }
 
     /**
@@ -214,6 +225,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
      * @param wikipage
      * @return
      */
+    /*
     private int getUserIdFromWikpage(Wikipage wikipage) {
         int userId = -1;
         try {
@@ -224,6 +236,7 @@ public class JdbcWikipageDAO extends SimpleJdbcDaoSupport implements WikipageInt
         logger.debug("getUserIdFromWikpage user id = " + userId);
         return userId;
     }
+    */
 
 
 }

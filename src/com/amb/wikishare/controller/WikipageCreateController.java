@@ -12,7 +12,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.dao.FileDAO;
 import com.amb.wikishare.domain.User;
-import com.amb.wikishare.domain.Wikipage;
+import com.amb.wikishare.domain.Page;
+import com.amb.wikishare.domain.PageFormBackingObject;
 import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.WikipageService;
 import com.amb.wikishare.service.UserService;
@@ -28,19 +29,20 @@ public class WikipageCreateController extends SimpleFormController {
 
     public ModelAndView onSubmit(Object command) {
         try {
-            if(((Wikipage)command).getSkipNewVersionFlag()) {
+            Page wikipage = new Page((PageFormBackingObject)command);
+            if(((PageFormBackingObject)command).getSkipNewVersionFlag()) {
                 // Page Update
-                wpService.updateWikipage((Wikipage) command);
+                wpService.updateWikipage(wikipage);
             }else {
                 // New Page
-                wpService.saveWikipage((Wikipage) command);
+                wpService.saveWikipage(wikipage);
             }
         }catch(Exception e) {
             logger.error("onSubmit Exception: " +e);
         }
 
         String view = appContext + "wikipages";
-        String signature = ((Wikipage)command).getSignature();
+        String signature = ((Page)command).getSignature();
         if(signature != null) {
             view = appContext + "wikipage/" + signature;
         }
@@ -52,11 +54,8 @@ public class WikipageCreateController extends SimpleFormController {
         // set app context for later redirection such as /WikiShare/wiki/
         appContext = WikiShareHelper.getWabappPath(request);
 
-        Wikipage wikipage = new Wikipage();
+        PageFormBackingObject wikipageForm = new PageFormBackingObject();
 
-        // New page
-        User user = UserService.getSessionUser(request);
-        wikipage.setUser(user);
 
         // Update/Edit action
         if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
@@ -64,8 +63,7 @@ public class WikipageCreateController extends SimpleFormController {
 
             try {
                 int id = Integer.parseInt(WikiShareHelper.getLastUriResource(request));
-                wikipage = wpService.getPage(id);
-                wikipage.setUser(user);
+                wikipageForm = new PageFormBackingObject(wpService.getPage(id));
                 //wikipage.setFiles(fileDao.getFiles());
 
             } catch(Exception e) {
@@ -73,11 +71,18 @@ public class WikipageCreateController extends SimpleFormController {
             }
         }
 
+        // New page
+        User user = UserService.getSessionUser(request);
+        if(user != null) {
+            wikipageForm.setUserId(user.getId());
+        }
+
+
         // provide clipboard for the new or edited page
         ClipboardService clipboard = new ClipboardService(request);
-        wikipage.setClipboard(clipboard);
+        wikipageForm.setClipboard(clipboard);
 
-        return wikipage;
+        return wikipageForm;
     }
 
 

@@ -4,19 +4,19 @@ import java.util.List;
 
 import com.amb.wikishare.service.ClipboardService;
 
-public class NavigationFormBacking extends Navigation {
+public class NavigationFormBackingObject extends Navigation {
 
     protected ClipboardService clipboard = null;
     protected boolean updateFlag = false;
 
-    public NavigationFormBacking() {}
+    public NavigationFormBackingObject() {}
 
-    public NavigationFormBacking(String name, String content) {
+    public NavigationFormBackingObject(String name, String content) {
         this.name = name;
         this.content = content;
     }
 
-    public NavigationFormBacking(Navigation navi) {
+    public NavigationFormBackingObject(Navigation navi) {
         if(navi != null) {
             super.id = navi.getId();
             super.name = navi.getName();
