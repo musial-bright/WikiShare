@@ -16,7 +16,7 @@
   });
 
   function convertAndInsertAtCaret(content) {
-      var html = '';
+    var html = '';
     if(content.match(/(.jpg|.jpeg|.gif|.png)$/)) {
       html = '<img src="' + content + '"/>';
     }
@@ -28,62 +28,52 @@
 </script>
 <!-- /TinyMCE -->
 
-<form:form method="post" commandName="wikipage">
 
-  <% // bo: controller view... %>
-  <div id="controllerViewContent">
+<%  // bo: controller view... %>
+<div id="controllerViewContent">
 
-    <div class="contentBox">
-      <% String formSubmitText = "Create"; %>
+	<div class="contentBox">
+		<form:form method="post" commandName="wikipage">
+	    	<c:set var="wikipageId" value="${wikipage.id}">
+	    	</c:set> <c:set var="signature" value="${wikipage.signature}"></c:set>
+	
+	    	<h3><form:input path="title" size="80" cssClass="page_title" /></h3>
+	    	<p>
+	    	<form:checkbox path="frontPageFlag" id="frontPageFlag" />
+	    	<span onclick="checkCheckbox('frontPageFlag')">Show on frontpage</span>
+	    	<%
+		    String formSubmitText = "Create";
+		    if (request.getParameter("action") != null && 
+		    		request.getParameter("action").equals("update")) {
+		       formSubmitText = "Update";
+		    %>
+		       <input type="hidden" name="action" value="update" />
+		       <form:checkbox path="skipNewVersionFlag" id="skipNewVersionFlag" />
+		       <span onclick="checkCheckbox('skipNewVersionFlag')">Minor change</span>
+		    <%
+			}
+			%>
+			<a href="#" onclick="document.getElementById( 'wikipage' ).submit(); return;"><%=formSubmitText%></a> | 
+			<a href="<%=W_PREFIX%>wikipage/${signature}" title="Cancel">Cancel</a>
+			</p>
+			<form:textarea path="content" id="content" cols="70" rows="25" />
+		</form:form>
+	</div>
 
-      <c:set var="wikipageId" value="${wikipage.id}"></c:set>
-      <c:set var="signature" value="${wikipage.signature}"></c:set>
-      <%
-        if( request.getParameter("action") != null &&
-            request.getParameter("action").equals("update") ) {
-          formSubmitText = "Update";
-      %>
-          <input type="hidden" name="action" value="update"/>
-      <% } %>
+</div> <% // eo: controller view. %>
 
-      <h3><form:input path="title" size="80" cssClass="page_title" /></h3>
-      <form:textarea path="content" id="content" cols="70" rows="30" />
-      <!--  <form:errors path="title" />-->
-    </div>
+<div id="contentRight">
 
-  </div> <% // eo: controller view. %>
+	<div class="boxRight">
+	  <h3 class="select">Clipboard</h3>
+	  <ul>
+	    <c:forEach items="${wikipage.clipboardItems}" var="clipboard">
+	     <li><a href="#" onclick="convertAndInsertAtCaret('${clipboard}');return false;"><c:out value="${clipboard}"/></a></li>
+	    </c:forEach>
+	  </ul>
+	</div>
 
+</div>
 
-  <div id="contentRight">
-
-    <div class="boxRight">
-      <h3 class="select">Page</h3>
-      <ul>
-        <li class="normal"><form:checkbox path="frontPageFlag"/> Show on Frontpage</li>
-        <%
-          if( request.getParameter("action") != null &&
-            request.getParameter("action").equals("update") ) {
-         %>
-        <li class="normal">
-          <form:checkbox path="skipNewVersionFlag"/> Override current version
-        </li>
-        <% } %>
-        <li><a href="#" onclick="document.getElementById( 'wikipage' ).submit(); return;"><%= formSubmitText %></a></li>
-        <li><a href="<%= W_PREFIX %>wikipage/${signature}" title="Cancel">Cancel</a></li>
-       </ul>
-    </div>
-
-    <div class="boxRight">
-      <h3 class="select">Clipboard</h3>
-      <ul>
-        <c:forEach items="${wikipage.clipboardItems}" var="clipboard">
-         <li><a href="#" onclick="convertAndInsertAtCaret('${clipboard}');return false;"><c:out value="${clipboard}"/></a></li>
-        </c:forEach>
-      </ul>
-    </div>
-
-  </div>
-
-</form:form>
 
 <%@ include file="html_footer.jsp" %>

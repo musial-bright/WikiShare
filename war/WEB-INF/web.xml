@@ -50,7 +50,7 @@
     </init-param>
     <init-param>
       <param-name>pass_url</param-name>
-      <param-value>(/WikiShare/public/(.+?))|(/WikiShare/wiki/frontpage)</param-value>
+      <param-value>(/WikiShare)|(/WikiShare/)|(/WikiShare/public/(.+?))|(/WikiShare/wiki/frontpage)</param-value>
     </init-param>
   </filter>
 

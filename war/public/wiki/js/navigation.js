@@ -6,7 +6,7 @@
 */
 
 /*
- * @requires You have to vreate a navigation array first in you jsp!
+ * @requires You have to create a navigation array first in you jsp!
 
   var navigationArray = new Hash();
   <c:forEach items="${model.navigationList}" var="singleNavigation">
@@ -18,7 +18,7 @@
   function getNaviId() {
     var selectedNaviId = 0;
     try {
-      selectedNaviId = $('navigationSelectId').options[$('navigationSelectId').selectedIndex].value
+      selectedNaviId = $('navigationSelectId').options[$('navigationSelectId').selectedIndex].value;
       if ( selectedNaviId < 0 ) {
         selectedNaviId = 0;
       }

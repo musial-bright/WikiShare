@@ -1,5 +1,12 @@
+/**
+ * Form and content manipulation.
+ *  
+ * @version 2009-07-19
+ * @author Adam Musial-Bright
+ */
 
-/* Insert text at the cursor position
+
+/** Insert text at the cursor position
  * @param areaId : text area id
  * @param text : text to insert
 */
@@ -33,4 +40,17 @@ function insertAtCaret(areaId, text) {
 		txtarea.focus();
 	}
 	txtarea.scrollTop = scrollPos;
+}
+
+/**
+ * Check or uncheck a checkbox by id.
+ * @param checkbox id 
+*/
+function checkCheckbox(checkboxId) {
+	if (document.getElementById(checkboxId).checked == false) {
+		document.getElementById(checkboxId).checked = true;
+		return;
+	} else {
+		document.getElementById(checkboxId).checked = false;
+	}
 }

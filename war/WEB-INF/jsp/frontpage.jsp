@@ -16,7 +16,7 @@ var w_prefix = "<%= W_PREFIX %>";
 /* Create delete link with object id parameter. */
 function setNavigationDeleteLink() {
   selectedNavigationId = getNaviId();
-  var link = w_prefix + 'wikipage/' + '<c:out value="${model.page.id}" />';
+  var link = w_prefix + 'frontpage';
   link = link + '?action=delete_navi&object_id=' + selectedNavigationId;
   $('navigation_delete_link').href = link;
 }
@@ -33,16 +33,31 @@ function setNavigationEditLink() {
 <% // bo: controller view... %>
 <div id="controllerViewContent">
 
-  <c:forEach items="${model.pages}" var="page">
-    <div class="contentBox">
-      <h3><c:out value="${page.title}"/>
-      <% if (USER != null) { %>
-        <a class="edit_button" href="<%= W_PREFIX %>wikipage_create/${page.id}?action=update">Edit</a>
-      <% } %>
-      </h3>
-      <p><c:out value="${page.content}" escapeXml="false"/></p>
-    </div>
-  </c:forEach>
+    <% int pagesAmount = 0; %>
+	<c:forEach items="${model.pages}" var="page">
+		<div class="contentBox">
+	     <h3>
+           <c:out value="${page.title}"/>
+           <% if (USER != null) { %>
+              <a class="edit_button" href="<%= W_PREFIX %>wikipage_create/${page.id}?action=update">Edit</a>
+            <% } %>
+         </h3>
+	     <% if (pagesAmount > 0) { %>
+	          <div onclick="this.style.display='none'; Effect.toggle('content_${page.id}','BLIND'); return false;" style="overflow:hidden; height: 80px;">
+	              <a href="#">Click here to open the full article...</a><br/>
+	              <c:out value="${page.content}" escapeXml="false"/>
+	          </div>
+			  <div style="display:none;" id="content_${page.id}">
+			    <c:out value="${page.content}" escapeXml="false"/>
+			  </div>
+		  <% } else { %>
+              <div id="content_${page.id}">
+                <c:out value="${page.content}" escapeXml="false"/>
+              </div>
+          <% } %>
+		  <% pagesAmount++; %>
+		</div>
+	</c:forEach>
 
 </div> <% // eo: controller view. %>
 

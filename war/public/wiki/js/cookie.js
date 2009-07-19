@@ -1,9 +1,10 @@
-/*
-2009.01.06 Adam Musial-Bright
-Cookie manipulation in Javascript
-
-@requires: Javascript Prototype: www.prototypejs.org
-*/
+/**
+ * Cookie manipulation in Javascript
+ * 
+ * @author Adam Musial-Bright
+ * @version 2009-01-06 
+ * @requires: Javascript Prototype: www.prototypejs.org 
+ */
 
 /** Set cookie and its value. 
  * Expiration date will be set automatically for few years.
