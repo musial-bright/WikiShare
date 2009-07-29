@@ -1,7 +1,7 @@
 /**
  * Form and content manipulation.
  *  
- * @version 2009-07-19
+ * @version 2009-07-25
  * @author Adam Musial-Bright
  */
 
@@ -52,5 +52,17 @@ function checkCheckbox(checkboxId) {
 		return;
 	} else {
 		document.getElementById(checkboxId).checked = false;
+	}
+}
+/**
+ * Confirm a form action.
+ * Usage: put onclick="return confirmAcion()" into links or submit buttons.
+ */ 
+function confirmAction() {
+	var agree=confirm("Are you sure?");
+	if (agree) {
+		return true ;
+	} else {
+		return false ;
 	}
 }

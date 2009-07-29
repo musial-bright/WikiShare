@@ -52,21 +52,6 @@ public class AuthenticationFilter implements Filter {
         this.passUrl = config.getInitParameter("pass_url");
         this.loginPage = config.getInitParameter("loginPage");
         this.errorPage = config.getInitParameter("errorPage");
-/*
-        // Acces the data source using init params
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(config.getInitParameter("db_driver"));
-        dataSource.setUrl(config.getInitParameter("db_server"));
-        dataSource.setUsername(config.getInitParameter("db_user"));
-        dataSource.setPassword(config.getInitParameter("db_password"));
-
-
-        dataSource = (DriverManagerDataSource) BeanFactory.getBean(
-                config.getServletContext(),
-                "dataSource");
-
-        dao.setDataSource(dataSource);
-*/
     }
 
     /**

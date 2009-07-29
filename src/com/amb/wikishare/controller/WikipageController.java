@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Navigation;
@@ -39,8 +40,6 @@ public class WikipageController implements Controller {
         // Wikipage action : get wikipage from URI
         Page wikipage = wpService.getWikipageByIdOrSingnature(request);
 
-        String view = "wikipage";
-
         if(wikipage != null) {
             model.put(WikiShareHelper.PAGE, wikipage);
 
@@ -49,11 +48,9 @@ public class WikipageController implements Controller {
 
             // Clipboard
             clipboardAction(request);
-        } else {
-            view = "error404";
-        }
-
-        return new ModelAndView(view, "model", this.model);
+            return new ModelAndView("wikipage", "model", this.model);
+        } 
+        return new ModelAndView(new RedirectView("/WikiShare/public/global/error404.jsp"));
     }
 
 

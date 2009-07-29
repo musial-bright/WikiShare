@@ -33,7 +33,6 @@ function setNavigationEditLink() {
 <% // bo: controller view... %>
 <div id="controllerViewContent">
 
-    <% int pagesAmount = 0; %>
 	<c:forEach items="${model.pages}" var="page">
 		<div class="contentBox">
 	     <h3>
@@ -42,20 +41,9 @@ function setNavigationEditLink() {
               <a class="edit_button" href="<%= W_PREFIX %>wikipage_create/${page.id}?action=update">Edit</a>
             <% } %>
          </h3>
-	     <% if (pagesAmount > 0) { %>
-	          <div onclick="this.style.display='none'; Effect.toggle('content_${page.id}','BLIND'); return false;" style="overflow:hidden; height: 80px;">
-	              <a href="#">Click here to open the full article...</a><br/>
-	              <c:out value="${page.content}" escapeXml="false"/>
-	          </div>
-			  <div style="display:none;" id="content_${page.id}">
-			    <c:out value="${page.content}" escapeXml="false"/>
-			  </div>
-		  <% } else { %>
-              <div id="content_${page.id}">
-                <c:out value="${page.content}" escapeXml="false"/>
-              </div>
-          <% } %>
-		  <% pagesAmount++; %>
+         <div id="content_${page.id}">
+            <c:out value="${page.content}" escapeXml="false"/>
+         </div>
 		</div>
 	</c:forEach>
 
@@ -107,7 +95,7 @@ function setNavigationEditLink() {
         <script type="text/javascript"> renderNavigationSelection(); </script>
         <a href="<%= W_PREFIX %>navigation_create">Create</a> |
         <a id="navigation_edit_link" href="">Edit</a> |
-        <a id="navigation_delete_link" href="">Delete</a>
+        <a id="navigation_delete_link" href="" onclick="return confirmAction()">Delete</a>
         <script type="text/javascript">
               setNavigationDeleteLink();
               setNavigationEditLink();

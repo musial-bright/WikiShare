@@ -12,7 +12,7 @@ WikiShare 0.1 installation guide
 WikiShare is a simple wiki including some extra features as front page
 for public pages, simple file manager, simple user manager and navigation tool.
 
-The implementation is done in Java 1.5 based on the Spring framework.
+The implementation is done in Java 1.5 based on the spring framework and hibernate.
 Tested databases are HSQL and MySQL but other databases should work too.
 
 1.2 License

@@ -23,7 +23,7 @@
         </td>
         <td>
           <a href="<%= W_PREFIX %>user_create/${user.id}?action=update">Edit</a>
-          <a href="<%= W_PREFIX %>users/${user.id}?action=delete">Delete</a>
+          <a href="<%= W_PREFIX %>users/${user.id}?action=delete" onclick="return confirmAction()">Delete</a>
         </td>
       </tr>
     </c:forEach>

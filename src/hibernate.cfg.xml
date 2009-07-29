@@ -23,9 +23,23 @@
 -->
 
     <property name="hibernate.connection.pool_size">10</property>
-    <property name="show_sql">true</property>
-    <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="show_sql">false</property>
     <property name="current_session_context_class">thread</property>
+    <property name="connection.autoReconnect">true</property>
+    <property name="connection.autoReconnectForPools">true</property>
+    <property name="connection.is-connection-validation-required">true</property>
+    <property name="c3p0.min_size">10</property>
+    <property name="c3p0.max_size">100</property>
+    <property name="c3p0.timeout">18000</property>
+    <property name="c3p0.acquireRetryAttempts">30</property>
+    <property name="c3p0.acquireIncrement">5</property>
+    <property name="c3p0.automaticTestTable">C3P0TestTable</property>
+    <property name="c3p0.idleConnectionTestPeriod">36000</property>
+    <property name="c3p0.initialPoolSize">20</property>
+    <property name="c3p0.maxPoolSize">100</property>
+    <property name="c3p0.maxIdleTime">1200</property>
+    <property name="c3p0.maxStatements">50</property>
+    <property name="c3p0.minPoolSize">10</property>
 
 
     <!-- Mapping classes -->

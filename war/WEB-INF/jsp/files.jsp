@@ -23,12 +23,14 @@
     </p>
     <p style="font-size: 10px; margin:0; madding:0;">
       <c:out value="${file.sizeForHuman}"/>
-      <br/>
+        <br/>
+        <a href="<%= request.getContextPath() %>/public/files/${file.fileName}" target="_blank">Open</a>
+        <br/>
         <a href="<%= W_PREFIX %>files?clipboard=<%= request.getContextPath() %>/public/files/${file.fileName}">Copy image path</a>
         <br/>
         <a href="<%= W_PREFIX %>files?moveToProtected=${file.fileName}">Copy to protected</a>
         <br/>
-        <a href="<%= W_PREFIX %>files?deletePublic=${file.fileName}">Delete</a>
+        <a href="<%= W_PREFIX %>files?deletePublic=${file.fileName}" onclick="return confirmAction()">Delete</a>
     </p>
   </div>
 </c:forEach>
@@ -51,11 +53,13 @@
     <p style="font-size: 10px; margin:0; madding:0;">
         <c:out value="${file.sizeForHuman}"/>
         <br/>
+        <a href="<%= request.getContextPath() %>/protected/files/${file.fileName}" target="_blank">Open</a>
+        <br/>
         <a href="<%= W_PREFIX %>files?clipboard=<%= request.getContextPath() %>/protected/files/${file.fileName}">Copy image path</a>
         <br/>
         <a href="<%= W_PREFIX %>files?moveToPublic=${file.fileName}">Copy to public</a>
         <br/>
-        <a href="<%= W_PREFIX %>files?deleteProtected=${file.fileName}">Delete</a>
+        <a href="<%= W_PREFIX %>files?deleteProtected=${file.fileName}" onclick="return confirmAction()">Delete</a>
     </p>
   </div>
 </c:forEach>

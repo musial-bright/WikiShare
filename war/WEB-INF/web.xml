@@ -76,6 +76,8 @@
   </welcome-file-list>
 
     <error-page>
+        <error-code>404</error-code>  
+        <location>/WikiShare/wiki/public/global/error404.jsp</location>  
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WikiShare/public/global/error500.jsp</location>
     </error-page>

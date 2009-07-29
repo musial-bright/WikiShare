@@ -41,7 +41,7 @@ function setNavigationEditLink() {
         <span class="edit_button">
             <a href="<%= W_PREFIX %>wikipage_create/${model.page.id}?action=update">Edit</a> |
             <a href="<%= W_PREFIX %>wikipage_versions/${model.page.signature}">Versions</a> |
-            <a href="<%= W_PREFIX %>wikipage_versions/${model.page.id}?action=delete">Delete</a> |
+            <a href="<%= W_PREFIX %>wikipage_versions/${model.page.id}?action=delete" onclick="return confirmAction()">Delete</a> |
             <a href="<%= W_PREFIX %>wikipage/${model.page.id}?clipboard=${model.page.signature}">Copy signature</a>
         </span>
       </h3>
@@ -60,7 +60,7 @@ function setNavigationEditLink() {
         <script type="text/javascript"> renderNavigationSelection(); </script>
         <a href="<%= W_PREFIX %>navigation_create">Create</a> |
         <a id="navigation_edit_link" href="">Edit</a> |
-        <a id="navigation_delete_link" href="">Delete</a>
+        <a id="navigation_delete_link" href="" onclick="return confirmAction()">Delete</a>
         <script type="text/javascript">
               setNavigationDeleteLink();
               setNavigationEditLink();

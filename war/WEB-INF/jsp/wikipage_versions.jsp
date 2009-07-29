@@ -22,7 +22,7 @@
         <td><a href="<%= W_PREFIX %>wikipage/<c:out value="${page.id}"/>"><c:out value="${page.title}"/></a></td>
         <td><c:out value="${page.date}"/></td>
         <td>
-          <a href="<%= W_PREFIX %>wikipage_versions/${page.id}?action=delete">Delete</a>
+          <a href="<%= W_PREFIX %>wikipage_versions/${page.id}?action=delete" onclick="return confirmAction()">Delete</a>
           <a href="<%= W_PREFIX %>wikipage_create/${page.id}?action=update">Edit</a>
         </td>
       </tr>
