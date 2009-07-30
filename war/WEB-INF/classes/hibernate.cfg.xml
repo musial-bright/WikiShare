@@ -6,32 +6,42 @@
 <hibernate-configuration>
   <session-factory>
 
-  <!-- MySQL -->
+  <!-- MySQL server -->
+  <!-- 
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost/wikishare</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password"></property>
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-
-  <!-- HSSQL -->
-<!--
+    <property name="hibernate.connection.pool_size">10</property>
+    <property name="show_sql">false</property>
+    <property name="current_session_context_class">thread</property>
+  -->
+  
+  <!-- HSSQL server mode -->
+  <!-- 
     <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
     <property name="hibernate.connection.url">jdbc:hsqldb:hsql://localhost/wikishare</property>
     <property name="hibernate.connection.username">sa</property>
     <property name="hibernate.connection.password"></property>
     <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
--->
-
-    <property name="hibernate.connection.pool_size">6</property>
+    <property name="hibernate.connection.pool_size">10</property>
     <property name="show_sql">false</property>
+    <property name="current_session_context_class">thread</property>
+   -->
+    
+  <!-- HSSQL single mode -->
+    <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+    <property name="hibernate.connection.url">jdbc:hsqldb:file:/Users/amusial/Apps/hsqldb/data/wikishare;shutdown=true</property>
+    <property name="hibernate.connection.username">sa</property>
+    <property name="hibernate.connection.password"></property>
+    <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+    <property name="show_sql">false</property>
+    <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+    <property name="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="current_session_context_class">thread</property>
-    <property name="hibernate.connection.autoReconnect">true</property>
-    <property name="hibernate.connection.autoReconnectForPool">true</property>
-    <property name="hibernate.c3p0.min_size">5</property>
-    <property name="hibernate.c3p0.max_size">20</property>
-    <property name="hibernate.c3p0.timeout">1800</property>
-    <property name="hibernate.c3p0.max_statements">50</property>
+
 
     <!-- Mapping classes -->
     <mapping class="com.amb.wikishare.domain.User"/>
