@@ -49,16 +49,22 @@ in non-commercial and commercial projects.
    Example: /opt/tomcat/log/wikishare.log
 
 3.3 Database configuration
-3.3.1 MySQL:
- - Unzip the wikishare-db.zip
- - Goto /db/mysql
- - Run mysql-install-db.sh on linux or mac. On windows run mysql-install-db.bat.
 
-3.3.2 HSQL:
+3.3.1 HSQL single mode (simplest):
+ - Copy /db/hsqldb/data folder to some place on your file system.
+ -  /WikiShare/WEB-INF/classes/hibernate.cfg.xml : Modify the url path property hibernate.connection.url 
+
+3.3.2 HSQL server:
  - You do not need to install HSQL, it is included in the /db/hsqldb folder.
  - Goto /db/hsqldb/bin
  - Run wikishareStartDB.sh
  - Run hsql-install.sh or hsql-install.bat
+
+3.3.3 MySQL server:
+ - Unzip the wikishare-db.zip
+ - Goto /db/mysql
+ - Run mysql-install-db.sh on linux or mac. On windows run mysql-install-db.bat.
+
 
 3.3.3 Set WikiShare db connection
  - Uncomment MySQL or HSQL section in WikiSahre/WEB-INF/classes/hibernate.cfg.xml
