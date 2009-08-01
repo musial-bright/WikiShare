@@ -1,5 +1,5 @@
-WikiShare 0.1 installation guide
-2009-02-21, Adam Musial-Bright
+WikiShare installation guide
+2009-08-02, Adam Musial-Bright, www.musial-bright.com
 
 
 1. About and license
@@ -49,6 +49,7 @@ in non-commercial and commercial projects.
    Example: /opt/tomcat/log/wikishare.log
 
 3.3 Database configuration
+You can chose between different database types. I prefer HSQL single mode (3.3.1).
 
 3.3.1 HSQL single mode (simplest):
  - Copy /db/hsqldb/data folder to some place on your file system.
