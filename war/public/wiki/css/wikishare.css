@@ -154,7 +154,7 @@ acronym {
 .contentBox h3 {
   color: #284C00;
   background-color: #ddd;
-   background-image: url(../images/stone_21.gif);
+  background-image: url(../images/stone_21.gif);
   background-position: bottom center;
   background-repeat: repeat;
   font-size: 13px;
@@ -233,7 +233,7 @@ acronym {
 #contentRight h3 {
   color: #7fc937;
   background-color: #ddd;
-   background-image: url(../images/content_header.jpg);
+  background-image: url(../images/content_header.jpg);
   background-position: center right;
   background-repeat: repeat-x;
   font-size: 13px;
@@ -269,4 +269,28 @@ acronym {
     height:180px;
     padding: 0.5em;
     margin: 0.25em;
+}
+
+/* Scriptaculous ajax search select indicator */
+.selectme {
+    font-size: 18px;
+    border-left: 5px solid #eee;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee; 
+}
+.selected {
+  background-color: #eee;
+  border-left: 5px solid #7fc937;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #7fc937; 
+}
+#ajax_search_result_box ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#ajax_search_result_box li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0 1em;
 }

@@ -60,12 +60,28 @@
             <form class="search_form" action="<%= W_PREFIX %>search" method="get">
                 <input type="text" id="search_text" name="search_text" value="<%= searchText %>" autocomplete="off"/>
             </form>
-            <div id="ajax_search_indicator" style="display:none;position:absolute;left:500px;">Searching ...</div>
-            <div id="ajax_search_result_box" style="display:none;border:1px solid black;background-color:white;position:absolute;left:500px;width:300px !important;z-index:2;"></div>
+            <div id="ajax_search_indicator" style="display:none;position:absolute;left:200px;">Searching ...</div>
+            <div id="ajax_search_result_box" style="display:none;border:1px solid #7fc937;background-color:white;position:absolute;width:300px !important;z-index:2;"></div>
             <script type="text/javascript" language="javascript" charset="utf-8">
               // <![CDATA[
-                new Ajax.Autocompleter('search_text','ajax_search_result_box','<%= W_PREFIX %>ajax_search',
-                    {tokens: ',', indicator: 'ajax_search_indicator', select:'selectme'} );
+              $('search_text').focus();
+              
+              AutocompleteSearch = {
+		            redirectTo: function (li) {
+		                var link = li.select('a').first();
+		                link.focus();
+		                var url = link.getAttribute('href');
+		                location.href = url;
+		            }
+		        };
+
+              new Ajax.Autocompleter('search_text','ajax_search_result_box','<%= W_PREFIX %>ajax_search',
+                  {
+                   tokens: ',', 
+                   indicator: 'ajax_search_indicator', 
+                   select:'selectme',
+                   updateElement : AutocompleteSearch.redirectTo
+                  } );
               // ]]>
             </script>
         </p>
