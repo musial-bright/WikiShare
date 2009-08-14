@@ -1,3 +1,7 @@
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <%@ page session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -23,7 +27,7 @@
 <head>
   <title><fmt:message key="webapp" /></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="description" content="WikiShare 0.1" />
+  <meta name="description" content="WikiShare" />
   <meta name="author" content="Adam Musial-Bright" />
   <link href="<%= request.getContextPath() %>/public/wiki/css/wikishare.css" rel="stylesheet" type="text/css"/>
   <script type="text/javascript" src="/WikiShare/public/wiki/js/prototype.js"></script>
@@ -32,8 +36,6 @@
 </head>
 
 <body>
-<div id="container">
-
   <div id="header">
 
       <div id="pageHeader">
@@ -60,8 +62,8 @@
             <form class="search_form" action="<%= W_PREFIX %>search" method="get">
                 <input type="text" id="search_text" name="search_text" value="<%= searchText %>" autocomplete="off"/>
             </form>
-            <div id="ajax_search_indicator" style="display:none;position:absolute;left:200px;">Searching ...</div>
-            <div id="ajax_search_result_box" style="display:none;border:1px solid #7fc937;background-color:white;position:absolute;width:300px !important;z-index:2;"></div>
+            <img id="ajax_search_indicator" style="display:none;position:absolute;top: 172px; left:142px;" src="<%= request.getContextPath() %>/public/wiki/images/ajax-loader.gif" />
+            <div id="ajax_search_result_box" style="display:none;position:absolute;width:600px !important;z-index:2;"></div>
             <script type="text/javascript" language="javascript" charset="utf-8">
               // <![CDATA[
               $('search_text').focus();

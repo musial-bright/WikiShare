@@ -4,6 +4,7 @@
   <property file="build.properties"/>
   <property name="src.dir" value="src"/>
   <property name="web.dir" value="war"/>
+  <property name="dist.dir" value="dist"/>
   <property name="build.dir" value="${web.dir}/WEB-INF/classes"/>
   <property name="name" value="WikiShare"/>
   <property name="test.dir" value="test"/>
@@ -62,7 +63,7 @@
   </target>
 
   <target name="buildwar" depends="build" description="Build application as a WAR file">
-    <war destfile="${name}.war" webxml="${web.dir}/WEB-INF/web.xml">
+    <war destfile="${dist.dir}/${name}.war" webxml="${web.dir}/WEB-INF/web.xml">
       <fileset dir="${web.dir}">
         <include name="**/*.*" />
       </fileset>
@@ -84,6 +85,7 @@
         <exclude name="*.properties"/>
       </fileset>
     </delete>
+    <delete file="${dist.dir}/${name}.war"/>
   </target>
 
   <target name="undeploy" description="Un-Deploy application">

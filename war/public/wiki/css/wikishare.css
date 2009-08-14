@@ -1,15 +1,18 @@
 body {
   color: #444;
   background-color: #edf6e3;
-   background-image: url(../images/1000_bg.jpg);
+  background-image: url(../images/1000_bg.jpg);
   background-position: top center;
   background-repeat: repeat-y;
   font-size: 16px;
   line-height: 16px;
   font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
   text-align: left;
-    margin: 0px;
-  padding: 0px;
+  
+  width: 900px;
+  position: relative;
+  margin: 0px auto 0px auto;
+  padding: 0px 0px 0px 0px;
 }
 
 p {
@@ -49,13 +52,6 @@ acronym {
   border: 0;
   }
 
-
-#container {
-  width: 900px;
-  position: relative;
-  margin: 0px auto 0px auto;
-  padding: 0px 0px 0px 0px;
-}
 
 #header {
    width: 900px;
@@ -274,15 +270,24 @@ acronym {
 /* Scriptaculous ajax search select indicator */
 .selectme {
     font-size: 18px;
-    border-left: 5px solid #eee;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee; 
 }
 .selected {
-  background-color: #eee;
-  border-left: 5px solid #7fc937;
+  /*background-color: #eee;*/
+  color: #eee;
+  background-color: #7fc937;
   border-top: 1px solid #eee;
-  border-bottom: 1px solid #7fc937; 
+  border-bottom: 1px solid #eee; 
+  opacity: 1.0;
+}
+.selected a {
+	color: #fff;
+}
+#ajax_search_result_box {
+	border: 1px solid #aaa;
+	opacity: 0.85;
+	background-color: #fff;
 }
 #ajax_search_result_box ul {
     list-style-type: none;

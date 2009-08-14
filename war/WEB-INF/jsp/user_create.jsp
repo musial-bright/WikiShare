@@ -1,8 +1,5 @@
-<!DOCTYPE html
-     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ include file="html_head.jsp" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <% // bo: controller view... %>
 <div id="controllerViewContent">
