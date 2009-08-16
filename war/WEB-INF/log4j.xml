@@ -30,7 +30,7 @@
     </category>
 
     <category name="org.hibernate" additivity="false">
-        <priority value="debug"/>
+        <priority value="info"/>
         <appender-ref ref="WIKI_LOG"/>
     </category>
 

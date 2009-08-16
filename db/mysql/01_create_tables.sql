@@ -13,20 +13,13 @@ create table pages (
   PRIMARY KEY (id));
 commit;
 
-create table groups (
-  id INT NOT NULL auto_increment,
-  name VARCHAR(50) not null,
-  UNIQUE(name), PRIMARY KEY(id));
-
 create table users (
   id INT NOT NULL auto_increment,
-  group_id INT,
   name VARCHAR(50) not null,
   password varchar(50),
   timestamp timestamp,
   UNIQUE(name), 
-  PRIMARY KEY(id), 
-  FOREIGN KEY(group_id) REFERENCES groups(id));
+  PRIMARY KEY(id));
 
 create table navigations (
   id INT NOT NULL auto_increment,

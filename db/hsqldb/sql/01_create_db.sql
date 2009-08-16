@@ -9,20 +9,13 @@ create table pages (
   timestamp timestamp,
   PRIMARY KEY (id));
 
-create table groups (
-  id INTEGER NOT NULL identity,
-  name VARCHAR_IGNORECASE(50) not null,
-  UNIQUE(name), PRIMARY KEY(id));
-
 create table users (
   id INTEGER NOT NULL identity,
-  group_id INTEGER,
   name VARCHAR_IGNORECASE(50) not null,
   password varchar(30),
   timestamp timestamp,
   UNIQUE(name), 
-  PRIMARY KEY(id), 
-  FOREIGN KEY(group_id) REFERENCES groups(id));
+  PRIMARY KEY(id));
 
 create table navigations (
   id INTEGER NOT NULL identity,

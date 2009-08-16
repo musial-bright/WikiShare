@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -34,29 +35,31 @@ public class AuthenticationFilter implements Filter {
     Log logger = LogFactory.getLog(this.getClass());
 
     private Security security = new Security();
+    
+    private final String COOKIE_NAME = "sso";
+    private final String SEPARATOR = "_";
+    private final int SECONDS_PER_YEAR = 60*60*24*365;
 
     private FilterConfig config;
+    private String salt = null;
     private String rootName = null;
     private String rootPassword = null;
     private String passUrl = "";
     private String loginPage = "";
     private String errorPage = "";
 
-    //DriverManagerDataSource dataSource;
     JdbcUserDAO dao = new JdbcUserDAO();
 
     public void init(FilterConfig config) throws IllegalStateException {
         this.config = config;
-        this.rootName = config.getInitParameter("rootname");
-        this.rootPassword = config.getInitParameter("password");
-        this.passUrl = config.getInitParameter("pass_url");
-        this.loginPage = config.getInitParameter("loginPage");
-        this.errorPage = config.getInitParameter("errorPage");
+        salt = config.getInitParameter("salt");
+        rootName = config.getInitParameter("rootname");
+        rootPassword = config.getInitParameter("password");
+        passUrl = config.getInitParameter("pass_url");
+        loginPage = config.getInitParameter("loginPage");
+        errorPage = config.getInitParameter("errorPage");
     }
 
-    /**
-     * Authenticate user against the db user table or the root user in web.xml.
-     */
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
 
@@ -64,61 +67,69 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse)response;
         HttpSession session = httpRequest.getSession();
 
-
-        // Get user data
-        User user = (User) session.getAttribute(WikiShareHelper.USER);
-
-        // Try to logout
-        if (user != null && logout(request,session)) {
-            RequestDispatcher rd = config.getServletContext().
-                getRequestDispatcher(config.getInitParameter("loginPage"));
-                rd.forward(request, response);
+        if (checkLoggedIn(session)) {
+	        // Try to logout
+	        logout(httpRequest,httpResponse, session);
+        } else {
+	        // Try to authenticate
+	        if ( !authenticate(httpRequest, httpResponse, session) && !passRequestedUrl(httpRequest) ) {
+	
+	            RequestDispatcher rd =
+	                config.getServletContext().getRequestDispatcher(errorPage);
+	
+	            logger.debug("You are not logged in -> " +
+	                "redirecting to <"+ errorPage + ">");
+	
+	            rd.forward(httpRequest, httpResponse);
+	        }
         }
-
-        // Try to authenticate
-        if ( user == null && !authenticate(request,session) ) {
-            if( !passRequestedUrl(httpRequest) ) {
-
-                RequestDispatcher rd =
-                    config.getServletContext().getRequestDispatcher(errorPage);
-
-                logger.debug("You are not logged in -> " +
-                    "redirecting to <"+ errorPage + ">");
-
-              rd.forward(request, response);
-            }
-        }
-
-        chain.doFilter(request, response);
+        chain.doFilter(httpRequest, httpResponse);
     }
 
-    private boolean authenticate(ServletRequest request, HttpSession session) {
+    private boolean checkLoggedIn(HttpSession session) {
+    	if ((User)session.getAttribute(WikiShareHelper.USER) == null) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    /**
+     * Authenticate user against the db user table or the root user in web.xml.
+     */
+    private boolean authenticate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
-        // validate parameters
-        if(request.getParameter(WikiShareHelper.ACTION_PARAM) == null) {
-            logger.debug("ACTION PARAM is NULL");
-            return false;
+    	if (checkLoggedIn(session)) { return true; }
+    	
+        if (!WikiShareHelper.paramEquals(request, WikiShareHelper.ACTION_PARAM, WikiShareHelper.LOGIN)) {
+        	
+        	// try to login via sso cookie
+        	User user = getUserFromSsoCookie(request);
+        	if (user != null) {
+        		session.setAttribute(WikiShareHelper.USER, user);
+        		return true;
+        	} else {
+        		return false;
+        	}
         }
-        if(!request.getParameter(WikiShareHelper.ACTION_PARAM).
-                equals(WikiShareHelper.LOGIN) ) {
-            logger.debug("ACTION PARAM is NOT login");
-            return false;
-        }
+        
         if (this.rootName == null && this.rootPassword == null) {
             logger.warn("Root system user not set.");
             return false;
         }
 
         // authentication
-        String username = request.getParameter(WikiShareHelper.USERNAME);
-        String password = request.getParameter(WikiShareHelper.PASSWORD);
+        String username = WikiShareHelper.getParam(request, WikiShareHelper.USERNAME);
+        if (username == "") {
+        	return false;
+        }
+        
+        String password = WikiShareHelper.getParam(request, WikiShareHelper.PASSWORD);
 
-        try{
+        try {
             logger.debug("Try to log in : " + username);
 
             // Root user login
-            if(	this.rootName.equals(username) &&
-                this.rootPassword.equals(password)) {
+            if(	rootName.equals(username) && rootPassword.equals(password)) {
 
                 User user = new User();
                 user.setUsername(username);
@@ -128,30 +139,76 @@ public class AuthenticationFilter implements Filter {
                 return true;
             }
 
-            // Regular user login against User-DAO
+            // Regular user login against user dao
             User loginUser = dao.getUser(username, security.encript(password));
             if(loginUser != null) {
                 session.setAttribute(WikiShareHelper.USER, loginUser);
                 logger.info("Authenticating as : '" + username + "'");
+                setSsoCookieForUser(response, loginUser);
                 return true;
             }
         } catch(Exception e) {
             logger.error("Authentication failed: ", e);
         }
-
         return false;
     }
+    
+    private User getUserFromSsoCookie(HttpServletRequest request) {
+    	for (Cookie cookie : request.getCookies()) {
+    		if (cookie.getName().equals(COOKIE_NAME)) {
+    			try {
+	    			String value = cookie.getValue();
+	    			String id = value.substring(0, value.indexOf(SEPARATOR));
+	    			
+	    			User user = dao.getUser(Integer.valueOf(id).intValue());
+	    			String compareValue = encriptUser(user.getId(), user.getUsername());
+	    			
+	    			if (value.equals(compareValue)) {
+	    				return user;
+	    			}
+	    			
+    			} catch (Exception e) {
+    				logger.error("[validateSsoCookie] ", e);
+    			}
+    		}
+    	}
+    	return null;
+    }
+    
+    private void setSsoCookieForUser(HttpServletResponse response, User user) {
+    	Cookie ssoCookie = new Cookie(COOKIE_NAME, encriptUser(user.getId(), user.getUsername()));
+    	ssoCookie.setPath("/");
+    	ssoCookie.setMaxAge(SECONDS_PER_YEAR);
+    	response.addCookie(ssoCookie);
+    }
+    
+    private void removeSsoCookie(HttpServletRequest request, HttpServletResponse response) {
+    	for (Cookie cookie : request.getCookies()) {
+    		if (cookie.getName().equals(COOKIE_NAME)) {
+    			cookie.setMaxAge(0);
+    			cookie.setPath("/");
+    			response.addCookie(cookie);
+    			logger.debug("[removeSsoCookie] " + cookie.getName() + "/" + cookie.getMaxAge());
+    		}
+    	}
+    }
+    
+    private String encriptUser(int userId, String userName) {
+    	return userId + SEPARATOR + security.encript(userName + salt);
+    }
 
-    private boolean logout(ServletRequest request, HttpSession session) {
+    private boolean logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
-        try{
-            if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
-                request.getParameter(WikiShareHelper.ACTION_PARAM).equals(WikiShareHelper.LOGOUT) ) {
-
-                User user = (User)session.getAttribute(WikiShareHelper.USER);
+    	if (!checkLoggedIn(session)) { return false; }
+        try {
+            if( WikiShareHelper.paramEquals(request, WikiShareHelper.ACTION_PARAM, WikiShareHelper.LOGOUT) ) {
                 session.removeAttribute(WikiShareHelper.USER);
-
-                logger.debug("Logging out " + user.getUsername());
+                removeSsoCookie(request, response);
+                
+                // redirect to login page
+                RequestDispatcher rd = config.getServletContext().
+                	getRequestDispatcher(config.getInitParameter("loginPage"));
+                	rd.forward(request, response);
                 return true;
             }
         } catch(Exception e) {

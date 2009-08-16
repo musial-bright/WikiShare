@@ -1,6 +1,7 @@
 package com.amb.wikishare.app;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -63,4 +64,18 @@ public class WikiShareHelper {
         return pageIdOrSignature;
     }
 
+    public static String getParam(HttpServletRequest request, String name) {
+    	if (request.getParameter(name) == null) {
+    		return "";
+    	}
+    	return request.getParameter(name);
+    }
+    
+    public static boolean paramEquals(HttpServletRequest request, String name, String value) {
+    	if (getParam(request, name).equals(value) ) {
+    		return true;
+    	}
+    	return false;
+    }
+    
 }
