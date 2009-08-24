@@ -148,18 +148,16 @@ public class JdbcWikipageDAO  {
 
     public void saveWikipage(Page wikipage) throws Exception {
         logger.debug("[saveWikipage] " + wikipage.getTitle());
-
+        
+        deactiveteOtherVersions(wikipage.getSignature());
+        
         //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         wikipage.setDate(new Date());
 
         Session session = HibernateFactory.sessionFactory.getCurrentSession();
         session.beginTransaction();
-
-        deactiveteOtherVersions(session, wikipage.getSignature());
         session.save(wikipage);
-
         session.getTransaction().commit();
-
     }
 
 
@@ -176,14 +174,12 @@ public class JdbcWikipageDAO  {
     public void updateWikipage(Page wikipage) throws Exception {
         logger.debug("[updateWikipage] " + wikipage.getTitle());
 
+        deactiveteOtherVersions(wikipage.getSignature());
+        
         wikipage.setDate(new Date());
-
         Session session = HibernateFactory.sessionFactory.getCurrentSession();
         session.beginTransaction();
-
-        deactiveteOtherVersions(session, wikipage.getSignature());
         session.update(wikipage);
-
         session.getTransaction().commit();
     }
 
@@ -207,14 +203,18 @@ public class JdbcWikipageDAO  {
      * Deactivate all wiki pages.
      * Use is to deactivate viki pages of an certain verison, for example in case
      * or wiki page update or store.
-     * @param session : hibernate session
      * @param signature : wiki page family (versions) id
      */
-    private void deactiveteOtherVersions(Session session, String signature) {
+    private void deactiveteOtherVersions(String signature) {
         logger.debug("[deactiveteOtherVersions] signature=" + signature);
+        Session session = HibernateFactory.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        
         SQLQuery query = session.createSQLQuery("update pages set active_page = 0 where signature = :signature");
         query.setString("signature", signature);
         query.executeUpdate();
+        
+        session.getTransaction().commit();
     }
 
     /**

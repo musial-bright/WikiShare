@@ -154,7 +154,11 @@ public class AuthenticationFilter implements Filter {
     }
     
     private User getUserFromSsoCookie(HttpServletRequest request) {
-    	for (Cookie cookie : request.getCookies()) {
+    	Cookie[] cookies = request.getCookies();
+    	if (cookies == null) {
+    		return null;
+    	}
+    	for (Cookie cookie : cookies) {
     		if (cookie.getName().equals(COOKIE_NAME)) {
     			try {
 	    			String value = cookie.getValue();

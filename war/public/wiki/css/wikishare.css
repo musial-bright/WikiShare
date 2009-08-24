@@ -1,33 +1,31 @@
 body {
-  color: #444;
+  font-family: "Helvetica Neue", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px;
+  margin-top: .5em; 
+  color: #666;
+  text-align: left;
+  
   background-color: #edf6e3;
   background-image: url(../images/1000_bg.jpg);
   background-position: top center;
   background-repeat: repeat-y;
-  font-size: 16px;
-  line-height: 16px;
-  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
-  text-align: left;
   
   width: 900px;
   position: relative;
   margin: 0px auto 0px auto;
   padding: 0px 0px 0px 0px;
 }
-
 p {
-  font-size: 13px;
-  line-height: 16px;
-  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
   text-align: left;
   margin: 0px;
   padding: 0px;
 }
 h1, h2, h3 {
-  font-size: 13px;
-  line-height: 16px;
+  font-family: "Helvetica Neue", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px; 
+  color: #666;
   font-weight: bold;
-  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
+  
   text-align: left;
   margin: 0px;
   padding: 0px;
@@ -36,12 +34,10 @@ h1, h2, h3 {
 a:link,
 a:active,
 a:visited {
-  font-weight: bold;
   text-decoration: none;
   color: #7fc937;
   }
 a:hover {
-  font-weight: bold;
   text-decoration: underline;
   color: #7fc937;
 }
@@ -50,13 +46,13 @@ acronym {
   font-weight: normal;
   font-style: normal;
   border: 0;
-  }
+}
 
 
 #header {
-   width: 900px;
-  margin: 0px 0px 0px 0px;
-  padding: 0px 0px 0px 0px;
+  width: 900px;
+  margin: 0;
+  padding: 0;
 }
 
 #controllerViewContent {
@@ -91,7 +87,7 @@ acronym {
   text-transform: uppercase;
   margin: -30px 0px 0px 10px;
   padding: 0px 0px 0px 0px;
-  }
+}
 
 #pageHeader h2 {
    width: 600px;
@@ -117,9 +113,6 @@ acronym {
 }
 #infoBox .p1 {
   color: #fff ! important;
-  font-size: 10px ! important;
-  line-height: 16px;
-  font-weight: bold;
   text-transform: uppercase;
   text-align: left;
   margin: 0px 50px 0px 0px;
@@ -127,8 +120,6 @@ acronym {
 }
 #infoBox .p2 {
   color: #fff ! important;
-  font-size: 10px ! important;
-  line-height: 16px;
   font-weight: normal;
   text-transform: uppercase;
   text-align: left;
@@ -140,7 +131,6 @@ acronym {
 .contentBox {
    width: 600px;
   border: 1px solid #aaa;
-  /*background-image: url(../images/green_button.png);*/
   background-position: bottom center;
   background-repeat: no-repeat;
   background-color: #fff;
@@ -159,19 +149,39 @@ acronym {
   margin: -10px -10px 4px -10px;
   padding: 4px 4px 4px 10px;
 }
-.contentBox p {
-  padding-bottom: 8px;
-  text-align: justify;
-}
 .contentBox h3 a {
   font-size: 11px;
   color: #67a12e;
 }
 
+
+/* Lists */
+.contentBox ol {
+    list-style: decimal;
+    margin-top:0;
+    margin-bottom:0;
+    margin-left: 1em;
+    padding-left: 1em;
+    text-indent: -0.25em;
+}
+
+.contentBox ul {
+	list-style: none;
+	margin-top:0;
+    margin-bottom:0;
+	margin-left: 0.5em;
+	padding-left: 1em;
+    text-indent: -1em;
+}
+.contentBox ul li:before {
+    content: "\00BB \0020";
+}
+
+
 #footer {
-   width: 600px;
+  width: 600px;
   border: 1px solid #aaa;
-   background-image: url(stone_19.gif);
+  background-image: url(stone_19.gif);
   background-position: center center;
   background-repeat: repeat;
   background-color: #284C00;
@@ -181,7 +191,7 @@ acronym {
 }
 
 
-
+/* Right content */
 #contentRight {
   position: absolute;
   top: 132px;
@@ -202,11 +212,6 @@ acronym {
   list-style-type: none;
   color: #6c9e2d;
   background-color: #f8f8f8;
-  font-size: 13px;
-  line-height: 16px;
-  font-weight: normal;
-  font-style: italic;
-  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
   text-align: left;
   border-bottom: 1px dotted #ccc;
   margin: 0px 0px 0px 0px;
@@ -232,12 +237,7 @@ acronym {
   background-image: url(../images/content_header.jpg);
   background-position: center right;
   background-repeat: repeat-x;
-  font-size: 13px;
-  line-height: 16px;
-  font-weight: bold;
-  font-family: Cochin, Georgia, "New Century Schoolbook", "Bitstream Vera Serif", "Times New Roman", times, serif;
-  text-transform: uppercase;
-  text-align: left;
+  
   border-bottom: 1px solid #aaa;
   margin: 0px 0px 0px 0px;
   padding: 3px 5px 3px 5px;
@@ -248,7 +248,6 @@ acronym {
 
 
 .boxRight {
-  /*background-image: url(../images/green_button.png);*/
   background-position: bottom center;
   background-repeat: no-repeat;
   background-color: #fff;
@@ -274,7 +273,6 @@ acronym {
     border-bottom: 1px solid #eee; 
 }
 .selected {
-  /*background-color: #eee;*/
   color: #eee;
   background-color: #7fc937;
   border-top: 1px solid #eee;
@@ -283,6 +281,7 @@ acronym {
 }
 .selected a {
 	color: #fff;
+	text-shadow: black 0.1em 0.1em 0.2em
 }
 #ajax_search_result_box {
 	border: 1px solid #aaa;
