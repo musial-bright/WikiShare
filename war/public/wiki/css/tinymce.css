@@ -51,3 +51,11 @@ a:hover {
   color: #7fc937;
 }
 
+/* code formating */
+pre {
+    padding:0;
+    margin:0;
+    font-size:11px; 
+    color: #ccc;
+    background: #222;
+}
