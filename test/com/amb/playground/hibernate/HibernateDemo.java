@@ -18,7 +18,7 @@ import com.amb.wikishare.domain.Page;
 public class HibernateDemo
 {
     private static final SessionFactory sessionFactory =
-          new AnnotationConfiguration().configure("hibernate-test.cfg.xml").buildSessionFactory();
+          new AnnotationConfiguration().configure("hibernate.cfg.xml").buildSessionFactory();
 
 
     public static void main(String[] args)

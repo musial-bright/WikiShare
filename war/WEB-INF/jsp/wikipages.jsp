@@ -1,6 +1,6 @@
 <%@ include file="html_head.jsp" %>
 
-<% // bo: controller view... %>
+<% // bo: controllerViewContent %>
 <div id="controllerViewContent">
 
   <div class="contentBox">
@@ -35,7 +35,7 @@
     </table>
   </div>
 
-</div> <% // eo: controller view. %>
+</div> <% // eo: controllerViewContent %>
 
 <div id="contentRight">
 

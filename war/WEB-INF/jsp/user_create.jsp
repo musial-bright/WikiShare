@@ -1,7 +1,7 @@
 <%@ include file="html_head.jsp" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<% // bo: controller view... %>
+<% // bo: controllerViewContent %>
 <div id="controllerViewContent">
 	<div class="contentBox">
 	<form:form method="post" commandName="user">
@@ -22,7 +22,7 @@
 		</p>
    </form:form>
 	</div>
-</div> <% // eo: controller view. %>
+</div> <% // eo: controllerViewContent %>
 
 
 <%@ include file="html_footer.jsp" %>

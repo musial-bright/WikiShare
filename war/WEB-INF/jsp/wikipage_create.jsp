@@ -26,7 +26,7 @@
 <!-- /TinyMCE -->
 
 
-<%  // bo: controller view... %>
+<%  // bo: controllerViewContent %>
 <div id="controllerViewContent">
 
 	<div class="contentBox">
@@ -57,7 +57,7 @@
 		</form:form>
 	</div>
 
-</div> <% // eo: controller view. %>
+</div> <% // eo: controllerViewContent %>
 
 <div id="contentRight">
 

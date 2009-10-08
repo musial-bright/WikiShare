@@ -14,14 +14,6 @@
     <fileset dir="${web.dir}/WEB-INF/lib">
       <include name="*.jar"/>
     </fileset>
-
-    <!-- We need the servlet API classes: -->
-    <!-- * for Tomcat 5/6 use servlet-api.jar -->
-    <!-- * for other app servers - check the docs -->
-    <fileset dir="${appserver.lib}">
-      <include name="servlet*.jar"/>
-    </fileset>
-
     <pathelement path="${build.dir}"/>
     <pathelement path="${test.dir}"/>
   </path>
@@ -34,16 +26,25 @@
     <echo message="Available targets are:"/>
     <echo message=""/>
     <echo message="build --> Build the application"/>
-    <echo message="deploy --> Deploy application as directory"/>
-    <echo message="deploywar --> Deploy application as a WAR file"/>
-    <echo message="install --> Install application in Tomcat"/>
+    <echo message="test --> Test the application"/>
+    <echo message="deploy --> Deploy application as directory on Tomcat"/>
+    <echo message="deploywar --> Deploy application as a WAR file on Tomcat"/>
     <echo message="reload --> Reload application in Tomcat"/>
-    <echo message="start --> Start Tomcat application"/>
-    <echo message="stop --> Stop Tomcat application"/>
-    <echo message="list --> List Tomcat applications"/>
     <echo message=""/>
   </target>
 
+  <target name="clean" description="Clean build directories">
+    <delete includeEmptyDirs="true">
+        <fileset dir="${build.dir}" includes="**/*"/>
+    </delete>
+  </target>
+  
+  <target name="cleandist" description="Clean distribution">
+    <delete includeEmptyDirs="true">
+        <fileset dir="${dist.dir}" includes="**/*"/>
+    </delete>
+  </target>
+  
   <target name="build" depends="clean" description="Compile main source tree java files">
     <mkdir dir="${build.dir}"/>
     <javac destdir="${build.dir}" source="1.5" target="1.5" debug="true"
@@ -51,6 +52,12 @@
       <src path="${src.dir}"/>
       <classpath refid="master-classpath"/>
     </javac>
+    <copy todir="${build.dir}">
+        <fileset dir="${src.dir}">
+            <include name="**/*.properties"/>
+            <include name="**/*.xml"/>
+        </fileset>
+    </copy>
   </target>
 
   <target name="deploy" depends="build" description="Deploy application">
@@ -68,7 +75,7 @@
         <include name="**/*.*" />
       </fileset>
     </war>
-    </target>
+  </target>
 
   <target name="deploywar" depends="buildwar" description="Deploy application as a WAR file">
     <copy todir="${deploy.path}" preservelastmodified="true">
@@ -76,16 +83,6 @@
         <include name="*.war"/>
       </fileset>
     </copy>
-  </target>
-
-  <target name="clean" description="Clean output directories">
-    <delete>
-      <fileset dir="${build.dir}">
-        <exclude name="*.xml"/>
-        <exclude name="*.properties"/>
-      </fileset>
-    </delete>
-    <delete file="${dist.dir}/${name}.war"/>
   </target>
 
   <target name="undeploy" description="Un-Deploy application">
@@ -100,7 +97,7 @@
 
   <target name="buildtests" depends="build" description="Compile test tree java files">
     <mkdir dir="${build.dir}"/>
-    <delete file="${build.dir}/com/amb/wikishare/app/HibernateFactory.class"/>
+    <!-- delete file="${build.dir}/com/amb/wikishare/app/HibernateFactory.class"/-->
     <javac destdir="${build.dir}" source="1.5" target="1.5" debug="true"
       deprecation="false" optimize="false" failonerror="true">
       <src path="${test.dir}"/>
@@ -124,8 +121,7 @@
       <formatter type="brief" usefile="false"/>
       <batchtest>
         <fileset dir="${build.dir}">
-        <include name="**/*Tests.*"/>
-
+            <include name="**/*Tests.*"/>
         </fileset>
       </batchtest>
     </junit>
@@ -151,33 +147,9 @@
     </fileset>
   </path>
 
-  <taskdef name="install" classname="org.apache.catalina.ant.InstallTask">
-    <classpath refid="catalina-ant-classpath"/>
-  </taskdef>
-
   <taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask">
     <classpath refid="catalina-ant-classpath"/>
   </taskdef>
-
-  <taskdef name="list" classname="org.apache.catalina.ant.ListTask">
-    <classpath refid="catalina-ant-classpath"/>
-  </taskdef>
-
-  <taskdef name="start" classname="org.apache.catalina.ant.StartTask">
-    <classpath refid="catalina-ant-classpath"/>
-  </taskdef>
-
-  <taskdef name="stop" classname="org.apache.catalina.ant.StopTask">
-    <classpath refid="catalina-ant-classpath"/>
-  </taskdef>
-
-  <target name="install" description="Install application in Tomcat">
-    <install url="${tomcat.manager.url}"
-      username="${tomcat.manager.username}"
-      password="${tomcat.manager.password}"
-      path="/${name}"
-      war="${name}"/>
-  </target>
 
   <target name="reload" description="Reload application in Tomcat">
     <reload url="${tomcat.manager.url}"
@@ -186,25 +158,6 @@
     path="/${name}"/>
   </target>
 
-  <target name="start" description="Start Tomcat application">
-    <start url="${tomcat.manager.url}"
-    username="${tomcat.manager.username}"
-    password="${tomcat.manager.password}"
-    path="/${name}"/>
-  </target>
-
-  <target name="stop" description="Stop Tomcat application">
-    <stop url="${tomcat.manager.url}"
-    username="${tomcat.manager.username}"
-    password="${tomcat.manager.password}"
-    path="/${name}"/>
-  </target>
-
-  <target name="list" description="List Tomcat applications">
-    <list url="${tomcat.manager.url}"
-    username="${tomcat.manager.username}"
-    password="${tomcat.manager.password}"/>
-  </target>
   <!-- End Tomcat tasks -->
 
 </project>

@@ -4,7 +4,7 @@
 
 
 
-<% // bo: controller view... %>
+<% // bo: controllerViewContent %>
 <div id="controllerViewContent">
     <div class="contentBox">
 	    <form:form method="post" commandName="navigation">
@@ -32,7 +32,7 @@
 	        </table>
 	    </form:form>
     </div>
-</div> <% // eo: controller view. %>
+</div> <% // eo: controllerViewContent %>
 
 <div id="contentRight">
     <div class="bixRight">

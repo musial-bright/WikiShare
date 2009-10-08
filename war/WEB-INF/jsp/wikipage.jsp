@@ -29,7 +29,7 @@ function setNavigationEditLink() {
 
 
 
-<% // bo: controller view... %>
+<% // bo: controllerViewContent %>
 <div id="controllerViewContent">
 
   <div class="contentBox">
@@ -45,7 +45,7 @@ function setNavigationEditLink() {
       <p><c:out value="${model.page.content}" escapeXml="false"/></p>
   </div>
 
-</div> <% // eo: controller view. %>
+</div> <% // eo: controllerViewContent %>
 
 
 <div id="contentRight">
@@ -75,7 +75,4 @@ function setNavigationEditLink() {
 
 </div>
 
-
-</div><%  // End on container-div %>
-</body>
-</html>
+<%@ include file="html_footer.jsp" %>

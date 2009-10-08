@@ -27,7 +27,7 @@ function setNavigationEditLink() {
 </script>
 <script src="/WikiShare/public/wiki/js/navigation.js"></script>
 
-<% // bo: controller view... %>
+<% // bo: controllerViewContent %>
 <div id="controllerViewContent">
 
 	<c:forEach items="${model.pages}" var="page">
@@ -44,7 +44,7 @@ function setNavigationEditLink() {
 		</div>
 	</c:forEach>
 
-</div> <% // eo: controller view. %>
+</div> <% // eo: controllerViewContent %>
 
 
 <div id="contentRight">
