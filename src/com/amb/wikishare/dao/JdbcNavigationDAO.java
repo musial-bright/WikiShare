@@ -1,20 +1,13 @@
 package com.amb.wikishare.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.classic.Session;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 
 import com.amb.wikishare.app.HibernateFactory;
 import com.amb.wikishare.domain.Navigation;
-import com.amb.wikishare.domain.User;
 
 public class JdbcNavigationDAO {
 

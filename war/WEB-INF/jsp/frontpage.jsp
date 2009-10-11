@@ -41,6 +41,7 @@ function setNavigationEditLink() {
          <div id="content_${page.id}">
             <c:out value="${page.content}" escapeXml="false"/>
          </div>
+         <p class="date"><c:out value="${page.dateForHuman}" /></p>
 		</div>
 	</c:forEach>
 

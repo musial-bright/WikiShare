@@ -14,14 +14,14 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Navigation;
 import com.amb.wikishare.service.NavigationService;
-import com.amb.wikishare.service.WikipageService;
+import com.amb.wikishare.service.PageService;
 
 public class FrontpageController implements Controller {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
     private Map<String, Object> model = new HashMap<String, Object>();
-    private WikipageService wpService = null;
+    private PageService wpService = null;
     private NavigationService navigationService = null;
 
     public ModelAndView handleRequest(
@@ -29,7 +29,7 @@ public class FrontpageController implements Controller {
             HttpServletResponse response) {
 
         try {
-            model.put("pages", wpService.getWikipagesList(true, true));
+            model.put("pages", wpService.getPagesList(true, true));
             navigationAction(request);
         } catch (Exception e) {
             logger.error("[handleRequest] " + e);
@@ -70,7 +70,7 @@ public class FrontpageController implements Controller {
     }
 
 
-    public void setWikipageService(WikipageService wpService) {
+    public void setWikipageService(PageService wpService) {
         this.wpService = wpService;
     }
 

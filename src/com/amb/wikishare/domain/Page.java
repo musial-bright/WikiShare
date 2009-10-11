@@ -167,7 +167,7 @@ public class Page {
     }
     public String getDateForHuman() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        return dateFormat.format(this.date);
+        return dateFormat.format(getDate());
     }
 
 }

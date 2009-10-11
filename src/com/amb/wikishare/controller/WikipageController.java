@@ -18,13 +18,13 @@ import com.amb.wikishare.domain.Navigation;
 import com.amb.wikishare.domain.Page;
 import com.amb.wikishare.service.ClipboardService;
 import com.amb.wikishare.service.NavigationService;
-import com.amb.wikishare.service.WikipageService;
+import com.amb.wikishare.service.PageService;
 
 public class WikipageController implements Controller {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    private WikipageService wpService;
+    private PageService pageService;
     private NavigationService navigationService;
 
     private Map<String, Object> model = new HashMap<String, Object>();
@@ -38,10 +38,10 @@ public class WikipageController implements Controller {
             HttpServletResponse response) throws Exception {
 
         // Wikipage action : get wikipage from URI
-        Page wikipage = wpService.getWikipageByIdOrSingnature(request);
+        Page page = pageService.getWikipageByIdOrSingnature(request);
 
-        if(wikipage != null) {
-            model.put(WikiShareHelper.PAGE, wikipage);
+        if(page != null) {
+            model.put(WikiShareHelper.PAGE, page);
 
             // Navigation action : Delete navigation
             navigationAction(request);
@@ -106,8 +106,8 @@ public class WikipageController implements Controller {
     }
 
 
-    public void setWikipageService (WikipageService wpService) {
-        this.wpService = wpService;
+    public void setWikipageService (PageService wpService) {
+        this.pageService = wpService;
     }
 
 

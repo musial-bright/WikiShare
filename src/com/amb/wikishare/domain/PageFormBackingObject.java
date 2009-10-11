@@ -1,5 +1,7 @@
 package com.amb.wikishare.domain;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.amb.wikishare.service.ClipboardService;
@@ -17,16 +19,16 @@ public class PageFormBackingObject extends Page {
 
     public PageFormBackingObject() {}
 
-    public PageFormBackingObject(Page wikipage) {
-        if(wikipage != null) {
-            super.id = wikipage.getId();
-            super.signature = wikipage.getSignature();
-            super.userId = wikipage.getUserId();
-            super.activePage = wikipage.getActivePage();
-            super.frontPage = wikipage.getFrontPage();
-            super.title = wikipage.getTitle();
-            super.content = wikipage.getContent();
-            super.date = wikipage.getDate();
+    public PageFormBackingObject(Page page) {
+        if(page != null) {
+            super.id = page.getId();
+            super.signature = page.getSignature();
+            super.userId = page.getUserId();
+            super.activePage = page.getActivePage();
+            super.frontPage = page.getFrontPage();
+            super.title = page.getTitle();
+            super.content = page.getContent();
+            super.date = page.getDate();
         }
     }
 

@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.User;
 import com.amb.wikishare.domain.Page;
-import com.amb.wikishare.service.WikipageService;
+import com.amb.wikishare.service.PageService;
 
 
 public class WikipagesController implements Controller {
@@ -28,7 +28,7 @@ public class WikipagesController implements Controller {
     protected final Log logger = LogFactory.getLog(getClass());
 
     private HttpSession session;
-    private WikipageService wpService;
+    private PageService wpService;
     private final String SHOW_ERRORS = "showError";
     private final String TEMPLATE = "wikipage";
     private Map<String, Object> model = new HashMap<String, Object>();
@@ -59,9 +59,9 @@ public class WikipagesController implements Controller {
         try {
             if(request.getParameter(WikiShareHelper.ACTION_PARAM) != null &&
                request.getParameter(WikiShareHelper.ACTION_PARAM).equals("showAllPageVersions")) {
-                this.model.put("pages", this.wpService.getWikipagesList(false,false));
+                this.model.put("pages", this.wpService.getPagesList(false,false));
             } else {
-                this.model.put("pages", this.wpService.getWikipagesList(true,false));
+                this.model.put("pages", this.wpService.getPagesList(true,false));
             }
         } catch (Exception e) {
             logger.error("WikipageService.getPagesList() " + e);
@@ -86,13 +86,13 @@ public class WikipagesController implements Controller {
     private void deleteAction(HttpServletRequest request) {
         try{
             int page_id = Integer.parseInt(request.getParameter(WikiShareHelper.OBJECT_ID_PARAM));
-            this.wpService.dropWikipage(new Page(page_id));
+            this.wpService.dropPage(new Page(page_id));
         } catch(Exception e) {
             logger.error("Wiki page ID Error: " + e);
         }
     }
 
-    public void setWikipageService (WikipageService wpService) {
+    public void setWikipageService (PageService wpService) {
         this.wpService = wpService;
     }
 

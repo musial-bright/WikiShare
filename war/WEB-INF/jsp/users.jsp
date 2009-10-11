@@ -6,14 +6,16 @@
 <div class="contentBox">
   <h3>Wiki users</h3>
 
-  <table border="1">
+  <table>
     <tr>
       <th>ID</th>
       <th>Title</th>
       <th><a href="<%= W_PREFIX %>user_create">Create</a></th>
     </tr>
+    <% String tdClass = "odd"; %>
     <c:forEach items="${model.users}" var="user">
-      <tr>
+      <% if(tdClass.equals("odd")) { tdClass = ""; } else { tdClass = "odd"; } %>
+      <tr class="<%= tdClass %>">
         <td><c:out value="${user.id}"/></td>
         <td>
           <c:out value="${user.username}"/>

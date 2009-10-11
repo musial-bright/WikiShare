@@ -126,9 +126,11 @@
     <property name="jdbcUserDAO" ref="jdbcUserDAO" />
   </bean>
   <bean id="wikipageService"
-    class="com.amb.wikishare.service.WikipageService">
+    class="com.amb.wikishare.service.PageService">
     <property name="jdbcWikipageDAO" ref="jdbcWikipageDAO" />
     <property name="jdbcUserDAO" ref="jdbcUserDAO" />
+    <!-- possible orders title asc, title desc, timestamp asc, timestamp desc -->
+    <property name="pagesOrder" value="timestamp desc" />
   </bean>
 
 

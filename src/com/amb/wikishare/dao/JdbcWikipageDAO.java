@@ -2,34 +2,36 @@ package com.amb.wikishare.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.classic.Session;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 
 import com.amb.wikishare.app.HibernateFactory;
 import com.amb.wikishare.domain.Page;
-import com.amb.wikishare.service.WikipageInterface;
-import com.amb.wikishare.service.UserService;
-import com.amb.wikishare.domain.User;
 
 
 public class JdbcWikipageDAO  {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
+    public String allowedOrder = "title asc,title desc,timestamp asc,timestamp desc";
+    
+    
+    /**
+     * Allowed pages order seperated by a comma, exp: "title asc,title desc"
+     * @param order
+     */
+    public void setAllowedOrder(String order) {
+    	this.allowedOrder = order;
+    }
+    
+    
     /**
      * Get all wiki pages or active only pages.
      * @param activePagesOnly
@@ -38,19 +40,22 @@ public class JdbcWikipageDAO  {
      */
     public List<Page> getWikipagesList(
             boolean activePagesOnly,
-            boolean frontPagesOnly) {
+            boolean frontPagesOnly,
+            String order) {
+    	
+    	order = validateOrder(order);
 
-        String sql = "select * from pages as page order by title asc";
+        String sql = "select * from pages as page order by " + order;
         Integer activePages = 0;
         if(activePagesOnly) {
-            sql = "select * from pages as page where active_page = 1 order by title asc";
+            sql = "select * from pages as page where active_page = 1 order by " + order;
         }
         Integer frontPages = 0;
         if(frontPagesOnly) {
-            sql = "select * from pages as page where and front_page = 1 order by title asc";
+            sql = "select * from pages as page where and front_page = 1 order by " + order;
         }
         if(activePagesOnly && frontPagesOnly) {
-            sql = "select * from pages as page where active_page = 1 and front_page = 1 order by title asc";
+            sql = "select * from pages as page where active_page = 1 and front_page = 1 order by " + order;
         }
 
         Session session = HibernateFactory.sessionFactory.getCurrentSession();
@@ -216,27 +221,15 @@ public class JdbcWikipageDAO  {
         
         session.getTransaction().commit();
     }
-
-    /**
-     * While loading a wiki page, the user comes from the DB.
-     * In case of creating or updating a new wiki page, the user will be
-     * recived from the session in the <code>WikipageCreateController</code>
-     * an stored in the <cond>Wikipage</code> form backing object.
-     * @param wikipage
-     * @return
-     */
-    /*
-    private int getUserIdFromWikpage(Wikipage wikipage) {
-        int userId = -1;
-        try {
-            userId = wikipage.getUser().getId();
-        } catch(Exception e) {
-            logger.debug("No user id for wiki page " + wikipage.getTitle());
-        }
-        logger.debug("getUserIdFromWikpage user id = " + userId);
-        return userId;
+    
+    protected String validateOrder(String order) {
+    	String orderList[] = allowedOrder.split(",");
+    	for(String o : orderList) {
+	    	if (order.equalsIgnoreCase(o)) {
+	    		return o;
+	    	}
+    	}
+    	return "title asc";
     }
-    */
-
 
 }

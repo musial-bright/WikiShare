@@ -14,7 +14,7 @@ import com.amb.wikishare.domain.Page;
 public class NavigationService implements NavigationInterface {
 
     private String webappPrefix;
-    private WikipageService ws;
+    private PageService ws;
     private JdbcNavigationDAO jdbcNavigationDAO;
 
     public void setWebappPrefix(String webappPrefix) {
@@ -112,7 +112,7 @@ public class NavigationService implements NavigationInterface {
 
 
 
-    public void setWikipageService(WikipageService ws) {
+    public void setWikipageService(PageService ws) {
         this.ws = ws;
     }
 

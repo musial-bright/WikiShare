@@ -6,7 +6,7 @@
   <div class="contentBox">
     <h3>Wikipages</h3>
 
-    <table border="1">
+    <table>
       <tr>
         <th>ID</th>
         <th>Signature</th>
@@ -17,15 +17,17 @@
         <th>Date</th>
         <th><a href="<%= W_PREFIX %>wikipage_create">Create</a></th>
       </tr>
+      <% String tdClass = "odd"; %>
       <c:forEach items="${model.pages}" var="page">
-        <tr>
+        <% if(tdClass.equals("odd")) { tdClass = ""; } else { tdClass = "odd"; } %>
+        <tr class="<%= tdClass %>">
           <td><c:out value="${page.id}"/></td>
           <td><c:out value="${page.signature}"/></td>
           <td><c:out value="${page.userId}"/> (<c:out value="${page.userId}"/>)</td>
           <td><c:out value="${page.activePage}"/></td>
           <td><c:out value="${page.frontPage}"/></td>
           <td><a href="<%= W_PREFIX %>wikipage/<c:out value="${page.id}"/>"><c:out value="${page.title}"/></a></td>
-          <td><c:out value="${page.date}"/></td>
+          <td><c:out value="${page.dateForHuman}"/></td>
           <td>
             <a href="<%= W_PREFIX %>wikipage_create/${page.id}?action=update">Edit</a> |
             <a href="<%= W_PREFIX %>wikipage_versions/${page.signature}">Versions (${page.versionAmount})</a>

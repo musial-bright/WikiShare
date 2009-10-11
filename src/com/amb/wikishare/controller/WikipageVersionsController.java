@@ -13,14 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.amb.wikishare.service.WikipageService;
+import com.amb.wikishare.service.PageService;
 import com.amb.wikishare.app.WikiShareHelper;
 import com.amb.wikishare.domain.Page;
 
 public class WikipageVersionsController implements Controller {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    private WikipageService wpService = null;
+    private PageService wpService = null;
     private Map<String, Object> model = new HashMap<String, Object>();
 
     /**
@@ -56,7 +56,7 @@ public class WikipageVersionsController implements Controller {
 
         try {
             List<Page> wikipages =
-                wpService.getWikipageVersionsList(pageIdOrSignature);
+                wpService.getPageVersionsList(pageIdOrSignature);
 
             model.put("pages", wikipages);
         } catch(Exception e) {
@@ -79,14 +79,14 @@ public class WikipageVersionsController implements Controller {
             int page_id = Integer.parseInt(
                     WikiShareHelper.getLastUriResource(request));
 
-            this.wpService.dropWikipage(new Page(page_id));
+            this.wpService.dropPage(new Page(page_id));
 
         } catch(Exception e) {
             logger.warn("[deleteAction] " + e);
         }
     }
 
-    public void setWikipageService(WikipageService wpService) {
+    public void setWikipageService(PageService wpService) {
         this.wpService = wpService;
     }
 

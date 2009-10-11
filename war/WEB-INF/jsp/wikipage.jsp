@@ -34,15 +34,16 @@ function setNavigationEditLink() {
 
   <div class="contentBox">
       <h3>
-        <c:out value="${model.page.title}"/>
+        <c:out value="${model.page.title}"/> 
         <span class="edit_button">
             <a href="<%= W_PREFIX %>wikipage_create/${model.page.id}?action=update">Edit</a> |
             <a href="<%= W_PREFIX %>wikipage_versions/${model.page.signature}">Versions</a> |
             <a href="<%= W_PREFIX %>wikipage_versions/${model.page.id}?action=delete" onclick="return confirmAction()">Delete</a> |
             <a href="<%= W_PREFIX %>wikipage/${model.page.id}?clipboard=${model.page.signature}">Copy signature</a>
         </span>
-      </h3>
+      </h3>      
       <p><c:out value="${model.page.content}" escapeXml="false"/></p>
+      <p class="date"><c:out value="${model.page.dateForHuman}" /></p>
   </div>
 
 </div> <% // eo: controllerViewContent %>

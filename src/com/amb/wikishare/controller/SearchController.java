@@ -13,13 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import com.amb.wikishare.app.WikiShareHelper;
-import com.amb.wikishare.service.WikipageService;
+import com.amb.wikishare.service.PageService;
 
 public class SearchController implements Controller {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    private WikipageService wpService = null;
+    private PageService wpService = null;
     private Map<String,Object> model = new HashMap<String,Object>();
 
     public ModelAndView handleRequest(HttpServletRequest request,
@@ -32,7 +32,7 @@ public class SearchController implements Controller {
         return new ModelAndView("search", "model", model);
     }
 
-    public void setWikipageService(WikipageService wpService) {
+    public void setWikipageService(PageService wpService) {
         this.wpService = wpService;
     }
 }

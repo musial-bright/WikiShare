@@ -20,6 +20,14 @@ p {
   margin: 0px;
   padding: 0px;
 }
+p.date {
+  text-align: right;
+  font-style: normal;
+  font-size: 10px;
+  color: #aaa;
+  line-height: 10px;
+  padding:0; margin:0;
+}
 h1, h2, h3 {
   font-family: "Helvetica Neue", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
   font-size: 14px; 
@@ -48,6 +56,14 @@ acronym {
   border: 0;
 }
 
+th {
+	border-bottom: 1px solid #ddd;
+}
+tr.odd td {
+    background-color: #eee;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
 
 #header {
   width: 900px;
@@ -135,7 +151,7 @@ acronym {
   background-repeat: no-repeat;
   background-color: #fff;
   margin: 10px -10px 0px -10px;
-  padding: 10px 10px 20px 10px;
+  padding: 10px 10px 1px 10px;
   }
 .contentBox h3 {
   color: #284C00;

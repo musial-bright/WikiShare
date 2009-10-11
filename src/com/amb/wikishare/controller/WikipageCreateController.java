@@ -15,13 +15,13 @@ import com.amb.wikishare.domain.User;
 import com.amb.wikishare.domain.Page;
 import com.amb.wikishare.domain.PageFormBackingObject;
 import com.amb.wikishare.service.ClipboardService;
-import com.amb.wikishare.service.WikipageService;
+import com.amb.wikishare.service.PageService;
 import com.amb.wikishare.service.UserService;
 
 public class WikipageCreateController extends SimpleFormController {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    private WikipageService wpService;
+    private PageService wpService;
     private FileDAO fileDao;
 
     private String appContext = "/WikiShare/wiki/";
@@ -32,10 +32,10 @@ public class WikipageCreateController extends SimpleFormController {
             Page wikipage = new Page((PageFormBackingObject)command);
             if(((PageFormBackingObject)command).getSkipNewVersionFlag()) {
                 // Page Update
-                wpService.updateWikipage(wikipage);
+                wpService.updatePage(wikipage);
             }else {
                 // New Page
-                wpService.saveWikipage(wikipage);
+                wpService.savePage(wikipage);
             }
         }catch(Exception e) {
             logger.error("onSubmit Exception: " +e);
@@ -86,7 +86,7 @@ public class WikipageCreateController extends SimpleFormController {
     }
 
 
-    public void setWikipageService (WikipageService wpService) {
+    public void setWikipageService (PageService wpService) {
         this.wpService = wpService;
     }
 
